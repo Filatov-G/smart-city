@@ -37,9 +37,9 @@
             position: relative;
             min-height: 100vh;
             background-image: 
-                radial-gradient(ellipse at 15% 20%, rgba(183, 148, 246, 0.22) 0%, transparent 55%),
-                radial-gradient(ellipse at 85% 80%, rgba(128, 90, 213, 0.18) 0%, transparent 55%),
-                radial-gradient(ellipse at 50% 50%, rgba(214, 188, 250, 0.08) 0%, transparent 60%),
+                radial-gradient(ellipse at 15% 20%, rgba(183, 148, 246, 0.18) 0%, transparent 55%),
+                radial-gradient(ellipse at 85% 80%, rgba(128, 90, 213, 0.15) 0%, transparent 55%),
+                radial-gradient(ellipse at 50% 50%, rgba(214, 188, 250, 0.06) 0%, transparent 60%),
                 linear-gradient(180deg, #0f0a1f 0%, #150e2e 50%, #0f0a1f 100%);
             background-attachment: fixed;
         }
@@ -50,6 +50,44 @@
             transition: opacity 0.8s ease, transform 0.8s ease;
         }
         .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* === ФОНОВАЯ СЕТЬ (SVG) — фиксирована на экране === */
+        .city-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .city-bg svg {
+            display: block;
+            width: 100%;
+            height: 100%;
+            opacity: 0.45;
+        }
+
+        .city-bg .dot {
+            animation: dotPulse 4s infinite ease-in-out;
+        }
+
+        @keyframes dotPulse {
+            0%, 100% { opacity: 0.25; }
+            50% { opacity: 0.95; }
+        }
+
+        .city-bg .line {
+            stroke-dasharray: 4 8;
+            animation: lineFlow 20s infinite linear;
+        }
+
+        @keyframes lineFlow {
+            from { stroke-dashoffset: 0; }
+            to { stroke-dashoffset: -200; }
+        }
 
         /* НАВИГАЦИЯ */
         nav {
@@ -693,6 +731,42 @@
 </head>
 <body>
 
+    <!-- ФОНОВАЯ СЕТЬ -->
+    <div class="city-bg">
+        <svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice">
+            <g stroke="#b794f6" stroke-width="0.5" fill="none" opacity="0.7">
+                <line class="line" x1="100" y1="150" x2="350" y2="250"/>
+                <line class="line" x1="350" y1="250" x2="600" y2="180"/>
+                <line class="line" x1="600" y1="180" x2="850" y2="300"/>
+                <line class="line" x1="850" y1="300" x2="1100" y2="200"/>
+                <line class="line" x1="150" y1="500" x2="400" y2="450"/>
+                <line class="line" x1="400" y1="450" x2="650" y2="550"/>
+                <line class="line" x1="650" y1="550" x2="900" y2="480"/>
+                <line class="line" x1="900" y1="480" x2="1150" y2="580"/>
+                <line class="line" x1="200" y1="700" x2="500" y2="650"/>
+                <line class="line" x1="500" y1="650" x2="800" y2="720"/>
+                <line class="line" x1="350" y1="250" x2="400" y2="450"/>
+                <line class="line" x1="600" y1="180" x2="650" y2="550"/>
+                <line class="line" x1="850" y1="300" x2="900" y2="480"/>
+            </g>
+            <g fill="#b794f6">
+                <circle class="dot" cx="100" cy="150" r="4"/>
+                <circle class="dot" cx="350" cy="250" r="5" style="animation-delay: 0.5s"/>
+                <circle class="dot" cx="600" cy="180" r="4" style="animation-delay: 1s"/>
+                <circle class="dot" cx="850" cy="300" r="5" style="animation-delay: 1.5s"/>
+                <circle class="dot" cx="1100" cy="200" r="4" style="animation-delay: 2s"/>
+                <circle class="dot" cx="150" cy="500" r="4" style="animation-delay: 0.8s"/>
+                <circle class="dot" cx="400" cy="450" r="5" style="animation-delay: 1.3s"/>
+                <circle class="dot" cx="650" cy="550" r="4" style="animation-delay: 0.3s"/>
+                <circle class="dot" cx="900" cy="480" r="5" style="animation-delay: 1.7s"/>
+                <circle class="dot" cx="1150" cy="580" r="4" style="animation-delay: 0.6s"/>
+                <circle class="dot" cx="200" cy="700" r="4" style="animation-delay: 2.2s"/>
+                <circle class="dot" cx="500" cy="650" r="5" style="animation-delay: 1.1s"/>
+                <circle class="dot" cx="800" cy="720" r="4" style="animation-delay: 0.9s"/>
+            </g>
+        </svg>
+    </div>
+
     <!-- НАВИГАЦИЯ -->
     <nav id="navbar">
         <a href="#hero" class="logo">
@@ -777,7 +851,6 @@
 
         <div class="products-grid">
             
-            <!-- АКТИВНЫЙ ПРОДУКТ: Умный свет -->
             <div class="product-card active reveal">
                 <div class="product-badge badge-active">● Доступно</div>
                 <div class="product-icon">💡</div>
@@ -792,7 +865,6 @@
                 </a>
             </div>
 
-            <!-- ЗАГЛУШКА 1 -->
             <div class="product-card soon reveal" style="transition-delay: 0.1s;">
                 <div class="product-badge badge-soon">● В разработке</div>
                 <div class="product-icon">🚏</div>
@@ -807,7 +879,6 @@
                 </div>
             </div>
 
-            <!-- ЗАГЛУШКА 2 -->
             <div class="product-card soon reveal" style="transition-delay: 0.2s;">
                 <div class="product-badge badge-soon">● В разработке</div>
                 <div class="product-icon">🌬️</div>
@@ -822,7 +893,6 @@
                 </div>
             </div>
 
-            <!-- ЗАГЛУШКА 3 -->
             <div class="product-card soon reveal" style="transition-delay: 0.3s;">
                 <div class="product-badge badge-soon">● В разработке</div>
                 <div class="product-icon">🅿️</div>
@@ -1026,6 +1096,11 @@
                 }
             });
         });
+
+        // --- 5. ДИАГНОСТИКА (в консоли) ---
+        console.log('✅ Сайт «Мой умный город» загружен');
+        console.log('📄 Секций найдено:', document.querySelectorAll('section').length);
+        console.log('🔗 Ссылок на якоря:', document.querySelectorAll('a[href^="#"]').length);
     </script>
 </body>
 </html>
