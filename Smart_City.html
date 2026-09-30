@@ -1,0 +1,2181 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Мой умный город | Технологии для комфортной жизни</title>
+    <meta name="description" content="Технологии, которые делают город безопаснее, экологичнее и удобнее для жителей. Умный свет, умные остановки, датчики воздуха и другие решения.">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800;900&display=swap');
+
+        :root {
+            --bg-dark: #0f0a1f;
+            --bg-card: rgba(40, 30, 65, 0.7);
+            --bg-card-hover: rgba(55, 40, 90, 0.85);
+            --accent: #b794f6;
+            --accent-light: #d6bcfa;
+            --accent-dark: #805ad5;
+            --accent-glow: rgba(183, 148, 246, 0.4);
+            --accent-green: #68d391;
+            --accent-yellow: #f6e05e;
+            --text-main: #f0eaff;
+            --text-muted: #b8a8d9;
+            --border-color: rgba(183, 148, 246, 0.18);
+            --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(ellipse at 15% 20%, rgba(183, 148, 246, 0.18) 0%, transparent 50%),
+                radial-gradient(ellipse at 85% 80%, rgba(128, 90, 213, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(214, 188, 250, 0.06) 0%, transparent 60%),
+                linear-gradient(180deg, #0f0a1f 0%, #150e2e 50%, #0f0a1f 100%);
+            background-attachment: fixed;
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* ФОНОВАЯ АНИМАЦИЯ — СЕТЬ ОГНЕЙ */
+        .city-bg {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+        .city-bg svg {
+            width: 100%;
+            height: 100%;
+            opacity: 0.4;
+        }
+        .city-bg .dot {
+            animation: dotPulse 4s infinite ease-in-out;
+        }
+        @keyframes dotPulse {
+            0%, 100% { opacity: 0.2; }
+            50% { opacity: 0.9; }
+        }
+        .city-bg .line {
+            stroke-dasharray: 4 8;
+            animation: lineFlow 20s infinite linear;
+        }
+        @keyframes lineFlow {
+            from { stroke-dashoffset: 0; }
+            to { stroke-dashoffset: -200; }
+        }
+
+        /* НАВИГАЦИЯ */
+        nav {
+            position: fixed;
+            top: 0; width: 100%;
+            padding: 1.5rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(15, 10, 31, 0.75);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-color);
+            z-index: 1000;
+            transition: var(--transition);
+        }
+        nav.scrolled { padding: 1rem 5%; background: rgba(15, 10, 31, 0.95); }
+
+        .logo {
+            font-weight: 900;
+            font-size: 1.3rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: #fff;
+            display: flex; align-items: center; gap: 10px;
+            text-decoration: none;
+        }
+        .logo-dot {
+            width: 10px; height: 10px;
+            background: var(--accent);
+            border-radius: 50%;
+            box-shadow: 0 0 15px var(--accent);
+            animation: pulse 2s infinite;
+        }
+        .logo span { color: var(--accent); }
+
+        .nav-links { display: flex; gap: 2rem; }
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: var(--transition);
+            position: relative;
+        }
+        .nav-links a::after {
+            content: ''; position: absolute; bottom: -5px; left: 0;
+            width: 0; height: 2px;
+            background: var(--accent);
+            transition: var(--transition);
+        }
+        .nav-links a:hover { color: #fff; }
+        .nav-links a:hover::after { width: 100%; }
+
+        /* ГЛАВНЫЙ ЭКРАН */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 8rem 5% 4rem;
+            position: relative;
+            z-index: 2;
+        }
+        .hero-content {
+            max-width: 900px;
+            z-index: 2;
+        }
+        .hero-tagline {
+            display: inline-block;
+            padding: 0.5rem 1.2rem;
+            border-radius: 50px;
+            background: rgba(183, 148, 246, 0.12);
+            border: 1px solid rgba(183, 148, 246, 0.4);
+            color: var(--accent);
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2.5px;
+            margin-bottom: 2rem;
+        }
+        h1 {
+            font-size: clamp(2.8rem, 6vw, 5rem);
+            font-weight: 900;
+            line-height: 1.05;
+            margin-bottom: 1.5rem;
+            color: #fff;
+        }
+        h1 span {
+            background: linear-gradient(135deg, var(--accent-light), var(--accent), var(--accent-dark));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .hero-description {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            margin-bottom: 3rem;
+            max-width: 650px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .btn-primary, .btn-secondary {
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-family: inherit;
+            font-weight: 700;
+            font-size: 0.95rem;
+            text-decoration: none;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            letter-spacing: 0.5px;
+            border: 1px solid transparent;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+            color: #fff;
+            box-shadow: 0 10px 30px rgba(128, 90, 213, 0.4);
+        }
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(128, 90, 213, 0.6);
+        }
+        .btn-secondary {
+            background: transparent;
+            color: var(--accent);
+            border-color: var(--accent);
+        }
+        .btn-secondary:hover {
+            background: rgba(183, 148, 246, 0.12);
+            transform: translateY(-3px);
+        }
+        .btn-primary svg, .btn-secondary svg {
+            width: 18px; height: 18px;
+            fill: currentColor;
+        }
+
+        /* ОБЩИЕ СЕКЦИИ */
+        .section {
+            padding: 7rem 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+        .section-header {
+            text-align: center;
+            margin-bottom: 5rem;
+        }
+        .section-tagline {
+            display: inline-block;
+            padding: 0.4rem 1rem;
+            border-radius: 50px;
+            background: rgba(183, 148, 246, 0.1);
+            border: 1px solid rgba(183, 148, 246, 0.3);
+            color: var(--accent);
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 1rem;
+        }
+        .section-header h2 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 800;
+            margin-bottom: 1rem;
+            color: #fff;
+        }
+        .section-header p {
+            color: var(--text-muted);
+            max-width: 650px;
+            margin: 0 auto;
+            font-size: 1.05rem;
+        }
+
+        /* О КОМПАНИИ */
+        .about-section {
+            background: linear-gradient(180deg, transparent, rgba(128, 90, 213, 0.05), transparent);
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+        }
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+        .about-text h2 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            color: #fff;
+        }
+        .about-text p {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+            margin-bottom: 1.2rem;
+        }
+        .about-quote {
+            padding: 1.8rem;
+            background: var(--bg-card);
+            border-left: 4px solid var(--accent);
+            border-radius: 0 16px 16px 0;
+            font-style: italic;
+            color: #d6c8f0;
+            margin-top: 2rem;
+        }
+        .about-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+        .stat-block {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 2rem 1.5rem;
+            text-align: center;
+            transition: var(--transition);
+            backdrop-filter: blur(10px);
+        }
+        .stat-block:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+            box-shadow: 0 15px 40px rgba(128, 90, 213, 0.2);
+        }
+        .stat-block .icon {
+            font-size: 2rem;
+            margin-bottom: 0.8rem;
+        }
+        .stat-block h4 {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: var(--accent);
+            margin-bottom: 0.3rem;
+        }
+        .stat-block p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* ТЕХНОЛОГИИ */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+        .product-card {
+            background: linear-gradient(145deg, rgba(50, 38, 78, 0.8) 0%, rgba(30, 22, 50, 0.9) 100%);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 2.5rem;
+            position: relative;
+            overflow: hidden;
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            backdrop-filter: blur(10px);
+        }
+        .product-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(183, 148, 246, 0.15) 0%, transparent 50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+        }
+        .product-card:hover::before { opacity: 1; }
+        .product-card.active {
+            border-color: rgba(183, 148, 246, 0.5);
+        }
+        .product-card.active:hover {
+            transform: translateY(-8px);
+            border-color: var(--accent);
+            box-shadow: 0 25px 60px rgba(128, 90, 213, 0.25), 0 0 50px rgba(183, 148, 246, 0.1);
+        }
+        .product-card.soon {
+            opacity: 0.75;
+        }
+        .product-card.soon:hover {
+            opacity: 0.95;
+            transform: translateY(-5px);
+            border-color: rgba(183, 148, 246, 0.3);
+        }
+
+        .product-icon {
+            width: 70px; height: 70px;
+            background: rgba(183, 148, 246, 0.15);
+            border: 1px solid rgba(183, 148, 246, 0.3);
+            border-radius: 18px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--accent);
+        }
+        .product-card h3 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 0.8rem;
+        }
+        .product-card .product-desc {
+            color: var(--text-muted);
+            font-size: 0.98rem;
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+        }
+        .product-badge {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: 50px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+            width: fit-content;
+        }
+        .badge-active {
+            background: rgba(104, 211, 145, 0.15);
+            border: 1px solid rgba(104, 211, 145, 0.4);
+            color: var(--accent-green);
+        }
+        .badge-soon {
+            background: rgba(246, 224, 94, 0.12);
+            border: 1px solid rgba(246, 224, 94, 0.35);
+            color: var(--accent-yellow);
+        }
+        .product-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+            color: #fff;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.9rem;
+            transition: var(--transition);
+            width: fit-content;
+            box-shadow: 0 8px 25px rgba(128, 90, 213, 0.35);
+        }
+        .product-link:hover {
+            transform: translateX(5px);
+            box-shadow: 0 10px 30px rgba(128, 90, 213, 0.55);
+        }
+        .product-link svg {
+            width: 16px; height: 16px;
+            fill: currentColor;
+        }
+        .product-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            color: var(--text-muted);
+            font-weight: 600;
+            font-size: 0.85rem;
+            width: fit-content;
+        }
+        .product-status svg {
+            width: 14px; height: 14px;
+            fill: var(--accent-yellow);
+        }
+
+        /* МИССИЯ */
+        .mission-section {
+            background: linear-gradient(180deg, transparent, rgba(128, 90, 213, 0.06), transparent);
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+        }
+        .mission-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 2rem;
+        }
+        .mission-card {
+            padding: 2.5rem 2rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            text-align: center;
+            transition: var(--transition);
+            backdrop-filter: blur(10px);
+        }
+        .mission-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--accent);
+            box-shadow: 0 20px 50px rgba(128, 90, 213, 0.25);
+        }
+        .mission-icon {
+            width: 70px; height: 70px;
+            margin: 0 auto 1.5rem;
+            border-radius: 50%;
+            background: rgba(183, 148, 246, 0.15);
+            border: 2px solid rgba(183, 148, 246, 0.3);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 2rem;
+            transition: var(--transition);
+        }
+        .mission-card:hover .mission-icon {
+            background: rgba(183, 148, 246, 0.25);
+            box-shadow: 0 0 30px rgba(183, 148, 246, 0.4);
+        }
+        .mission-card h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 0.8rem;
+        }
+        .mission-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        /* ОБНОВЛЕНИЯ */
+        .updates-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 2rem;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        .update-card {
+            display: flex;
+            gap: 1.5rem;
+            padding: 2rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            transition: var(--transition);
+            backdrop-filter: blur(10px);
+        }
+        .update-card:hover {
+            border-color: var(--accent);
+            transform: translateX(5px);
+            box-shadow: 0 15px 40px rgba(128, 90, 213, 0.2);
+        }
+        .update-date {
+            flex-shrink: 0;
+            width: 70px;
+            height: 70px;
+            border-radius: 16px;
+            background: rgba(183, 148, 246, 0.12);
+            border: 1px solid rgba(183, 148, 246, 0.3);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent);
+        }
+        .update-date .day {
+            font-size: 1.5rem;
+            font-weight: 900;
+            line-height: 1;
+        }
+        .update-date .month {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 4px;
+        }
+        .update-content h4 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 0.4rem;
+        }
+        .update-content p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+        .update-tag {
+            display: inline-block;
+            padding: 0.2rem 0.7rem;
+            border-radius: 50px;
+            background: rgba(183, 148, 246, 0.15);
+            color: var(--accent);
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.6rem;
+        }
+
+        /* О НАС */
+        .team-section {
+            background: linear-gradient(180deg, transparent, rgba(128, 90, 213, 0.04), transparent);
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+        }
+        .team-content {
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .team-content p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+        .team-values {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 3rem;
+        }
+        .value-item {
+            padding: 1.5rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            transition: var(--transition);
+        }
+        .value-item:hover {
+            border-color: var(--accent);
+            transform: translateY(-5px);
+        }
+        .value-item .value-icon {
+            font-size: 1.8rem;
+            margin-bottom: 0.6rem;
+        }
+        .value-item h5 {
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 0.3rem;
+        }
+        .value-item p {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            margin-bottom: 0;
+        }
+
+        /* ФУТЕР */
+        footer {
+            padding: 4rem 5% 2rem;
+            background: rgba(8, 5, 18, 0.95);
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: 900;
+            letter-spacing: 2px;
+            margin-bottom: 1rem;
+            color: #fff;
+        }
+        .footer-logo span { color: var(--accent); }
+        .footer-text {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+        .footer-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+        .footer-links a:hover { color: var(--accent); }
+        .copyright {
+            color: #6b5b8a;
+            font-size: 0.8rem;
+            border-top: 1px solid var(--border-color);
+            padding-top: 2rem;
+        }
+
+        /* АДАПТИВНОСТЬ */
+        @media (max-width: 992px) {
+            .nav-links { display: none; }
+            .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+            .hero-buttons { flex-direction: column; align-items: center; }
+            .btn-primary, .btn-secondary { width: 100%; max-width: 320px; justify-content: center; }
+        }
+
+        @media (max-width: 576px) {
+            .section { padding: 5rem 5%; }
+            .section-header { margin-bottom: 3rem; }
+            .hero { padding: 7rem 5% 3rem; }
+            .about-stats { grid-template-columns: 1fr; }
+            .product-card { padding: 2rem; }
+            .update-card { flex-direction: column; gap: 1rem; }
+            .update-date { width: 60px; height: 60px; }
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(183, 148, 246, 0.7); }
+            70% { box-shadow: 0 0 0 12px rgba(183, 148, 246, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(183, 148, 246, 0); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Анимированный фон (сеть огней) -->
+    <div class="city-bg">
+        <svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice">
+            <defs>
+                <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+                    <stop offset="0%" stop-color="#b794f6" stop-opacity="0.6"/>
+                    <stop offset="100%" stop-color="#b794f6" stop-opacity="0"/>
+                </radialGradient>
+            </defs>
+            <g stroke="#b794f6" stroke-width="0.5" fill="none" opacity="0.6">
+                <line class="line" x1="100" y1="150" x2="350" y2="250"/>
+                <line class="line" x1="350" y1="250" x2="600" y2="180"/>
+                <line class="line" x1="600" y1="180" x2="850" y2="300"/>
+                <line class="line" x1="850" y1="300" x2="1100" y2="200"/>
+                <line class="line" x1="150" y1="500" x2="400" y2="450"/>
+                <line class="line" x1="400" y1="450" x2="650" y2="550"/>
+                <line class="line" x1="650" y1="550" x2="900" y2="480"/>
+                <line class="line" x1="900" y1="480" x2="1150" y2="580"/>
+                <line class="line" x1="200" y1="700" x2="500" y2="650"/>
+                <line class="line" x1="500" y1="650" x2="800" y2="720"/>
+                <line class="line" x1="350" y1="250" x2="400" y2="450"/>
+                <line class="line" x1="600" y1="180" x2="650" y2="550"/>
+                <line class="line" x1="850" y1="300" x2="900" y2="480"/>
+            </g>
+            <g fill="#b794f6">
+                <circle class="dot" cx="100" cy="150" r="4"/>
+                <circle class="dot" cx="350" cy="250" r="5" style="animation-delay: 0.5s"/>
+                <circle class="dot" cx="600" cy="180" r="4" style="animation-delay: 1s"/>
+                <circle class="dot" cx="850" cy="300" r="5" style="animation-delay: 1.5s"/>
+                <circle class="dot" cx="1100" cy="200" r="4" style="animation-delay: 2s"/>
+                <circle class="dot" cx="150" cy="500" r="4" style="animation-delay: 0.8s"/>
+                <circle class="dot" cx="400" cy="450" r="5" style="animation-delay: 1.3s"/>
+                <circle class="dot" cx="650" cy="550" r="4" style="animation-delay: 0.3s"/>
+                <circle class="dot" cx="900" cy="480" r="5" style="animation-delay: 1.7s"/>
+                <circle class="dot" cx="1150" cy="580" r="4" style="animation-delay: 0.6s"/>
+                <circle class="dot" cx="200" cy="700" r="4" style="animation-delay: 2.2s"/>
+                <circle class="dot" cx="500" cy="650" r="5" style="animation-delay: 1.1s"/>
+                <circle class="dot" cx="800" cy="720" r="4" style="animation-delay: 0.9s"/>
+            </g>
+        </svg>
+    </div>
+
+    <!-- НАВИГАЦИЯ -->
+    <nav id="navbar">
+        <a href="#hero" class="logo">
+            <div class="logo-dot"></div>
+            МОЙ <span>УМНЫЙ</span> ГОРОД
+        </a>
+        <div class="nav-links">
+            <a href="#about">О компании</a>
+            <a href="#products">Технологии</a>
+            <a href="#mission">Миссия</a>
+            <a href="#updates">Обновления</a>
+            <a href="#team">О нас</a>
+        </div>
+    </nav>
+
+    <!-- ГЛАВНЫЙ ЭКРАН -->
+    <header class="hero" id="hero">
+        <div class="hero-content reveal">
+            <div class="hero-tagline">Технологии для комфортной жизни</div>
+            <h1>Мой <span>умный город</span></h1>
+            <p class="hero-description">
+                Мы создаём технологии, которые делают город безопаснее, экологичнее 
+                и удобнее для жителей. Каждое решение — шаг к городу будущего.
+            </p>
+            <div class="hero-buttons">
+                <a href="#products" class="btn-primary">
+                    <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    Наши технологии
+                </a>
+                <a href="#about" class="btn-secondary">
+                    <svg viewBox="0 0 24 24"><path d="M11 7h2v2h-2zm0 4h2v6h-2zm1-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/></svg>
+                    О компании
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- О КОМПАНИИ -->
+    <section id="about" class="section about-section">
+        <div class="about-grid">
+            <div class="about-text reveal">
+                <div class="section-tagline">О компании</div>
+                <h2>Кто мы такие</h2>
+                <p>Мы — команда инженеров и разработчиков, объединённых идеей сделать городскую среду удобнее и безопаснее с помощью технологий.</p>
+                <p>Наш подход — создавать автономные, экологичные и недорогие в обслуживании решения. Мы верим, что «умный город» — это не про сложные системы, а про комфорт каждого жителя.</p>
+                <div class="about-quote">
+                    «Технологии должны служить людям, а не наоборот. Мы делаем город, который думает о тебе.»
+                </div>
+            </div>
+            <div class="about-stats reveal">
+                <div class="stat-block">
+                    <div class="icon">💡</div>
+                    <h4>1+</h4>
+                    <p>Готовых продукта</p>
+                </div>
+                <div class="stat-block">
+                    <div class="icon">🚀</div>
+                    <h4>3+</h4>
+                    <p>В разработке</p>
+                </div>
+                <div class="stat-block">
+                    <div class="icon">🌱</div>
+                    <h4>100%</h4>
+                    <p>Экологично</p>
+                </div>
+                <div class="stat-block">
+                    <div class="icon">♻️</div>
+                    <h4>−70%</h4>
+                    <p>Экономия энергии</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- НАШИ ТЕХНОЛОГИИ -->
+    <section id="products" class="section">
+        <div class="section-header reveal">
+            <div class="section-tagline">Наши технологии</div>
+            <h2>Продукты и решения</h2>
+            <p>Каждое решение создаётся с заботой о жителях, экологии и городском бюджете</p>
+        </div>
+
+        <div class="products-grid">
+            
+            <!-- АКТИВНЫЙ ПРОДУКТ: Умный свет -->
+            <div class="product-card active reveal">
+                <div class="product-badge badge-active">● Доступно</div>
+                <div class="product-icon">💡</div>
+                <h3>Умный свет</h3>
+                <p class="product-desc">
+                    Адаптивная система освещения для городских парков. Свет реагирует на движение, 
+                    экономит до 70% энергии и создаёт эффект «бегущей волны» перед пешеходом.
+                </p>
+                <a href="https://filatov-g.github.io/smart-light/" class="product-link" target="_blank" rel="noopener">
+                    Подробнее
+                    <svg viewBox="0 0 24 24"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
+                </a>
+            </div>
+
+            <!-- ЗАГЛУШКА 1 -->
+            <div class="product-card soon reveal" style="transition-delay: 0.1s;">
+                <div class="product-badge badge-soon">● В разработке</div>
+                <div class="product-icon">🚏</div>
+                <h3>Умные остановки</h3>
+                <p class="product-desc">
+                    Остановки с солнечными панелями, зарядкой для телефонов, Wi-Fi и табло 
+                    прибытия транспорта в реальном времени.
+                </p>
+                <div class="product-status">
+                    <svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
+                    Скоро
+                </div>
+            </div>
+
+            <!-- ЗАГЛУШКА 2 -->
+            <div class="product-card soon reveal" style="transition-delay: 0.2s;">
+                <div class="product-badge badge-soon">● В разработке</div>
+                <div class="product-icon">🌬️</div>
+                <h3>Датчики воздуха</h3>
+                <p class="product-desc">
+                    Сеть датчиков, отслеживающих качество воздуха в реальном времени. 
+                    Данные — на карте города в приложении.
+                </p>
+                <div class="product-status">
+                    <svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
+                    Скоро
+                </div>
+            </div>
+
+            <!-- ЗАГЛУШКА 3 -->
+            <div class="product-card soon reveal" style="transition-delay: 0.3s;">
+                <div class="product-badge badge-soon">● В разработке</div>
+                <div class="product-icon">🅿️</div>
+                <h3>Умные парковки</h3>
+                <p class="product-desc">
+                    Система мониторинга свободных мест. Водитель видит, где припарковаться, 
+                    ещё до въезда на стоянку.
+                </p>
+                <div class="product-status">
+                    <svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
+                    Скоро
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- МИССИЯ -->
+    <section id="mission" class="section mission-section">
+        <div class="section-header reveal">
+            <div class="section-tagline">Наша миссия</div>
+            <h2>Город, который думает о тебе</h2>
+            <p>Мы работаем по трём ключевым направлениям, чтобы город стал по-настоящему удобным</p>
+        </div>
+
+        <div class="mission-grid">
+            <div class="mission-card reveal">
+                <div class="mission-icon">🛡️</div>
+                <h3>Безопасность</h3>
+                <p>Освещение, видеонаблюдение и датчики помогают жителям чувствовать себя в безопасности в любое время суток.</p>
+            </div>
+            <div class="mission-card reveal" style="transition-delay: 0.1s;">
+                <div class="mission-icon">🌱</div>
+                <h3>Экология</h3>
+                <p>Солнечная энергия, экономия ресурсов и минимальное воздействие на природу — базовые принципы каждого нашего продукта.</p>
+            </div>
+            <div class="mission-card reveal" style="transition-delay: 0.2s;">
+                <div class="mission-icon">😊</div>
+                <h3>Комфорт</h3>
+                <p>Технологии должны быть незаметны, но ощутимы. Мы делаем город удобнее без сложных интерфейсов и лишних усилий.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ОБНОВЛЕНИЯ -->
+    <section id="updates" class="section">
+        <div class="section-header reveal">
+            <div class="section-tagline">Обновления</div>
+            <h2>Что нового</h2>
+            <p>Мы регулярно выпускаем улучшения и новые функции для наших продуктов</p>
+        </div>
+
+        <div class="updates-grid">
+            
+            <div class="update-card reveal">
+                <div class="update-date">
+                    <span class="day">12</span>
+                    <span class="month">Янв</span>
+                </div>
+                <div class="update-content">
+                    <span class="update-tag">Сайт</span>
+                    <h4>Запуск «Мой умный город»</h4>
+                    <p>Открыт единый портал, где будут собраны все наши технологии. Начало пути к городу будущего.</p>
+                </div>
+            </div>
+
+            <div class="update-card reveal" style="transition-delay: 0.1s;">
+                <div class="update-date">
+                    <span class="day">16</span>
+                    <span class="month">Янв</span>
+                </div>
+                <div class="update-content">
+                    <span class="update-tag">Умный свет</span>
+                    <h4>Запуск продукта «Умный свет»</h4>
+                    <p>Опубликован сайт с интерактивными демонстрациями работы системы освещения: симуляция датчика движения и эффект «бегущей волны».</p>
+                </div>
+            </div>
+
+            <div class="update-card reveal" style="transition-delay: 0.2s;">
+                <div class="update-date">
+                    <span class="day">27</span>
+                    <span class="month">Янв</span>
+                </div>
+                <div class="update-content">
+                    <span class="update-tag">Умный свет</span>
+                    <h4>Обновление сайта «Умный свет»</h4>
+                    <p>Улучшена логика «бегущей волны» — фонари включаются заранее, чтобы человек всегда шёл в освещённой зоне. Добавлен ИИ-помощник.</p>
+                </div>
+            </div>
+
+            <div class="update-card reveal" style="transition-delay: 0.3s;">
+                <div class="update-date">
+                    <span class="day">28</span>
+                    <span class="month">Янв</span>
+                </div>
+                <div class="update-content">
+                    <span class="update-tag">Планы</span>
+                    <h4>Развитие и новые продукты</h4>
+                    <p>Мы продолжаем работу над умными остановками, датчиками воздуха и системой умных парковок. Следите за обновлениями!</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- О НАС -->
+    <section id="team" class="section team-section">
+        <div class="section-header reveal">
+            <div class="section-tagline">О нас</div>
+            <h2>Команда и ценности</h2>
+            <p>Мы — команда, которая верит, что технологии меняют город к лучшему</p>
+        </div>
+
+        <div class="team-content reveal">
+            <p>Мы объединились, чтобы создавать технологии, которые действительно нужны людям. Наша цель — превратить обычные городские объекты в умные и полезные системы, доступные каждому городу.</p>
+            <p>Мы открыты к сотрудничеству с муниципалитетами, бизнесом и всеми, кто хочет сделать свой город умнее.</p>
+
+            <div class="team-values">
+                <div class="value-item">
+                    <div class="value-icon">💡</div>
+                    <h5>Инновации</h5>
+                    <p>Ищем нестандартные решения</p>
+                </div>
+                <div class="value-item">
+                    <div class="value-icon">🤝</div>
+                    <h5>Открытость</h5>
+                    <p>Готовы к диалогу и партнёрству</p>
+                </div>
+                <div class="value-item">
+                    <div class="value-icon">🎯</div>
+                    <h5>Результат</h5>
+                    <p>Фокус на реальной пользе</p>
+                </div>
+                <div class="value-item">
+                    <div class="value-icon">🌍</div>
+                    <h5>Ответственность</h5>
+                    <p>Заботимся об экологии и людях</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ФУТЕР -->
+    <footer>
+        <div class="footer-logo">МОЙ <span>УМНЫЙ</span> ГОРОД</div>
+        <p class="footer-text">Технологии для комфортной, безопасной и экологичной городской жизни</p>
+        <div class="footer-links">
+            <a href="#about">О компании</a>
+            <a href="#products">Технологии</a>
+            <a href="#mission">Миссия</a>
+            <a href="#updates">Обновления</a>
+            <a href="#team">О нас</a>
+        </div>
+        <div class="copyright">
+            &copy; 2026 Мой умный город. Все права защищены.
+        </div>
+    </footer>
+
+    <script>
+        // --- 1. СКРОЛЛ НАВИГАЦИИ ---
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) navbar.classList.add('scrolled');
+            else navbar.classList.remove('scrolled');
+        });
+
+        // --- 2. АНИМАЦИЯ REVEAL ---
+        const revealElements = document.querySelectorAll('.reveal');
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    if (entry.target.classList.contains('product-card')) initCardHover(entry.target);
+                }
+            });
+        }, { threshold: 0.15, rootMargin: "0px 0px -50px 0px" });
+        revealElements.forEach(el => revealObserver.observe(el));
+
+        // --- 3. ЭФФЕКТ ПОДСВЕТКИ КАРТОЧЕК ---
+        function initCardHover(card) {
+            card.addEventListener('mousemove', e => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                card.style.setProperty('--mouse-x', `${x}px`);
+                card.style.setProperty('--mouse-y', `${y}px`);
+            });
+        }
+
+        // --- 4. ПЛАВНЫЙ СКРОЛЛ ПО ЯКОРЯМ ---
+        document.querySelectorAll('a[href^="#"]').forEach(link => {
+            link.addEventListener('click', (e) => {
+                const href = link.getAttribute('href');
+                if (href === '#' || href.length < 2) return;
+                const target = document.querySelector(href);
+                if (target) {
+                    e.preventDefault();
+                    const offset = 80;
+                    const targetPos = target.getBoundingClientRect().top + window.pageYOffset - offset;
+                    window.scrollTo({ top: targetPos, behavior: 'smooth' });
+                }
+            });
+        });
+
+        // --- 5. ПРОВЕРКА ССЫЛОК ---
+        ['#hero', '#about', '#products', '#mission', '#updates', '#team'].forEach(id => {
+            if (!document.querySelector(id)) {
+                console.warn(`Секция ${id} не найдена`);
+            }
+        });
+    </script>
+</body>
+</html><!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Мой умный город | Технологии для комфортной жизни</title>
+    <meta name="description" content="Технологии, которые делают город безопаснее, экологичнее и удобнее для жителей. Умный свет, умные остановки, датчики воздуха и другие решения.">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800;900&display=swap');
+
+        :root {
+            --bg-dark: #0f0a1f;
+            --bg-card: rgba(40, 30, 65, 0.7);
+            --bg-card-hover: rgba(55, 40, 90, 0.85);
+            --accent: #b794f6;
+            --accent-light: #d6bcfa;
+            --accent-dark: #805ad5;
+            --accent-glow: rgba(183, 148, 246, 0.4);
+            --accent-green: #68d391;
+            --accent-yellow: #f6e05e;
+            --text-main: #f0eaff;
+            --text-muted: #b8a8d9;
+            --border-color: rgba(183, 148, 246, 0.18);
+            --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(ellipse at 15% 20%, rgba(183, 148, 246, 0.18) 0%, transparent 50%),
+                radial-gradient(ellipse at 85% 80%, rgba(128, 90, 213, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(214, 188, 250, 0.06) 0%, transparent 60%),
+                linear-gradient(180deg, #0f0a1f 0%, #150e2e 50%, #0f0a1f 100%);
+            background-attachment: fixed;
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* ФОНОВАЯ АНИМАЦИЯ — СЕТЬ ОГНЕЙ */
+        .city-bg {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+        .city-bg svg {
+            width: 100%;
+            height: 100%;
+            opacity: 0.4;
+        }
+        .city-bg .dot {
+            animation: dotPulse 4s infinite ease-in-out;
+        }
+        @keyframes dotPulse {
+            0%, 100% { opacity: 0.2; }
+            50% { opacity: 0.9; }
+        }
+        .city-bg .line {
+            stroke-dasharray: 4 8;
+            animation: lineFlow 20s infinite linear;
+        }
+        @keyframes lineFlow {
+            from { stroke-dashoffset: 0; }
+            to { stroke-dashoffset: -200; }
+        }
+
+        /* НАВИГАЦИЯ */
+        nav {
+            position: fixed;
+            top: 0; width: 100%;
+            padding: 1.5rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(15, 10, 31, 0.75);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-color);
+            z-index: 1000;
+            transition: var(--transition);
+        }
+        nav.scrolled { padding: 1rem 5%; background: rgba(15, 10, 31, 0.95); }
+
+        .logo {
+            font-weight: 900;
+            font-size: 1.3rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: #fff;
+            display: flex; align-items: center; gap: 10px;
+            text-decoration: none;
+        }
+        .logo-dot {
+            width: 10px; height: 10px;
+            background: var(--accent);
+            border-radius: 50%;
+            box-shadow: 0 0 15px var(--accent);
+            animation: pulse 2s infinite;
+        }
+        .logo span { color: var(--accent); }
+
+        .nav-links { display: flex; gap: 2rem; }
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: var(--transition);
+            position: relative;
+        }
+        .nav-links a::after {
+            content: ''; position: absolute; bottom: -5px; left: 0;
+            width: 0; height: 2px;
+            background: var(--accent);
+            transition: var(--transition);
+        }
+        .nav-links a:hover { color: #fff; }
+        .nav-links a:hover::after { width: 100%; }
+
+        /* ГЛАВНЫЙ ЭКРАН */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 8rem 5% 4rem;
+            position: relative;
+            z-index: 2;
+        }
+        .hero-content {
+            max-width: 900px;
+            z-index: 2;
+        }
+        .hero-tagline {
+            display: inline-block;
+            padding: 0.5rem 1.2rem;
+            border-radius: 50px;
+            background: rgba(183, 148, 246, 0.12);
+            border: 1px solid rgba(183, 148, 246, 0.4);
+            color: var(--accent);
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2.5px;
+            margin-bottom: 2rem;
+        }
+        h1 {
+            font-size: clamp(2.8rem, 6vw, 5rem);
+            font-weight: 900;
+            line-height: 1.05;
+            margin-bottom: 1.5rem;
+            color: #fff;
+        }
+        h1 span {
+            background: linear-gradient(135deg, var(--accent-light), var(--accent), var(--accent-dark));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .hero-description {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            margin-bottom: 3rem;
+            max-width: 650px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .btn-primary, .btn-secondary {
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-family: inherit;
+            font-weight: 700;
+            font-size: 0.95rem;
+            text-decoration: none;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            letter-spacing: 0.5px;
+            border: 1px solid transparent;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+            color: #fff;
+            box-shadow: 0 10px 30px rgba(128, 90, 213, 0.4);
+        }
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(128, 90, 213, 0.6);
+        }
+        .btn-secondary {
+            background: transparent;
+            color: var(--accent);
+            border-color: var(--accent);
+        }
+        .btn-secondary:hover {
+            background: rgba(183, 148, 246, 0.12);
+            transform: translateY(-3px);
+        }
+        .btn-primary svg, .btn-secondary svg {
+            width: 18px; height: 18px;
+            fill: currentColor;
+        }
+
+        /* ОБЩИЕ СЕКЦИИ */
+        .section {
+            padding: 7rem 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+        .section-header {
+            text-align: center;
+            margin-bottom: 5rem;
+        }
+        .section-tagline {
+            display: inline-block;
+            padding: 0.4rem 1rem;
+            border-radius: 50px;
+            background: rgba(183, 148, 246, 0.1);
+            border: 1px solid rgba(183, 148, 246, 0.3);
+            color: var(--accent);
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 1rem;
+        }
+        .section-header h2 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 800;
+            margin-bottom: 1rem;
+            color: #fff;
+        }
+        .section-header p {
+            color: var(--text-muted);
+            max-width: 650px;
+            margin: 0 auto;
+            font-size: 1.05rem;
+        }
+
+        /* О КОМПАНИИ */
+        .about-section {
+            background: linear-gradient(180deg, transparent, rgba(128, 90, 213, 0.05), transparent);
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+        }
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+        .about-text h2 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            color: #fff;
+        }
+        .about-text p {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+            margin-bottom: 1.2rem;
+        }
+        .about-quote {
+            padding: 1.8rem;
+            background: var(--bg-card);
+            border-left: 4px solid var(--accent);
+            border-radius: 0 16px 16px 0;
+            font-style: italic;
+            color: #d6c8f0;
+            margin-top: 2rem;
+        }
+        .about-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+        .stat-block {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 2rem 1.5rem;
+            text-align: center;
+            transition: var(--transition);
+            backdrop-filter: blur(10px);
+        }
+        .stat-block:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+            box-shadow: 0 15px 40px rgba(128, 90, 213, 0.2);
+        }
+        .stat-block .icon {
+            font-size: 2rem;
+            margin-bottom: 0.8rem;
+        }
+        .stat-block h4 {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: var(--accent);
+            margin-bottom: 0.3rem;
+        }
+        .stat-block p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* ТЕХНОЛОГИИ */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+        .product-card {
+            background: linear-gradient(145deg, rgba(50, 38, 78, 0.8) 0%, rgba(30, 22, 50, 0.9) 100%);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 2.5rem;
+            position: relative;
+            overflow: hidden;
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            backdrop-filter: blur(10px);
+        }
+        .product-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(183, 148, 246, 0.15) 0%, transparent 50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+        }
+        .product-card:hover::before { opacity: 1; }
+        .product-card.active {
+            border-color: rgba(183, 148, 246, 0.5);
+        }
+        .product-card.active:hover {
+            transform: translateY(-8px);
+            border-color: var(--accent);
+            box-shadow: 0 25px 60px rgba(128, 90, 213, 0.25), 0 0 50px rgba(183, 148, 246, 0.1);
+        }
+        .product-card.soon {
+            opacity: 0.75;
+        }
+        .product-card.soon:hover {
+            opacity: 0.95;
+            transform: translateY(-5px);
+            border-color: rgba(183, 148, 246, 0.3);
+        }
+
+        .product-icon {
+            width: 70px; height: 70px;
+            background: rgba(183, 148, 246, 0.15);
+            border: 1px solid rgba(183, 148, 246, 0.3);
+            border-radius: 18px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--accent);
+        }
+        .product-card h3 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 0.8rem;
+        }
+        .product-card .product-desc {
+            color: var(--text-muted);
+            font-size: 0.98rem;
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+        }
+        .product-badge {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: 50px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+            width: fit-content;
+        }
+        .badge-active {
+            background: rgba(104, 211, 145, 0.15);
+            border: 1px solid rgba(104, 211, 145, 0.4);
+            color: var(--accent-green);
+        }
+        .badge-soon {
+            background: rgba(246, 224, 94, 0.12);
+            border: 1px solid rgba(246, 224, 94, 0.35);
+            color: var(--accent-yellow);
+        }
+        .product-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+            color: #fff;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.9rem;
+            transition: var(--transition);
+            width: fit-content;
+            box-shadow: 0 8px 25px rgba(128, 90, 213, 0.35);
+        }
+        .product-link:hover {
+            transform: translateX(5px);
+            box-shadow: 0 10px 30px rgba(128, 90, 213, 0.55);
+        }
+        .product-link svg {
+            width: 16px; height: 16px;
+            fill: currentColor;
+        }
+        .product-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            color: var(--text-muted);
+            font-weight: 600;
+            font-size: 0.85rem;
+            width: fit-content;
+        }
+        .product-status svg {
+            width: 14px; height: 14px;
+            fill: var(--accent-yellow);
+        }
+
+        /* МИССИЯ */
+        .mission-section {
+            background: linear-gradient(180deg, transparent, rgba(128, 90, 213, 0.06), transparent);
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+        }
+        .mission-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 2rem;
+        }
+        .mission-card {
+            padding: 2.5rem 2rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            text-align: center;
+            transition: var(--transition);
+            backdrop-filter: blur(10px);
+        }
+        .mission-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--accent);
+            box-shadow: 0 20px 50px rgba(128, 90, 213, 0.25);
+        }
+        .mission-icon {
+            width: 70px; height: 70px;
+            margin: 0 auto 1.5rem;
+            border-radius: 50%;
+            background: rgba(183, 148, 246, 0.15);
+            border: 2px solid rgba(183, 148, 246, 0.3);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 2rem;
+            transition: var(--transition);
+        }
+        .mission-card:hover .mission-icon {
+            background: rgba(183, 148, 246, 0.25);
+            box-shadow: 0 0 30px rgba(183, 148, 246, 0.4);
+        }
+        .mission-card h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 0.8rem;
+        }
+        .mission-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        /* ОБНОВЛЕНИЯ */
+        .updates-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 2rem;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        .update-card {
+            display: flex;
+            gap: 1.5rem;
+            padding: 2rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            transition: var(--transition);
+            backdrop-filter: blur(10px);
+        }
+        .update-card:hover {
+            border-color: var(--accent);
+            transform: translateX(5px);
+            box-shadow: 0 15px 40px rgba(128, 90, 213, 0.2);
+        }
+        .update-date {
+            flex-shrink: 0;
+            width: 70px;
+            height: 70px;
+            border-radius: 16px;
+            background: rgba(183, 148, 246, 0.12);
+            border: 1px solid rgba(183, 148, 246, 0.3);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent);
+        }
+        .update-date .day {
+            font-size: 1.5rem;
+            font-weight: 900;
+            line-height: 1;
+        }
+        .update-date .month {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 4px;
+        }
+        .update-content h4 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 0.4rem;
+        }
+        .update-content p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+        .update-tag {
+            display: inline-block;
+            padding: 0.2rem 0.7rem;
+            border-radius: 50px;
+            background: rgba(183, 148, 246, 0.15);
+            color: var(--accent);
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.6rem;
+        }
+
+        /* О НАС */
+        .team-section {
+            background: linear-gradient(180deg, transparent, rgba(128, 90, 213, 0.04), transparent);
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+        }
+        .team-content {
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .team-content p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+        .team-values {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 3rem;
+        }
+        .value-item {
+            padding: 1.5rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            transition: var(--transition);
+        }
+        .value-item:hover {
+            border-color: var(--accent);
+            transform: translateY(-5px);
+        }
+        .value-item .value-icon {
+            font-size: 1.8rem;
+            margin-bottom: 0.6rem;
+        }
+        .value-item h5 {
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 0.3rem;
+        }
+        .value-item p {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            margin-bottom: 0;
+        }
+
+        /* ФУТЕР */
+        footer {
+            padding: 4rem 5% 2rem;
+            background: rgba(8, 5, 18, 0.95);
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: 900;
+            letter-spacing: 2px;
+            margin-bottom: 1rem;
+            color: #fff;
+        }
+        .footer-logo span { color: var(--accent); }
+        .footer-text {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+        .footer-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+        .footer-links a:hover { color: var(--accent); }
+        .copyright {
+            color: #6b5b8a;
+            font-size: 0.8rem;
+            border-top: 1px solid var(--border-color);
+            padding-top: 2rem;
+        }
+
+        /* АДАПТИВНОСТЬ */
+        @media (max-width: 992px) {
+            .nav-links { display: none; }
+            .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+            .hero-buttons { flex-direction: column; align-items: center; }
+            .btn-primary, .btn-secondary { width: 100%; max-width: 320px; justify-content: center; }
+        }
+
+        @media (max-width: 576px) {
+            .section { padding: 5rem 5%; }
+            .section-header { margin-bottom: 3rem; }
+            .hero { padding: 7rem 5% 3rem; }
+            .about-stats { grid-template-columns: 1fr; }
+            .product-card { padding: 2rem; }
+            .update-card { flex-direction: column; gap: 1rem; }
+            .update-date { width: 60px; height: 60px; }
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(183, 148, 246, 0.7); }
+            70% { box-shadow: 0 0 0 12px rgba(183, 148, 246, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(183, 148, 246, 0); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Анимированный фон (сеть огней) -->
+    <div class="city-bg">
+        <svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice">
+            <defs>
+                <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+                    <stop offset="0%" stop-color="#b794f6" stop-opacity="0.6"/>
+                    <stop offset="100%" stop-color="#b794f6" stop-opacity="0"/>
+                </radialGradient>
+            </defs>
+            <g stroke="#b794f6" stroke-width="0.5" fill="none" opacity="0.6">
+                <line class="line" x1="100" y1="150" x2="350" y2="250"/>
+                <line class="line" x1="350" y1="250" x2="600" y2="180"/>
+                <line class="line" x1="600" y1="180" x2="850" y2="300"/>
+                <line class="line" x1="850" y1="300" x2="1100" y2="200"/>
+                <line class="line" x1="150" y1="500" x2="400" y2="450"/>
+                <line class="line" x1="400" y1="450" x2="650" y2="550"/>
+                <line class="line" x1="650" y1="550" x2="900" y2="480"/>
+                <line class="line" x1="900" y1="480" x2="1150" y2="580"/>
+                <line class="line" x1="200" y1="700" x2="500" y2="650"/>
+                <line class="line" x1="500" y1="650" x2="800" y2="720"/>
+                <line class="line" x1="350" y1="250" x2="400" y2="450"/>
+                <line class="line" x1="600" y1="180" x2="650" y2="550"/>
+                <line class="line" x1="850" y1="300" x2="900" y2="480"/>
+            </g>
+            <g fill="#b794f6">
+                <circle class="dot" cx="100" cy="150" r="4"/>
+                <circle class="dot" cx="350" cy="250" r="5" style="animation-delay: 0.5s"/>
+                <circle class="dot" cx="600" cy="180" r="4" style="animation-delay: 1s"/>
+                <circle class="dot" cx="850" cy="300" r="5" style="animation-delay: 1.5s"/>
+                <circle class="dot" cx="1100" cy="200" r="4" style="animation-delay: 2s"/>
+                <circle class="dot" cx="150" cy="500" r="4" style="animation-delay: 0.8s"/>
+                <circle class="dot" cx="400" cy="450" r="5" style="animation-delay: 1.3s"/>
+                <circle class="dot" cx="650" cy="550" r="4" style="animation-delay: 0.3s"/>
+                <circle class="dot" cx="900" cy="480" r="5" style="animation-delay: 1.7s"/>
+                <circle class="dot" cx="1150" cy="580" r="4" style="animation-delay: 0.6s"/>
+                <circle class="dot" cx="200" cy="700" r="4" style="animation-delay: 2.2s"/>
+                <circle class="dot" cx="500" cy="650" r="5" style="animation-delay: 1.1s"/>
+                <circle class="dot" cx="800" cy="720" r="4" style="animation-delay: 0.9s"/>
+            </g>
+        </svg>
+    </div>
+
+    <!-- НАВИГАЦИЯ -->
+    <nav id="navbar">
+        <a href="#hero" class="logo">
+            <div class="logo-dot"></div>
+            МОЙ <span>УМНЫЙ</span> ГОРОД
+        </a>
+        <div class="nav-links">
+            <a href="#about">О компании</a>
+            <a href="#products">Технологии</a>
+            <a href="#mission">Миссия</a>
+            <a href="#updates">Обновления</a>
+            <a href="#team">О нас</a>
+        </div>
+    </nav>
+
+    <!-- ГЛАВНЫЙ ЭКРАН -->
+    <header class="hero" id="hero">
+        <div class="hero-content reveal">
+            <div class="hero-tagline">Технологии для комфортной жизни</div>
+            <h1>Мой <span>умный город</span></h1>
+            <p class="hero-description">
+                Мы создаём технологии, которые делают город безопаснее, экологичнее 
+                и удобнее для жителей. Каждое решение — шаг к городу будущего.
+            </p>
+            <div class="hero-buttons">
+                <a href="#products" class="btn-primary">
+                    <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    Наши технологии
+                </a>
+                <a href="#about" class="btn-secondary">
+                    <svg viewBox="0 0 24 24"><path d="M11 7h2v2h-2zm0 4h2v6h-2zm1-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/></svg>
+                    О компании
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- О КОМПАНИИ -->
+    <section id="about" class="section about-section">
+        <div class="about-grid">
+            <div class="about-text reveal">
+                <div class="section-tagline">О компании</div>
+                <h2>Кто мы такие</h2>
+                <p>Мы — команда инженеров и разработчиков, объединённых идеей сделать городскую среду удобнее и безопаснее с помощью технологий.</p>
+                <p>Наш подход — создавать автономные, экологичные и недорогие в обслуживании решения. Мы верим, что «умный город» — это не про сложные системы, а про комфорт каждого жителя.</p>
+                <div class="about-quote">
+                    «Технологии должны служить людям, а не наоборот. Мы делаем город, который думает о тебе.»
+                </div>
+            </div>
+            <div class="about-stats reveal">
+                <div class="stat-block">
+                    <div class="icon">💡</div>
+                    <h4>1+</h4>
+                    <p>Готовых продукта</p>
+                </div>
+                <div class="stat-block">
+                    <div class="icon">🚀</div>
+                    <h4>3+</h4>
+                    <p>В разработке</p>
+                </div>
+                <div class="stat-block">
+                    <div class="icon">🌱</div>
+                    <h4>100%</h4>
+                    <p>Экологично</p>
+                </div>
+                <div class="stat-block">
+                    <div class="icon">♻️</div>
+                    <h4>−70%</h4>
+                    <p>Экономия энергии</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- НАШИ ТЕХНОЛОГИИ -->
+    <section id="products" class="section">
+        <div class="section-header reveal">
+            <div class="section-tagline">Наши технологии</div>
+            <h2>Продукты и решения</h2>
+            <p>Каждое решение создаётся с заботой о жителях, экологии и городском бюджете</p>
+        </div>
+
+        <div class="products-grid">
+            
+            <!-- АКТИВНЫЙ ПРОДУКТ: Умный свет -->
+            <div class="product-card active reveal">
+                <div class="product-badge badge-active">● Доступно</div>
+                <div class="product-icon">💡</div>
+                <h3>Умный свет</h3>
+                <p class="product-desc">
+                    Адаптивная система освещения для городских парков. Свет реагирует на движение, 
+                    экономит до 70% энергии и создаёт эффект «бегущей волны» перед пешеходом.
+                </p>
+                <a href="https://filatov-g.github.io/smart-light/" class="product-link" target="_blank" rel="noopener">
+                    Подробнее
+                    <svg viewBox="0 0 24 24"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
+                </a>
+            </div>
+
+            <!-- ЗАГЛУШКА 1 -->
+            <div class="product-card soon reveal" style="transition-delay: 0.1s;">
+                <div class="product-badge badge-soon">● В разработке</div>
+                <div class="product-icon">🚏</div>
+                <h3>Умные остановки</h3>
+                <p class="product-desc">
+                    Остановки с солнечными панелями, зарядкой для телефонов, Wi-Fi и табло 
+                    прибытия транспорта в реальном времени.
+                </p>
+                <div class="product-status">
+                    <svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
+                    Скоро
+                </div>
+            </div>
+
+            <!-- ЗАГЛУШКА 2 -->
+            <div class="product-card soon reveal" style="transition-delay: 0.2s;">
+                <div class="product-badge badge-soon">● В разработке</div>
+                <div class="product-icon">🌬️</div>
+                <h3>Датчики воздуха</h3>
+                <p class="product-desc">
+                    Сеть датчиков, отслеживающих качество воздуха в реальном времени. 
+                    Данные — на карте города в приложении.
+                </p>
+                <div class="product-status">
+                    <svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
+                    Скоро
+                </div>
+            </div>
+
+            <!-- ЗАГЛУШКА 3 -->
+            <div class="product-card soon reveal" style="transition-delay: 0.3s;">
+                <div class="product-badge badge-soon">● В разработке</div>
+                <div class="product-icon">🅿️</div>
+                <h3>Умные парковки</h3>
+                <p class="product-desc">
+                    Система мониторинга свободных мест. Водитель видит, где припарковаться, 
+                    ещё до въезда на стоянку.
+                </p>
+                <div class="product-status">
+                    <svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
+                    Скоро
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- МИССИЯ -->
+    <section id="mission" class="section mission-section">
+        <div class="section-header reveal">
+            <div class="section-tagline">Наша миссия</div>
+            <h2>Город, который думает о тебе</h2>
+            <p>Мы работаем по трём ключевым направлениям, чтобы город стал по-настоящему удобным</p>
+        </div>
+
+        <div class="mission-grid">
+            <div class="mission-card reveal">
+                <div class="mission-icon">🛡️</div>
+                <h3>Безопасность</h3>
+                <p>Освещение, видеонаблюдение и датчики помогают жителям чувствовать себя в безопасности в любое время суток.</p>
+            </div>
+            <div class="mission-card reveal" style="transition-delay: 0.1s;">
+                <div class="mission-icon">🌱</div>
+                <h3>Экология</h3>
+                <p>Солнечная энергия, экономия ресурсов и минимальное воздействие на природу — базовые принципы каждого нашего продукта.</p>
+            </div>
+            <div class="mission-card reveal" style="transition-delay: 0.2s;">
+                <div class="mission-icon">😊</div>
+                <h3>Комфорт</h3>
+                <p>Технологии должны быть незаметны, но ощутимы. Мы делаем город удобнее без сложных интерфейсов и лишних усилий.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ОБНОВЛЕНИЯ -->
+    <section id="updates" class="section">
+        <div class="section-header reveal">
+            <div class="section-tagline">Обновления</div>
+            <h2>Что нового</h2>
+            <p>Мы регулярно выпускаем улучшения и новые функции для наших продуктов</p>
+        </div>
+
+        <div class="updates-grid">
+            
+            <div class="update-card reveal">
+                <div class="update-date">
+                    <span class="day">12</span>
+                    <span class="month">Янв</span>
+                </div>
+                <div class="update-content">
+                    <span class="update-tag">Сайт</span>
+                    <h4>Запуск «Мой умный город»</h4>
+                    <p>Открыт единый портал, где будут собраны все наши технологии. Начало пути к городу будущего.</p>
+                </div>
+            </div>
+
+            <div class="update-card reveal" style="transition-delay: 0.1s;">
+                <div class="update-date">
+                    <span class="day">16</span>
+                    <span class="month">Янв</span>
+                </div>
+                <div class="update-content">
+                    <span class="update-tag">Умный свет</span>
+                    <h4>Запуск продукта «Умный свет»</h4>
+                    <p>Опубликован сайт с интерактивными демонстрациями работы системы освещения: симуляция датчика движения и эффект «бегущей волны».</p>
+                </div>
+            </div>
+
+            <div class="update-card reveal" style="transition-delay: 0.2s;">
+                <div class="update-date">
+                    <span class="day">27</span>
+                    <span class="month">Янв</span>
+                </div>
+                <div class="update-content">
+                    <span class="update-tag">Умный свет</span>
+                    <h4>Обновление сайта «Умный свет»</h4>
+                    <p>Улучшена логика «бегущей волны» — фонари включаются заранее, чтобы человек всегда шёл в освещённой зоне. Добавлен ИИ-помощник.</p>
+                </div>
+            </div>
+
+            <div class="update-card reveal" style="transition-delay: 0.3s;">
+                <div class="update-date">
+                    <span class="day">28</span>
+                    <span class="month">Янв</span>
+                </div>
+                <div class="update-content">
+                    <span class="update-tag">Планы</span>
+                    <h4>Развитие и новые продукты</h4>
+                    <p>Мы продолжаем работу над умными остановками, датчиками воздуха и системой умных парковок. Следите за обновлениями!</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- О НАС -->
+    <section id="team" class="section team-section">
+        <div class="section-header reveal">
+            <div class="section-tagline">О нас</div>
+            <h2>Команда и ценности</h2>
+            <p>Мы — команда, которая верит, что технологии меняют город к лучшему</p>
+        </div>
+
+        <div class="team-content reveal">
+            <p>Мы объединились, чтобы создавать технологии, которые действительно нужны людям. Наша цель — превратить обычные городские объекты в умные и полезные системы, доступные каждому городу.</p>
+            <p>Мы открыты к сотрудничеству с муниципалитетами, бизнесом и всеми, кто хочет сделать свой город умнее.</p>
+
+            <div class="team-values">
+                <div class="value-item">
+                    <div class="value-icon">💡</div>
+                    <h5>Инновации</h5>
+                    <p>Ищем нестандартные решения</p>
+                </div>
+                <div class="value-item">
+                    <div class="value-icon">🤝</div>
+                    <h5>Открытость</h5>
+                    <p>Готовы к диалогу и партнёрству</p>
+                </div>
+                <div class="value-item">
+                    <div class="value-icon">🎯</div>
+                    <h5>Результат</h5>
+                    <p>Фокус на реальной пользе</p>
+                </div>
+                <div class="value-item">
+                    <div class="value-icon">🌍</div>
+                    <h5>Ответственность</h5>
+                    <p>Заботимся об экологии и людях</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ФУТЕР -->
+    <footer>
+        <div class="footer-logo">МОЙ <span>УМНЫЙ</span> ГОРОД</div>
+        <p class="footer-text">Технологии для комфортной, безопасной и экологичной городской жизни</p>
+        <div class="footer-links">
+            <a href="#about">О компании</a>
+            <a href="#products">Технологии</a>
+            <a href="#mission">Миссия</a>
+            <a href="#updates">Обновления</a>
+            <a href="#team">О нас</a>
+        </div>
+        <div class="copyright">
+            &copy; 2026 Мой умный город. Все права защищены.
+        </div>
+    </footer>
+
+    <script>
+        // --- 1. СКРОЛЛ НАВИГАЦИИ ---
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) navbar.classList.add('scrolled');
+            else navbar.classList.remove('scrolled');
+        });
+
+        // --- 2. АНИМАЦИЯ REVEAL ---
+        const revealElements = document.querySelectorAll('.reveal');
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    if (entry.target.classList.contains('product-card')) initCardHover(entry.target);
+                }
+            });
+        }, { threshold: 0.15, rootMargin: "0px 0px -50px 0px" });
+        revealElements.forEach(el => revealObserver.observe(el));
+
+        // --- 3. ЭФФЕКТ ПОДСВЕТКИ КАРТОЧЕК ---
+        function initCardHover(card) {
+            card.addEventListener('mousemove', e => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                card.style.setProperty('--mouse-x', `${x}px`);
+                card.style.setProperty('--mouse-y', `${y}px`);
+            });
+        }
+
+        // --- 4. ПЛАВНЫЙ СКРОЛЛ ПО ЯКОРЯМ ---
+        document.querySelectorAll('a[href^="#"]').forEach(link => {
+            link.addEventListener('click', (e) => {
+                const href = link.getAttribute('href');
+                if (href === '#' || href.length < 2) return;
+                const target = document.querySelector(href);
+                if (target) {
+                    e.preventDefault();
+                    const offset = 80;
+                    const targetPos = target.getBoundingClientRect().top + window.pageYOffset - offset;
+                    window.scrollTo({ top: targetPos, behavior: 'smooth' });
+                }
+            });
+        });
+
+        // --- 5. ПРОВЕРКА ССЫЛОК ---
+        ['#hero', '#about', '#products', '#mission', '#updates', '#team'].forEach(id => {
+            if (!document.querySelector(id)) {
+                console.warn(`Секция ${id} не найдена`);
+            }
+        });
+    </script>
+</body>
+</html>
