@@ -51,39 +51,29 @@
         }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
-        /* === ФОНОВАЯ СЕТЬ (SVG) — фиксирована на экране === */
+        /* ФОНОВАЯ СЕТЬ */
         .city-bg {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
             z-index: 0;
             pointer-events: none;
             overflow: hidden;
         }
-
         .city-bg svg {
             display: block;
-            width: 100%;
-            height: 100%;
+            width: 100%; height: 100%;
             opacity: 0.45;
         }
-
-        .city-bg .dot {
-            animation: dotPulse 4s infinite ease-in-out;
-        }
-
+        .city-bg .dot { animation: dotPulse 4s infinite ease-in-out; }
         @keyframes dotPulse {
             0%, 100% { opacity: 0.25; }
             50% { opacity: 0.95; }
         }
-
         .city-bg .line {
             stroke-dasharray: 4 8;
             animation: lineFlow 20s infinite linear;
         }
-
         @keyframes lineFlow {
             from { stroke-dashoffset: 0; }
             to { stroke-dashoffset: -200; }
@@ -155,10 +145,7 @@
             position: relative;
             z-index: 2;
         }
-        .hero-content {
-            max-width: 900px;
-            z-index: 2;
-        }
+        .hero-content { max-width: 900px; z-index: 2; }
         .hero-tagline {
             display: inline-block;
             padding: 0.5rem 1.2rem;
@@ -328,10 +315,7 @@
             border-color: var(--accent);
             box-shadow: 0 15px 40px rgba(128, 90, 213, 0.2);
         }
-        .stat-block .icon {
-            font-size: 2rem;
-            margin-bottom: 0.8rem;
-        }
+        .stat-block .icon { font-size: 2rem; margin-bottom: 0.8rem; }
         .stat-block h4 {
             font-size: 1.8rem;
             font-weight: 900;
@@ -346,10 +330,7 @@
         }
 
         /* ТЕХНОЛОГИИ */
-        .products-section {
-            position: relative;
-            z-index: 2;
-        }
+        .products-section { position: relative; z-index: 2; }
         .products-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -378,17 +359,13 @@
             pointer-events: none;
         }
         .product-card:hover::before { opacity: 1; }
-        .product-card.active {
-            border-color: rgba(183, 148, 246, 0.5);
-        }
+        .product-card.active { border-color: rgba(183, 148, 246, 0.5); }
         .product-card.active:hover {
             transform: translateY(-8px);
             border-color: var(--accent);
             box-shadow: 0 25px 60px rgba(128, 90, 213, 0.25), 0 0 50px rgba(183, 148, 246, 0.1);
         }
-        .product-card.soon {
-            opacity: 0.75;
-        }
+        .product-card.soon { opacity: 0.75; }
         .product-card.soon:hover {
             opacity: 0.95;
             transform: translateY(-5px);
@@ -457,10 +434,7 @@
             transform: translateX(5px);
             box-shadow: 0 10px 30px rgba(128, 90, 213, 0.55);
         }
-        .product-link svg {
-            width: 16px; height: 16px;
-            fill: currentColor;
-        }
+        .product-link svg { width: 16px; height: 16px; fill: currentColor; }
         .product-status {
             display: inline-flex;
             align-items: center;
@@ -474,10 +448,7 @@
             font-size: 0.85rem;
             width: fit-content;
         }
-        .product-status svg {
-            width: 14px; height: 14px;
-            fill: var(--accent-yellow);
-        }
+        .product-status svg { width: 14px; height: 14px; fill: var(--accent-yellow); }
 
         /* МИССИЯ */
         .mission-section {
@@ -526,16 +497,10 @@
             color: #fff;
             margin-bottom: 0.8rem;
         }
-        .mission-card p {
-            color: var(--text-muted);
-            font-size: 0.95rem;
-        }
+        .mission-card p { color: var(--text-muted); font-size: 0.95rem; }
 
         /* ОБНОВЛЕНИЯ */
-        .updates-section {
-            position: relative;
-            z-index: 2;
-        }
+        .updates-section { position: relative; z-index: 2; }
         .updates-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
@@ -560,8 +525,7 @@
         }
         .update-date {
             flex-shrink: 0;
-            width: 70px;
-            height: 70px;
+            width: 70px; height: 70px;
             border-radius: 16px;
             background: rgba(183, 148, 246, 0.12);
             border: 1px solid rgba(183, 148, 246, 0.3);
@@ -571,11 +535,7 @@
             justify-content: center;
             color: var(--accent);
         }
-        .update-date .day {
-            font-size: 1.5rem;
-            font-weight: 900;
-            line-height: 1;
-        }
+        .update-date .day { font-size: 1.5rem; font-weight: 900; line-height: 1; }
         .update-date .month {
             font-size: 0.7rem;
             font-weight: 700;
@@ -589,10 +549,7 @@
             color: #fff;
             margin-bottom: 0.4rem;
         }
-        .update-content p {
-            color: var(--text-muted);
-            font-size: 0.9rem;
-        }
+        .update-content p { color: var(--text-muted); font-size: 0.9rem; }
         .update-tag {
             display: inline-block;
             padding: 0.2rem 0.7rem;
@@ -642,21 +599,14 @@
             border-color: var(--accent);
             transform: translateY(-5px);
         }
-        .value-item .value-icon {
-            font-size: 1.8rem;
-            margin-bottom: 0.6rem;
-        }
+        .value-item .value-icon { font-size: 1.8rem; margin-bottom: 0.6rem; }
         .value-item h5 {
             color: #fff;
             font-size: 1rem;
             font-weight: 700;
             margin-bottom: 0.3rem;
         }
-        .value-item p {
-            color: var(--text-muted);
-            font-size: 0.85rem;
-            margin-bottom: 0;
-        }
+        .value-item p { color: var(--text-muted); font-size: 0.85rem; margin-bottom: 0; }
 
         /* ФУТЕР */
         footer {
@@ -704,6 +654,284 @@
             padding-top: 2rem;
         }
 
+        /* ========================================================= */
+        /* === ИИ-ПОМОЩНИК === */
+        /* ========================================================= */
+        .ai-widget {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 2500;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .ai-toggle {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 25px rgba(128, 90, 213, 0.5), 0 0 30px rgba(183, 148, 246, 0.3);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            position: relative;
+        }
+
+        .ai-toggle:hover {
+            transform: scale(1.08);
+            box-shadow: 0 10px 30px rgba(128, 90, 213, 0.7), 0 0 40px rgba(183, 148, 246, 0.4);
+        }
+
+        .ai-toggle svg {
+            width: 26px; height: 26px;
+            fill: #fff;
+            position: absolute;
+            transition: all 0.3s ease;
+        }
+
+        .ai-icon-close { opacity: 0; transform: rotate(-90deg); }
+        .ai-widget.open .ai-icon-chat { opacity: 0; transform: rotate(90deg); }
+        .ai-widget.open .ai-icon-close { opacity: 1; transform: rotate(0); }
+
+        .ai-toggle::before {
+            content: '';
+            position: absolute;
+            inset: -5px;
+            border-radius: 50%;
+            border: 2px solid var(--accent);
+            opacity: 0;
+            animation: aiPulse 2.5s infinite;
+        }
+
+        @keyframes aiPulse {
+            0% { opacity: 0.6; transform: scale(1); }
+            100% { opacity: 0; transform: scale(1.3); }
+        }
+
+        .ai-panel {
+            position: absolute;
+            bottom: 75px;
+            right: 0;
+            width: 400px;
+            height: 560px;
+            background: linear-gradient(145deg, rgba(30, 22, 55, 0.98) 0%, rgba(18, 12, 35, 0.98) 100%);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), 0 0 40px rgba(183, 148, 246, 0.15);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(20px) scale(0.95);
+            transform-origin: bottom right;
+            pointer-events: none;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            backdrop-filter: blur(20px);
+        }
+
+        .ai-widget.open .ai-panel {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            pointer-events: all;
+        }
+
+        .ai-header {
+            padding: 1rem 1.2rem;
+            background: rgba(183, 148, 246, 0.1);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .ai-avatar {
+            width: 40px; height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .ai-avatar svg { width: 22px; height: 22px; fill: #fff; }
+
+        .ai-header-info { flex: 1; }
+        .ai-header-info h4 { color: #fff; font-size: 0.95rem; font-weight: 700; margin-bottom: 2px; }
+        .ai-header-info p {
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .ai-status-dot {
+            width: 8px; height: 8px;
+            background: var(--accent-green);
+            border-radius: 50%;
+            box-shadow: 0 0 8px var(--accent-green);
+            animation: aiBlink 2s infinite;
+        }
+
+        @keyframes aiBlink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+
+        .ai-close-btn {
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+        .ai-close-btn:hover { background: rgba(255, 255, 255, 0.08); }
+        .ai-close-btn svg { width: 18px; height: 18px; fill: var(--text-muted); }
+
+        .ai-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(183, 148, 246, 0.3) transparent;
+        }
+        .ai-messages::-webkit-scrollbar { width: 6px; }
+        .ai-messages::-webkit-scrollbar-track { background: transparent; }
+        .ai-messages::-webkit-scrollbar-thumb {
+            background: rgba(183, 148, 246, 0.3);
+            border-radius: 3px;
+        }
+
+        .ai-message {
+            max-width: 85%;
+            padding: 0.7rem 1rem;
+            border-radius: 14px;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            animation: aiMessageIn 0.3s ease;
+            word-wrap: break-word;
+        }
+
+        @keyframes aiMessageIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .ai-message.bot {
+            align-self: flex-start;
+            background: rgba(183, 148, 246, 0.12);
+            border: 1px solid rgba(183, 148, 246, 0.25);
+            color: var(--text-main);
+            border-bottom-left-radius: 4px;
+        }
+
+        .ai-message.user {
+            align-self: flex-end;
+            background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+            color: #fff;
+            border-bottom-right-radius: 4px;
+            font-weight: 500;
+        }
+
+        .ai-message.typing {
+            display: flex;
+            gap: 4px;
+            padding: 0.9rem 1rem;
+        }
+
+        .ai-message.typing span {
+            width: 7px; height: 7px;
+            background: var(--accent);
+            border-radius: 50%;
+            animation: aiTyping 1.4s infinite;
+        }
+        .ai-message.typing span:nth-child(2) { animation-delay: 0.2s; }
+        .ai-message.typing span:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes aiTyping {
+            0%, 60%, 100% { opacity: 0.3; transform: translateY(0); }
+            30% { opacity: 1; transform: translateY(-5px); }
+        }
+
+        .ai-suggestions {
+            padding: 0 1rem 0.5rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .ai-suggestion {
+            padding: 0.4rem 0.8rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            color: var(--accent);
+            border-radius: 50px;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: inherit;
+            white-space: nowrap;
+        }
+        .ai-suggestion:hover {
+            background: rgba(183, 148, 246, 0.15);
+            border-color: var(--accent);
+        }
+
+        .ai-input-form {
+            display: flex;
+            gap: 8px;
+            padding: 0.8rem 1rem;
+            border-top: 1px solid var(--border-color);
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .ai-input {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            border-radius: 50px;
+            padding: 0.6rem 1rem;
+            color: #fff;
+            font-family: inherit;
+            font-size: 0.9rem;
+            outline: none;
+            transition: all 0.2s ease;
+        }
+        .ai-input::placeholder { color: var(--text-muted); }
+        .ai-input:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(183, 148, 246, 0.15);
+        }
+
+        .ai-send {
+            width: 40px; height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: all 0.2s ease;
+        }
+        .ai-send:hover {
+            transform: scale(1.08);
+            box-shadow: 0 0 15px rgba(183, 148, 246, 0.6);
+        }
+        .ai-send svg { width: 18px; height: 18px; fill: #fff; margin-left: 2px; }
+
         /* АДАПТИВНОСТЬ */
         @media (max-width: 992px) {
             .nav-links { display: none; }
@@ -720,6 +948,15 @@
             .product-card { padding: 2rem; }
             .update-card { flex-direction: column; gap: 1rem; }
             .update-date { width: 60px; height: 60px; }
+
+            .ai-widget { bottom: 15px; right: 15px; }
+            .ai-toggle { width: 55px; height: 55px; }
+            .ai-panel {
+                width: calc(100vw - 30px);
+                height: calc(100vh - 120px);
+                max-height: 520px;
+                right: -15px;
+            }
         }
 
         @keyframes pulse {
@@ -1051,6 +1288,40 @@
         </div>
     </footer>
 
+    <!-- ИИ-ПОМОЩНИК -->
+    <div class="ai-widget" id="aiWidget">
+        <button class="ai-toggle" id="aiToggle" aria-label="Открыть помощника" type="button">
+            <svg class="ai-icon-chat" viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 9h12v2H6V9zm8 5H6v-2h8v2zm4-6H6V6h12v2z"/></svg>
+            <svg class="ai-icon-close" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+        
+        <div class="ai-panel" id="aiPanel">
+            <div class="ai-header">
+                <div class="ai-avatar">
+                    <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+                </div>
+                <div class="ai-header-info">
+                    <h4>ИИ-помощник</h4>
+                    <p><span class="ai-status-dot"></span>Онлайн</p>
+                </div>
+                <button class="ai-close-btn" id="aiCloseBtn" aria-label="Закрыть" type="button">
+                    <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+                </button>
+            </div>
+            
+            <div class="ai-messages" id="aiMessages"></div>
+            
+            <div class="ai-suggestions" id="aiSuggestions"></div>
+            
+            <form class="ai-input-form" id="aiForm">
+                <input type="text" class="ai-input" id="aiInput" placeholder="Спросите что-нибудь..." autocomplete="off">
+                <button type="submit" class="ai-send" aria-label="Отправить">
+                    <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+                </button>
+            </form>
+        </div>
+    </div>
+
     <script>
         // --- 1. СКРОЛЛ НАВИГАЦИИ ---
         const navbar = document.getElementById('navbar');
@@ -1097,10 +1368,299 @@
             });
         });
 
-        // --- 5. ДИАГНОСТИКА (в консоли) ---
+        // =========================================================
+        // --- 5. ИИ-ПОМОЩНИК (УМНАЯ ВЕРСИЯ) ---
+        // =========================================================
+        const aiWidget = document.getElementById('aiWidget');
+        const aiToggle = document.getElementById('aiToggle');
+        const aiCloseBtn = document.getElementById('aiCloseBtn');
+        const aiMessages = document.getElementById('aiMessages');
+        const aiForm = document.getElementById('aiForm');
+        const aiInput = document.getElementById('aiInput');
+        const aiSuggestions = document.getElementById('aiSuggestions');
+
+        let isChatOpen = false;
+
+        // === БАЗА ЗНАНИЙ (РАСШИРЕННАЯ) ===
+        const knowledgeBase = [
+            // === ПРИВЕТСТВИЯ ===
+            {
+                keywords: ['привет', 'здравствуй', 'хай', 'добрый', 'hello', 'hi', 'прив', 'ку', 'йо', 'салют', 'доброе'],
+                answer: 'Здравствуйте! 👋 Рад вас видеть.<br><br>Я <strong>ИИ-помощник «Мой умный город»</strong>. Могу рассказать о:<br><br>🏢 <strong>Компании</strong> — кто мы и чем занимаемся<br>💡 <strong>Продуктах</strong> — что уже готово и что в разработке<br>🌱 <strong>Миссии</strong> — наши ценности<br>📅 <strong>Обновлениях</strong> — что нового<br>👥 <strong>Команде</strong> — кто за этим стоит<br><br>О чём хотите узнать?'
+            },
+            
+            // === О КОМПАНИИ ===
+            {
+                keywords: ['о компании', 'кто вы', 'что за компания', 'о вас', 'чем занимаетесь', 'что делаете', 'ваша деятельность', 'расскажите о себе'],
+                answer: '🏢 <strong>О нас:</strong><br><br>Мы — команда инженеров и разработчиков, объединённых идеей сделать городскую среду удобнее и безопаснее с помощью технологий.<br><br>Наш подход — создавать <strong>автономные</strong>, <strong>экологичные</strong> и <strong>недорогие в обслуживании</strong> решения.<br><br>Мы верим, что «умный город» — это не про сложные системы, а про <strong>комфорт каждого жителя</strong>.<br><br>Подробнее в разделе <a href="#about" style="color:#b794f6;text-decoration:underline;">«О компании»</a>.'
+            },
+            
+            // === ПРОДУКТЫ / ТЕХНОЛОГИИ ===
+            {
+                keywords: ['продукт', 'технолог', 'решен', 'что делаете', 'что у вас есть', 'список', 'каталог', 'предлагаете'],
+                answer: '💡 <strong>Наши продукты:</strong><br><br>✅ <strong>Умный свет</strong> — адаптивное освещение для парков (доступно)<br>🚧 <strong>Умные остановки</strong> — с зарядкой, Wi-Fi, табло (в разработке)<br>🚧 <strong>Датчики воздуха</strong> — карта загрязнения в реальном времени (в разработке)<br>🚧 <strong>Умные парковки</strong> — поиск свободных мест (в разработке)<br><br>Все детали в разделе <a href="#products" style="color:#b794f6;text-decoration:underline;">«Технологии»</a>.'
+            },
+            
+            // === УМНЫЙ СВЕТ (главный продукт) ===
+            {
+                keywords: ['умный свет', 'светильник', 'освещени', 'фонар', 'led', 'датчик движени', 'бегущ', 'волн'],
+                answer: '💡 <strong>Умный свет</strong> — наш главный продукт.<br><br>Это адаптивная система освещения для городских парков:<br>• Свет реагирует на движение<br>• Экономит до <strong>70% энергии</strong><br>• Создаёт эффект «бегущей волны» перед пешеходом<br>• Работает на солнечной энергии<br><br>🔗 <a href="https://filatov-g.github.io/smart-light/" target="_blank" rel="noopener" style="color:#b794f6;text-decoration:underline;font-weight:700;">Открыть сайт продукта →</a><br><br>Или почитайте краткое описание в разделе <a href="#products" style="color:#b794f6;text-decoration:underline;">«Технологии»</a>.'
+            },
+            
+            // === УМНЫЕ ОСТАНОВКИ ===
+            {
+                keywords: ['остановк', 'автобус', 'транспорт', 'табло', 'расписани', 'wi-fi', 'зарядк'],
+                answer: '🚏 <strong>Умные остановки</strong> — в разработке.<br><br>Что планируется:<br>• ☀️ Солнечные панели<br>• 🔌 Зарядка для телефонов<br>• 📶 Бесплатный Wi-Fi<br>• 📺 Табло прибытия транспорта в реальном времени<br>• 🛡️ Антивандальный корпус<br><br>Мы работаем над этим продуктом. Следите за <a href="#updates" style="color:#b794f6;text-decoration:underline;">обновлениями</a>!'
+            },
+            
+            // === ДАТЧИКИ ВОЗДУХА ===
+            {
+                keywords: ['воздух', 'датчик', 'эколог', 'загрязнени', 'смог', 'качество', 'атмосфер'],
+                answer: '🌬️ <strong>Датчики воздуха</strong> — в разработке.<br><br>Что планируется:<br>• Сеть датчиков по городу<br>• Мониторинг качества воздуха в реальном времени<br>• Отображение на карте в приложении<br>• Оповещения при превышении норм<br>• Данные для городских служб<br><br>Следите за <a href="#updates" style="color:#b794f6;text-decoration:underline;">обновлениями</a>!'
+            },
+            
+            // === УМНЫЕ ПАРКОВКИ ===
+            {
+                keywords: ['парковк', 'стоянк', 'паркинг', 'место', 'автомобил', 'машин'],
+                answer: '🅿️ <strong>Умные парковки</strong> — в разработке.<br><br>Что планируется:<br>• Датчики занятости мест<br>• Приложение для водителей<br>• Видно, где есть свободные места, ещё до въезда<br>• Экономия времени и топлива<br>• Статистика для города<br><br>Следите за <a href="#updates" style="color:#b794f6;text-decoration:underline;">обновлениями</a>!'
+            },
+            
+            // === МИССИЯ И ЦЕННОСТИ ===
+            {
+                keywords: ['мисси', 'цель', 'ценност', 'принцип', 'во имя', 'зачем', 'философи', 'идея'],
+                answer: '🌍 <strong>Наша миссия:</strong><br><br>Сделать город <strong>безопаснее</strong>, <strong>экологичнее</strong> и <strong>удобнее</strong> для жителей.<br><br>Мы работаем по трём направлениям:<br>🛡️ <strong>Безопасность</strong> — освещение, датчики<br>🌱 <strong>Экология</strong> — солнечная энергия, экономия ресурсов<br>😊 <strong>Комфорт</strong> — удобство без лишних усилий<br><br>Подробнее в разделе <a href="#mission" style="color:#b794f6;text-decoration:underline;">«Миссия»</a>.'
+            },
+            
+            // === ОБНОВЛЕНИЯ ===
+            {
+                keywords: ['обновлени', 'новост', 'что нового', 'последн', 'свеж', 'изменени', 'хроник', 'истори'],
+                answer: '📅 <strong>Наши обновления:</strong><br><br>• <strong>12 января</strong> — запуск «Мой умный город»<br>• <strong>16 января</strong> — запуск продукта «Умный свет»<br>• <strong>27 января</strong> — обновление сайта «Умный свет»<br>• <strong>28 января</strong> — планы развития<br><br>Полная лента в разделе <a href="#updates" style="color:#b794f6;text-decoration:underline;">«Обновления»</a>.'
+            },
+            
+            // === КОМАНДА ===
+            {
+                keywords: ['команд', 'разработчик', 'кто делает', 'сотрудник', 'люди', 'инженер', 'создател'],
+                answer: '👥 <strong>Наша команда:</strong><br><br>Мы — команда инженеров и разработчиков, объединённых идеей сделать городскую среду удобнее и безопаснее.<br><br>Наши ценности:<br>💡 <strong>Инновации</strong> — ищем нестандартные решения<br>🤝 <strong>Открытость</strong> — готовы к диалогу<br>🎯 <strong>Результат</strong> — фокус на реальной пользе<br>🌍 <strong>Ответственность</strong> — заботимся об экологии<br><br>Подробнее в разделе <a href="#team" style="color:#b794f6;text-decoration:underline;">«О нас»</a>.'
+            },
+            
+            // === СОТРУДНИЧЕСТВО ===
+            {
+                keywords: ['сотруднич', 'партнер', 'партнёр', 'связаться', 'контакт', 'заказ', 'куп', 'приобрест', 'внедрить', 'поставить'],
+                answer: '🤝 <strong>Сотрудничество:</strong><br><br>Мы открыты к диалогу с:<br>• 🏛️ Муниципалитетами<br>• 🏢 Бизнесом<br>• 🤝 Партнёрами<br>• 🌱 Эко-организациями<br><br>Если вы хотите внедрить наши технологии в своём городе — свяжитесь с нами через контакты в футере сайта.<br><br>Обсудим условия, сроки и стоимость. 📞'
+            },
+            
+            // === ГДЕ НАХОДИТЕСЬ ===
+            {
+                keywords: ['где наход', 'адрес', 'офис', 'город', 'локац', 'географ', 'местоположени'],
+                answer: '📍 Мы работаем как распределённая команда. Основные контакты — в футере сайта.<br><br>Если хотите обсудить внедрение в вашем городе — напишите нам!'
+            },
+            
+            // === О БОТЕ ===
+            {
+                keywords: ['ты кто', 'кто ты', 'что ты', 'бот', 'помощник', 'ии', 'ai', 'искусственн', 'робот', 'умееш'],
+                answer: '🤖 Я <strong>ИИ-помощник</strong> компании «Мой умный город».<br><br>Моя задача — быстро и понятно отвечать на вопросы о:<br>• 🏢 Компании<br>• 💡 Продуктах и технологиях<br>• 🌱 Миссии<br>• 📅 Обновлениях<br>• 👥 Команде<br><br>Просто спросите — я здесь 24/7! 💬'
+            },
+            
+            // === БЛАГОДАРНОСТИ ===
+            {
+                keywords: ['спасибо', 'благодар', 'круто', 'класс', 'супер', 'отличн', 'молодц', 'крутяк', 'топ', 'здоров', 'респект'],
+                answer: 'Рад помочь! 😊 Если появятся ещё вопросы — я здесь. Удачи с изучением «Мой умный город»!'
+            },
+            
+            // === ПРОЩАНИЯ ===
+            {
+                keywords: ['пока', 'до свид', 'прощай', 'бай', 'bye'],
+                answer: 'До встречи! 👋 Если понадоблюсь — я всегда здесь. Удачи!'
+            },
+            
+            // === ЭКОЛОГИЯ ===
+            {
+                keywords: ['эколог', 'природ', 'зелен', 'углерод', 'co2', 'солнечн', 'возобновля', 'энерг'],
+                answer: '🌱 <strong>Экология — в основе наших технологий:</strong><br><br>• ☀️ Солнечная энергия<br>• ♻️ Экономия ресурсов до 70%<br>• 🌍 Минимальное воздействие на природу<br>• 💡 Увеличенный срок службы устройств<br>• 🔋 Автономная работа<br><br>Узнайте больше в разделе <a href="#mission" style="color:#b794f6;text-decoration:underline;">«Миссия»</a>.'
+            },
+            
+            // === БЕЗОПАСНОСТЬ ===
+            {
+                keywords: ['безопас', 'защит', 'охран', 'преступ', 'травм', 'опасн'],
+                answer: '🛡️ <strong>Безопасность:</strong><br><br>• 💡 Адаптивное освещение — ярко там, где идёт человек<br>• 📡 Датчики движения реагируют заранее<br>• 🔦 Световой шлейф создаёт освещённую дорожку<br>• 🚨 Автономная работа при отключении сети<br><br>Всё для того, чтобы жители чувствовали себя в безопасности.'
+            },
+            
+            // === ТЕХНОЛОГИИ В ЦЕЛОМ ===
+            {
+                keywords: ['умный город', 'smart city', 'технолог', 'будущ', 'инновац', 'цифров'],
+                answer: '🏙️ <strong>«Умный город» — это не про сложные системы, а про комфорт каждого жителя.</strong><br><br>Наши технологии:<br>💡 Умный свет<br>🚏 Умные остановки<br>🌬️ Датчики воздуха<br>🅿️ Умные парковки<br><br>Мы верим, что технологии должны служить людям. Подробнее в разделе <a href="#products" style="color:#b794f6;text-decoration:underline;">«Технологии»</a>.'
+            },
+
+            // === СТОИМОСТЬ И ЦЕНА ===
+            {
+                keywords: ['цен', 'стоим', 'сколько', 'деньг', 'бюджет', 'дорого', 'дешев'],
+                answer: '💰 <strong>Стоимость наших решений:</strong><br><br>Зависит от:<br>• 📐 Масштаба проекта<br>• 🏙️ Площади территории<br>• 🔧 Типа оборудования<br>• 📊 Объёма внедрения<br><br>Для точного расчёта свяжитесь с нами через контакты в футере сайта. Мы подготовим индивидуальное предложение. 📞'
+            },
+
+            // === УСТАНОВКА И МОНТАЖ ===
+            {
+                keywords: ['установк', 'монтаж', 'подключени', 'настройк', 'устанавлива'],
+                answer: '🔧 <strong>Установка и монтаж:</strong><br><br>Наши решения проектируются для <strong>быстрого монтажа</strong>:<br>• 🔋 Автономная работа — не нужны кабельные сети<br>• ☀️ Питание от солнечной энергии<br>• 📡 Беспроводная mesh-сеть между устройствами<br>• 🛠️ Простое техобслуживание<br><br>Всё для минимальных затрат на установку и эксплуатацию.'
+            },
+
+            // === СРОК СЛУЖБЫ ===
+            {
+                keywords: ['срок служб', 'долго', 'надежн', 'гаранти', 'работ', 'лет'],
+                answer: '⏳ <strong>Срок службы и надёжность:</strong><br><br>• 💡 LED-элементы: до <strong>50 000 часов</strong><br>• 🔋 Аккумуляторы: 3–5 лет<br>• 🛠️ Работа на пониженной мощности продлевает срок службы<br>• 🌡️ Устойчивость к погодным условиям<br>• 📞 Гарантийная поддержка<br><br>Свяжитесь с нами для подробностей о гарантии.'
+            }
+        ];
+
+        // === БЫСТРЫЕ ПОДСКАЗКИ ===
+        const quickSuggestions = [
+            'О компании',
+            'Ваши продукты',
+            'Умный свет',
+            'Мировой опыт',
+            'Что нового?',
+            'О команде'
+        ];
+
+        // === ФУНКЦИЯ НОРМАЛИЗАЦИИ ТЕКСТА ===
+        function normalizeText(text) {
+            return text.toLowerCase()
+                .replace(/[^\wа-яё\s]/gi, '')
+                .replace(/\s+/g, ' ')
+                .trim();
+        }
+
+        // === ФУНКЦИЯ ПОИСКА ОТВЕТА ===
+        function getBotAnswer(userText) {
+            const text = normalizeText(userText);
+            
+            if (!text || text.length < 2) {
+                return '🤔 Попробуйте сформулировать вопрос подробнее. Например: <em>«Расскажи о компании»</em> или <em>«Что за Умный свет?»</em>';
+            }
+            
+            let bestMatch = null;
+            let bestScore = 0;
+            
+            knowledgeBase.forEach(item => {
+                let score = 0;
+                item.keywords.forEach(kw => {
+                    const nkw = normalizeText(kw);
+                    if (text.includes(nkw)) {
+                        // Чем длиннее ключ — тем больше вес
+                        score += nkw.length * 2;
+                        // Бонус за совпадение в начале
+                        if (text.startsWith(nkw)) {
+                            score += 10;
+                        }
+                    }
+                });
+                if (score > bestScore) {
+                    bestScore = score;
+                    bestMatch = item;
+                }
+            });
+            
+            if (bestMatch && bestScore > 3) {
+                return bestMatch.answer;
+            }
+            
+            // Фолбэк
+            return '🤔 Не уверен, что понял вопрос. Попробуйте спросить:<br><br>• <em>«О компании»</em><br>• <em>«Какие продукты?»</em><br>• <em>«Расскажи про Умный свет»</em><br>• <em>«Что нового?»</em><br>• <em>«О команде»</em><br>• <em>«Миссия компании»</em><br><br>Или выберите готовый вопрос ниже 👇';
+        }
+
+        // === ФУНКЦИЯ ДОБАВЛЕНИЯ СООБЩЕНИЯ ===
+        function addMessage(text, sender) {
+            const msg = document.createElement('div');
+            msg.className = `ai-message ${sender}`;
+            msg.innerHTML = text;
+            aiMessages.appendChild(msg);
+            aiMessages.scrollTop = aiMessages.scrollHeight;
+            return msg;
+        }
+
+        // === ИНДИКАТОР «ПЕЧАТАЕТ» ===
+        function showTyping() {
+            const typing = document.createElement('div');
+            typing.className = 'ai-message bot typing';
+            typing.innerHTML = '<span></span><span></span><span></span>';
+            aiMessages.appendChild(typing);
+            aiMessages.scrollTop = aiMessages.scrollHeight;
+            return typing;
+        }
+
+        // === ОТРИСОВКА БЫСТРЫХ КНОПОК ===
+        function renderSuggestions() {
+            aiSuggestions.innerHTML = '';
+            quickSuggestions.forEach(text => {
+                const btn = document.createElement('button');
+                btn.className = 'ai-suggestion';
+                btn.textContent = text;
+                btn.type = 'button';
+                btn.addEventListener('click', () => handleUserInput(text));
+                aiSuggestions.appendChild(btn);
+            });
+        }
+
+        // === ОБРАБОТКА ВВОДА ===
+        function handleUserInput(text) {
+            if (!text.trim()) return;
+            
+            addMessage(text, 'user');
+            aiInput.value = '';
+            aiSuggestions.style.display = 'none';
+            
+            const typing = showTyping();
+            
+            // Умная задержка — зависит от длины ответа (имитация "думанья")
+            const delay = 400 + Math.random() * 500;
+            
+            setTimeout(() => {
+                typing.remove();
+                const answer = getBotAnswer(text);
+                addMessage(answer, 'bot');
+                
+                // Показываем подсказки заново через 1 сек
+                setTimeout(() => {
+                    if (isChatOpen) {
+                        aiSuggestions.style.display = 'flex';
+                        renderSuggestions();
+                    }
+                }, 1000);
+            }, delay);
+        }
+
+        // === ОТКРЫТИЕ / ЗАКРЫТИЕ ЧАТА ===
+        function toggleChat() {
+            isChatOpen = !isChatOpen;
+            aiWidget.classList.toggle('open', isChatOpen);
+            
+            if (isChatOpen && aiMessages.children.length === 0) {
+                setTimeout(() => {
+                    addMessage('Здравствуйте! 👋 Я <strong>ИИ-помощник «Мой умный город»</strong>.<br><br>Могу рассказать о компании, продуктах, миссии, обновлениях или команде.<br><br>Что вас интересует?', 'bot');
+                    renderSuggestions();
+                }, 400);
+            }
+            
+            if (isChatOpen) {
+                setTimeout(() => aiInput.focus(), 400);
+            }
+        }
+
+        aiToggle.addEventListener('click', toggleChat);
+        aiCloseBtn.addEventListener('click', toggleChat);
+
+        aiForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            handleUserInput(aiInput.value);
+        });
+
+        // Escape закрывает чат
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && isChatOpen) toggleChat();
+        });
+
+        // === ЛОГ В КОНСОЛЬ (для проверки) ===
         console.log('✅ Сайт «Мой умный город» загружен');
-        console.log('📄 Секций найдено:', document.querySelectorAll('section').length);
-        console.log('🔗 Ссылок на якоря:', document.querySelectorAll('a[href^="#"]').length);
+        console.log('🧠 ИИ-помощник: загружено тем —', knowledgeBase.length);
+        console.log('💬 Быстрых подсказок —', quickSuggestions.length);
     </script>
 </body>
 </html>
