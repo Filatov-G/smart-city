@@ -1,1814 +1,979 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Мой умный город | Технологии для комфортной жизни</title>
-    <link rel="icon" href="favicon.ico">
-    <meta name="description" content="Технологии, которые делают город безопаснее, экологичнее и удобнее для жителей. Умный свет, умные остановки, датчики воздуха и другие решения.">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800;900&display=swap');
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0f0a1f">
+<meta name="description" content="Технологии, которые делают город безопаснее, экологичнее и удобнее для жителей. Умный свет, умные остановки, датчики воздуха и другие решения.">
+<meta property="og:title" content="Мой умный город — технологии для комфортной жизни">
+<meta property="og:description" content="Технологии, которые делают город безопаснее, экологичнее и удобнее для жителей.">
+<meta property="og:type" content="website">
+<title>Мой умный город | Технологии для комфортной жизни</title>
 
-        :root {
-            --bg-dark: #0f0a1f;
-            --bg-card: rgba(40, 30, 65, 0.7);
-            --bg-card-hover: rgba(55, 40, 90, 0.85);
-            --accent: #b794f6;
-            --accent-light: #d6bcfa;
-            --accent-dark: #805ad5;
-            --accent-glow: rgba(183, 148, 246, 0.4);
-            --accent-green: #68d391;
-            --accent-yellow: #f6e05e;
-            --text-main: #f0eaff;
-            --text-muted: #b8a8d9;
-            --border-color: rgba(183, 148, 246, 0.18);
-            --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-        }
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%230f0a1f'/%3E%3Ccircle cx='16' cy='16' r='5' fill='%23b794f6'/%3E%3C/svg%3E">
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800;900&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800;900&display=swap" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800;900&display=swap"></noscript>
 
-        html { scroll-behavior: smooth; }
+<style>
+/* ============ ДИЗАЙН-СИСТЕМА ============ */
+:root{
+  --bg:#0f0a1f;
+  --bg-2:#150e2e;
+  --surface:rgba(40,30,65,.7);
+  --surface-2:rgba(30,22,50,.9);
+  --surface-hover:rgba(55,40,90,.85);
+  --accent:#b794f6;
+  --accent-light:#d6bcfa;
+  --accent-dark:#805ad5;
+  --green:#68d391;
+  --yellow:#f6e05e;
+  --red:#ff3b3b;
+  --text:#f0eaff;
+  --muted:#b8a8d9;
+  --dim:#6b5b8a;
+  --border:rgba(183,148,246,.18);
+  --border-strong:rgba(183,148,246,.4);
+  --glow:rgba(183,148,246,.4);
+  --shadow-lg:0 20px 60px rgba(0,0,0,.5);
+  --shadow-accent:0 10px 30px rgba(128,90,213,.4);
+  --r-sm:12px; --r-md:16px; --r-lg:20px; --r-xl:24px; --r-pill:50px;
+  --sp-1:.5rem; --sp-2:1rem; --sp-3:1.5rem; --sp-4:2rem; --sp-5:3rem; --sp-6:4rem; --sp-7:6rem;
+  --ease:cubic-bezier(.25,.8,.25,1);
+  --t-fast:.2s var(--ease);
+  --t-mid:.4s var(--ease);
+  --container:1400px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+}
+body{
+  font-family:'Inter',system-ui,-apple-system,sans-serif;
+  background:var(--bg); color:var(--text); line-height:1.6;
+  overflow-x:hidden; position:relative; min-height:100vh;
+  background-image:
+    radial-gradient(ellipse at 15% 20%, rgba(183,148,246,.18) 0%, transparent 55%),
+    radial-gradient(ellipse at 85% 80%, rgba(128,90,213,.15) 0%, transparent 55%),
+    linear-gradient(180deg,#0f0a1f 0%,#150e2e 50%,#0f0a1f 100%);
+  background-attachment:fixed;
+}
+img,svg{display:block;max-width:100%}
+button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:6px}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg-dark);
-            color: var(--text-main);
-            line-height: 1.6;
-            overflow-x: hidden;
-            position: relative;
-            min-height: 100vh;
-            background-image: 
-                radial-gradient(ellipse at 15% 20%, rgba(183, 148, 246, 0.18) 0%, transparent 55%),
-                radial-gradient(ellipse at 85% 80%, rgba(128, 90, 213, 0.15) 0%, transparent 55%),
-                radial-gradient(ellipse at 50% 50%, rgba(214, 188, 250, 0.06) 0%, transparent 60%),
-                linear-gradient(180deg, #0f0a1f 0%, #150e2e 50%, #0f0a1f 100%);
-            background-attachment: fixed;
-        }
+/* ============ ФОНОВАЯ СЕТЬ ============ */
+.city-bg{
+  position:fixed;top:0;left:0;width:100vw;height:100vh;
+  z-index:0;pointer-events:none;overflow:hidden;
+}
+.city-bg svg{display:block;width:100%;height:100%;opacity:.45}
+.city-bg .dot{animation:dotPulse 4s infinite ease-in-out}
+.city-bg .line{stroke-dasharray:4 8;animation:lineFlow 20s infinite linear}
+@keyframes dotPulse{0%,100%{opacity:.25}50%{opacity:.95}}
+@keyframes lineFlow{from{stroke-dashoffset:0}to{stroke-dashoffset:-200}}
 
-        .reveal {
-            opacity: 0;
-            transform: translateY(40px);
-            transition: opacity 0.8s ease, transform 0.8s ease;
-        }
-        .reveal.active { opacity: 1; transform: translateY(0); }
+/* ============ REVEAL ============ */
+.reveal{opacity:0;transform:translateY(40px);transition:opacity .8s ease,transform .8s ease}
+.reveal.active{opacity:1;transform:translateY(0)}
 
-        /* ФОНОВАЯ СЕТЬ */
-        .city-bg {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100vw; height: 100vh;
-            z-index: 0;
-            pointer-events: none;
-            overflow: hidden;
-        }
-        .city-bg svg {
-            display: block;
-            width: 100%; height: 100%;
-            opacity: 0.45;
-        }
-        .city-bg .dot { animation: dotPulse 4s infinite ease-in-out; }
-        @keyframes dotPulse {
-            0%, 100% { opacity: 0.25; }
-            50% { opacity: 0.95; }
-        }
-        .city-bg .line {
-            stroke-dasharray: 4 8;
-            animation: lineFlow 20s infinite linear;
-        }
-        @keyframes lineFlow {
-            from { stroke-dashoffset: 0; }
-            to { stroke-dashoffset: -200; }
-        }
+/* ============ NAV ============ */
+nav{
+  position:fixed;top:0;width:100%;z-index:1000;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:1.5rem clamp(1rem,5vw,4rem);
+  background:rgba(15,10,31,.75);
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+  transition:padding var(--t-mid),background var(--t-mid);
+}
+nav.scrolled{padding:.9rem clamp(1rem,5vw,4rem);background:rgba(15,10,31,.95)}
+.logo{font-weight:900;font-size:1.25rem;letter-spacing:1.5px;text-transform:uppercase;color:#fff;display:flex;align-items:center;gap:10px}
+.logo-dot{width:10px;height:10px;background:var(--accent);border-radius:50%;box-shadow:0 0 15px var(--accent);animation:pulse 2s infinite;flex-shrink:0}
+.logo span{color:var(--accent)}
+.nav-links{display:flex;gap:2rem}
+.nav-links a{
+  color:var(--muted);font-size:.85rem;font-weight:600;text-transform:uppercase;letter-spacing:1px;
+  position:relative;padding:.3rem 0;transition:color var(--t-fast);
+}
+.nav-links a::after{content:'';position:absolute;bottom:0;left:0;width:0;height:2px;background:var(--accent);transition:width var(--t-mid)}
+.nav-links a:hover{color:#fff}
+.nav-links a:hover::after,.nav-links a:focus-visible::after{width:100%}
+.nav-toggle{display:none;width:44px;height:44px;border-radius:10px;background:rgba(255,255,255,.06);border:1px solid var(--border);align-items:center;justify-content:center}
+.nav-toggle svg{width:22px;height:22px;fill:var(--text)}
+@media(max-width:992px){
+  .nav-links{display:none}
+  .nav-toggle{display:flex}
+  nav.mobile-open .nav-links{
+    display:flex;flex-direction:column;gap:0;
+    position:absolute;top:100%;left:0;width:100%;
+    background:rgba(15,10,31,.98);padding:1rem 5%;border-bottom:1px solid var(--border);
+  }
+  nav.mobile-open .nav-links a{padding:.9rem 0;border-bottom:1px solid var(--border);font-size:1rem}
+  nav.mobile-open .nav-links a:last-child{border-bottom:none}
+}
 
-        /* НАВИГАЦИЯ */
-        nav {
-            position: fixed;
-            top: 0; width: 100%;
-            padding: 1.5rem 5%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: rgba(15, 10, 31, 0.75);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--border-color);
-            z-index: 1000;
-            transition: var(--transition);
-        }
-        nav.scrolled { padding: 1rem 5%; background: rgba(15, 10, 31, 0.95); }
+/* ============ HERO ============ */
+.hero{
+  min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;
+  padding:8rem clamp(1rem,5vw,4rem) 4rem;position:relative;z-index:2;
+}
+.hero-content{max-width:900px;z-index:2}
+.hero-tagline{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:.5rem 1.2rem;border-radius:var(--r-pill);
+  background:rgba(183,148,246,.12);border:1px solid var(--border-strong);
+  color:var(--accent);font-size:.75rem;font-weight:600;text-transform:uppercase;letter-spacing:2.5px;margin-bottom:2rem;
+}
+.hero-tagline::before{content:'';width:6px;height:6px;background:var(--accent);border-radius:50%;box-shadow:0 0 8px var(--accent)}
+h1{font-size:clamp(2.5rem,6vw,5rem);font-weight:900;line-height:1.05;margin-bottom:1.5rem;color:#fff;letter-spacing:-.02em}
+h1 span{background:linear-gradient(135deg,var(--accent-light),var(--accent),var(--accent-dark));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.hero-description{font-size:clamp(1rem,1.5vw,1.2rem);color:var(--muted);margin-bottom:2.5rem;max-width:650px;margin-left:auto;margin-right:auto}
+.hero-buttons{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+.btn-primary,.btn-secondary{
+  display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  padding:1rem 2rem;border-radius:var(--r-pill);font-weight:700;font-size:.9rem;
+  text-transform:uppercase;letter-spacing:.5px;transition:transform var(--t-fast),box-shadow var(--t-fast),background var(--t-fast);
+  white-space:nowrap;border:1px solid transparent;
+}
+.btn-primary{background:linear-gradient(135deg,var(--accent),var(--accent-dark));color:#fff;box-shadow:var(--shadow-accent)}
+.btn-primary:hover{transform:translateY(-3px);box-shadow:0 15px 40px rgba(128,90,213,.6)}
+.btn-secondary{background:transparent;color:var(--accent);border-color:var(--accent)}
+.btn-secondary:hover{background:rgba(183,148,246,.12);transform:translateY(-3px)}
+.btn-primary svg,.btn-secondary svg{width:18px;height:18px;fill:currentColor}
 
-        .logo {
-            font-weight: 900;
-            font-size: 1.3rem;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-            color: #fff;
-            display: flex; align-items: center; gap: 10px;
-            text-decoration: none;
-        }
-        .logo-dot {
-            width: 10px; height: 10px;
-            background: var(--accent);
-            border-radius: 50%;
-            box-shadow: 0 0 15px var(--accent);
-            animation: pulse 2s infinite;
-        }
-        .logo span { color: var(--accent); }
+/* ============ СЕКЦИИ ============ */
+section{content-visibility:auto;contain-intrinsic-size:auto 800px;position:relative;z-index:2}
+.section{padding:var(--sp-7) clamp(1rem,5vw,4rem);max-width:var(--container);margin:0 auto}
+.section-header{text-align:center;margin-bottom:5rem}
+.section-tagline{
+  display:inline-block;padding:.4rem 1rem;border-radius:var(--r-pill);
+  background:rgba(183,148,246,.1);border:1px solid rgba(183,148,246,.3);
+  color:var(--accent);font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:2px;margin-bottom:1rem;
+}
+.section-header h2{font-size:clamp(1.8rem,4vw,3rem);font-weight:800;margin-bottom:1rem;color:#fff;letter-spacing:-.01em}
+.section-header p{color:var(--muted);max-width:650px;margin:0 auto;font-size:1.05rem}
 
-        .nav-links { display: flex; gap: 2rem; }
-        .nav-links a {
-            color: var(--text-muted);
-            text-decoration: none;
-            font-size: 0.85rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: var(--transition);
-            position: relative;
-        }
-        .nav-links a::after {
-            content: ''; position: absolute; bottom: -5px; left: 0;
-            width: 0; height: 2px;
-            background: var(--accent);
-            transition: var(--transition);
-        }
-        .nav-links a:hover { color: #fff; }
-        .nav-links a:hover::after { width: 100%; }
+/* ABOUT */
+.about-section{background:linear-gradient(180deg,transparent,rgba(128,90,213,.05),transparent);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
+.about-text h2{font-size:clamp(1.6rem,3vw,2.2rem);font-weight:800;margin-bottom:1.5rem;color:#fff}
+.about-text p{color:var(--muted);font-size:1.05rem;margin-bottom:1.2rem}
+.about-quote{
+  padding:1.8rem;background:var(--surface);border-left:4px solid var(--accent);
+  border-radius:0 var(--r-md) var(--r-md) 0;font-style:italic;color:#d6c8f0;margin-top:2rem;backdrop-filter:blur(10px);
+}
+.about-stats{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+.stat-block{
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);
+  padding:2rem 1.5rem;text-align:center;transition:transform var(--t-mid),border-color var(--t-mid),box-shadow var(--t-mid);backdrop-filter:blur(10px);
+}
+.stat-block:hover{transform:translateY(-5px);border-color:var(--accent);box-shadow:0 15px 40px rgba(128,90,213,.2)}
+.stat-block .icon{font-size:2rem;margin-bottom:.8rem}
+.stat-block h4{font-size:1.8rem;font-weight:900;color:var(--accent);margin-bottom:.3rem}
+.stat-block p{font-size:.8rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px}
 
-        /* ГЛАВНЫЙ ЭКРАН */
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 8rem 5% 4rem;
-            position: relative;
-            z-index: 2;
-        }
-        .hero-content { max-width: 900px; z-index: 2; }
-        .hero-tagline {
-            display: inline-block;
-            padding: 0.5rem 1.2rem;
-            border-radius: 50px;
-            background: rgba(183, 148, 246, 0.12);
-            border: 1px solid rgba(183, 148, 246, 0.4);
-            color: var(--accent);
-            font-size: 0.8rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 2.5px;
-            margin-bottom: 2rem;
-        }
-        h1 {
-            font-size: clamp(2.8rem, 6vw, 5rem);
-            font-weight: 900;
-            line-height: 1.05;
-            margin-bottom: 1.5rem;
-            color: #fff;
-        }
-        h1 span {
-            background: linear-gradient(135deg, var(--accent-light), var(--accent), var(--accent-dark));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        .hero-description {
-            font-size: 1.2rem;
-            color: var(--text-muted);
-            margin-bottom: 3rem;
-            max-width: 650px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        .hero-buttons {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-        .btn-primary, .btn-secondary {
-            padding: 1rem 2rem;
-            border-radius: 50px;
-            font-family: inherit;
-            font-weight: 700;
-            font-size: 0.95rem;
-            text-decoration: none;
-            cursor: pointer;
-            transition: var(--transition);
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            letter-spacing: 0.5px;
-            border: 1px solid transparent;
-        }
-        .btn-primary {
-            background: linear-gradient(135deg, var(--accent), var(--accent-dark));
-            color: #fff;
-            box-shadow: 0 10px 30px rgba(128, 90, 213, 0.4);
-        }
-        .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 40px rgba(128, 90, 213, 0.6);
-        }
-        .btn-secondary {
-            background: transparent;
-            color: var(--accent);
-            border-color: var(--accent);
-        }
-        .btn-secondary:hover {
-            background: rgba(183, 148, 246, 0.12);
-            transform: translateY(-3px);
-        }
-        .btn-primary svg, .btn-secondary svg {
-            width: 18px; height: 18px;
-            fill: currentColor;
-        }
+/* PRODUCTS */
+.products-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:2rem}
+.product-card{
+  background:linear-gradient(145deg,rgba(50,38,78,.8) 0%,rgba(30,22,50,.9) 100%);
+  border:1px solid var(--border);border-radius:var(--r-xl);padding:2.2rem;position:relative;overflow:hidden;
+  transition:transform var(--t-mid),border-color var(--t-mid),box-shadow var(--t-mid);display:flex;flex-direction:column;backdrop-filter:blur(10px);
+}
+.product-card::before{
+  content:'';position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .3s;
+  background:radial-gradient(circle at var(--mx,50%) var(--my,50%),rgba(183,148,246,.15) 0%,transparent 50%);
+}
+.product-card:hover::before{opacity:1}
+.product-card.active{border-color:rgba(183,148,246,.5)}
+.product-card.active:hover{transform:translateY(-8px);border-color:var(--accent);box-shadow:0 25px 60px rgba(128,90,213,.25),0 0 50px rgba(183,148,246,.1)}
+.product-card.soon{opacity:.75}
+.product-card.soon:hover{opacity:.95;transform:translateY(-5px);border-color:rgba(183,148,246,.3)}
+.product-icon{
+  width:70px;height:70px;background:rgba(183,148,246,.15);border:1px solid rgba(183,148,246,.3);
+  border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:2rem;margin-bottom:1.5rem;color:var(--accent);
+}
+.product-card h3{font-size:1.4rem;font-weight:800;color:#fff;margin-bottom:.8rem}
+.product-desc{color:var(--muted);font-size:.95rem;margin-bottom:1.5rem;flex-grow:1}
+.product-badge{
+  display:inline-block;padding:.3rem .8rem;border-radius:var(--r-pill);font-size:.7rem;font-weight:700;
+  text-transform:uppercase;letter-spacing:1px;margin-bottom:1rem;width:fit-content;
+}
+.badge-active{background:rgba(104,211,145,.15);border:1px solid rgba(104,211,145,.4);color:var(--green)}
+.badge-soon{background:rgba(246,224,94,.12);border:1px solid rgba(246,224,94,.35);color:var(--yellow)}
+.product-link{
+  display:inline-flex;align-items:center;gap:8px;padding:.8rem 1.5rem;border-radius:var(--r-pill);
+  background:linear-gradient(135deg,var(--accent),var(--accent-dark));color:#fff;font-weight:700;font-size:.85rem;
+  transition:transform var(--t-fast),box-shadow var(--t-fast);width:fit-content;box-shadow:0 8px 25px rgba(128,90,213,.35);
+}
+.product-link:hover{transform:translateX(5px);box-shadow:0 10px 30px rgba(128,90,213,.55)}
+.product-link svg{width:16px;height:16px;fill:currentColor}
+.product-status{
+  display:inline-flex;align-items:center;gap:8px;padding:.8rem 1.5rem;border-radius:var(--r-pill);
+  background:rgba(255,255,255,.05);border:1px solid var(--border);color:var(--muted);font-weight:600;font-size:.85rem;width:fit-content;
+}
+.product-status svg{width:14px;height:14px;fill:var(--yellow)}
 
-        /* ОБЩИЕ СЕКЦИИ */
-        .section {
-            padding: 7rem 5%;
-            max-width: 1400px;
-            margin: 0 auto;
-            position: relative;
-            z-index: 2;
-        }
-        .section-header {
-            text-align: center;
-            margin-bottom: 5rem;
-        }
-        .section-tagline {
-            display: inline-block;
-            padding: 0.4rem 1rem;
-            border-radius: 50px;
-            background: rgba(183, 148, 246, 0.1);
-            border: 1px solid rgba(183, 148, 246, 0.3);
-            color: var(--accent);
-            font-size: 0.75rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 1rem;
-        }
-        .section-header h2 {
-            font-size: clamp(2rem, 4vw, 3rem);
-            font-weight: 800;
-            margin-bottom: 1rem;
-            color: #fff;
-        }
-        .section-header p {
-            color: var(--text-muted);
-            max-width: 650px;
-            margin: 0 auto;
-            font-size: 1.05rem;
-        }
+/* MISSION */
+.mission-section{background:linear-gradient(180deg,transparent,rgba(128,90,213,.06),transparent);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.mission-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:2rem}
+.mission-card{
+  padding:2.5rem 2rem;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);
+  text-align:center;transition:transform var(--t-mid),border-color var(--t-mid),box-shadow var(--t-mid);backdrop-filter:blur(10px);
+}
+.mission-card:hover{transform:translateY(-8px);border-color:var(--accent);box-shadow:0 20px 50px rgba(128,90,213,.25)}
+.mission-icon{
+  width:70px;height:70px;margin:0 auto 1.5rem;border-radius:50%;
+  background:rgba(183,148,246,.15);border:2px solid rgba(183,148,246,.3);
+  display:flex;align-items:center;justify-content:center;font-size:2rem;transition:background var(--t-mid),box-shadow var(--t-mid);
+}
+.mission-card:hover .mission-icon{background:rgba(183,148,246,.25);box-shadow:0 0 30px rgba(183,148,246,.4)}
+.mission-card h3{font-size:1.2rem;font-weight:700;color:#fff;margin-bottom:.8rem}
+.mission-card p{color:var(--muted);font-size:.95rem}
 
-        /* О КОМПАНИИ */
-        .about-section {
-            background: linear-gradient(180deg, transparent, rgba(128, 90, 213, 0.05), transparent);
-            border-top: 1px solid var(--border-color);
-            border-bottom: 1px solid var(--border-color);
-            position: relative;
-            z-index: 2;
-        }
-        .about-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            align-items: center;
-        }
-        .about-text h2 {
-            font-size: 2.2rem;
-            font-weight: 800;
-            margin-bottom: 1.5rem;
-            color: #fff;
-        }
-        .about-text p {
-            color: var(--text-muted);
-            font-size: 1.05rem;
-            margin-bottom: 1.2rem;
-        }
-        .about-quote {
-            padding: 1.8rem;
-            background: var(--bg-card);
-            border-left: 4px solid var(--accent);
-            border-radius: 0 16px 16px 0;
-            font-style: italic;
-            color: #d6c8f0;
-            margin-top: 2rem;
-        }
-        .about-stats {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1.5rem;
-        }
-        .stat-block {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 2rem 1.5rem;
-            text-align: center;
-            transition: var(--transition);
-            backdrop-filter: blur(10px);
-        }
-        .stat-block:hover {
-            transform: translateY(-5px);
-            border-color: var(--accent);
-            box-shadow: 0 15px 40px rgba(128, 90, 213, 0.2);
-        }
-        .stat-block .icon { font-size: 2rem; margin-bottom: 0.8rem; }
-        .stat-block h4 {
-            font-size: 1.8rem;
-            font-weight: 900;
-            color: var(--accent);
-            margin-bottom: 0.3rem;
-        }
-        .stat-block p {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
+/* UPDATES */
+.updates-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:2rem;max-width:1100px;margin:0 auto}
+.update-card{
+  display:flex;gap:1.5rem;padding:2rem;background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--r-lg);transition:transform var(--t-mid),border-color var(--t-mid),box-shadow var(--t-mid);backdrop-filter:blur(10px);
+}
+.update-card:hover{border-color:var(--accent);transform:translateX(5px);box-shadow:0 15px 40px rgba(128,90,213,.2)}
+.update-date{
+  flex-shrink:0;width:70px;height:70px;border-radius:var(--r-md);
+  background:rgba(183,148,246,.12);border:1px solid rgba(183,148,246,.3);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--accent);
+}
+.update-date .day{font-size:1.5rem;font-weight:900;line-height:1}
+.update-date .month{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-top:4px}
+.update-content h4{font-size:1.05rem;font-weight:700;color:#fff;margin-bottom:.4rem}
+.update-content p{color:var(--muted);font-size:.9rem}
+.update-tag{
+  display:inline-block;padding:.2rem .7rem;border-radius:var(--r-pill);
+  background:rgba(183,148,246,.15);color:var(--accent);font-size:.68rem;font-weight:700;
+  text-transform:uppercase;letter-spacing:1px;margin-bottom:.6rem;
+}
 
-        /* ТЕХНОЛОГИИ */
-        .products-section { position: relative; z-index: 2; }
-        .products-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 2rem;
-        }
-        .product-card {
-            background: linear-gradient(145deg, rgba(50, 38, 78, 0.8) 0%, rgba(30, 22, 50, 0.9) 100%);
-            border: 1px solid var(--border-color);
-            border-radius: 24px;
-            padding: 2.5rem;
-            position: relative;
-            overflow: hidden;
-            transition: var(--transition);
-            display: flex;
-            flex-direction: column;
-            backdrop-filter: blur(10px);
-        }
-        .product-card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(183, 148, 246, 0.15) 0%, transparent 50%);
-            opacity: 0;
-            transition: opacity 0.3s;
-            pointer-events: none;
-        }
-        .product-card:hover::before { opacity: 1; }
-        .product-card.active { border-color: rgba(183, 148, 246, 0.5); }
-        .product-card.active:hover {
-            transform: translateY(-8px);
-            border-color: var(--accent);
-            box-shadow: 0 25px 60px rgba(128, 90, 213, 0.25), 0 0 50px rgba(183, 148, 246, 0.1);
-        }
-        .product-card.soon { opacity: 0.75; }
-        .product-card.soon:hover {
-            opacity: 0.95;
-            transform: translateY(-5px);
-            border-color: rgba(183, 148, 246, 0.3);
-        }
+/* TEAM */
+.team-section{background:linear-gradient(180deg,transparent,rgba(128,90,213,.04),transparent);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.team-content{max-width:900px;margin:0 auto;text-align:center}
+.team-content p{color:var(--muted);font-size:1.05rem;margin-bottom:1.2rem;line-height:1.8}
+.team-values{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1.5rem;margin-top:3rem}
+.value-item{
+  padding:1.5rem;background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--r-md);transition:transform var(--t-mid),border-color var(--t-mid);
+}
+.value-item:hover{border-color:var(--accent);transform:translateY(-5px)}
+.value-item .value-icon{font-size:1.8rem;margin-bottom:.6rem}
+.value-item h5{color:#fff;font-size:1rem;font-weight:700;margin-bottom:.3rem}
+.value-item p{color:var(--muted);font-size:.85rem;margin-bottom:0}
 
-        .product-icon {
-            width: 70px; height: 70px;
-            background: rgba(183, 148, 246, 0.15);
-            border: 1px solid rgba(183, 148, 246, 0.3);
-            border-radius: 18px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 2rem;
-            margin-bottom: 1.5rem;
-            color: var(--accent);
-        }
-        .product-card h3 {
-            font-size: 1.5rem;
-            font-weight: 800;
-            color: #fff;
-            margin-bottom: 0.8rem;
-        }
-        .product-card .product-desc {
-            color: var(--text-muted);
-            font-size: 0.98rem;
-            margin-bottom: 1.5rem;
-            flex-grow: 1;
-        }
-        .product-badge {
-            display: inline-block;
-            padding: 0.3rem 0.8rem;
-            border-radius: 50px;
-            font-size: 0.7rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 1rem;
-            width: fit-content;
-        }
-        .badge-active {
-            background: rgba(104, 211, 145, 0.15);
-            border: 1px solid rgba(104, 211, 145, 0.4);
-            color: var(--accent-green);
-        }
-        .badge-soon {
-            background: rgba(246, 224, 94, 0.12);
-            border: 1px solid rgba(246, 224, 94, 0.35);
-            color: var(--accent-yellow);
-        }
-        .product-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 0.8rem 1.5rem;
-            border-radius: 50px;
-            background: linear-gradient(135deg, var(--accent), var(--accent-dark));
-            color: #fff;
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 0.9rem;
-            transition: var(--transition);
-            width: fit-content;
-            box-shadow: 0 8px 25px rgba(128, 90, 213, 0.35);
-        }
-        .product-link:hover {
-            transform: translateX(5px);
-            box-shadow: 0 10px 30px rgba(128, 90, 213, 0.55);
-        }
-        .product-link svg { width: 16px; height: 16px; fill: currentColor; }
-        .product-status {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 0.8rem 1.5rem;
-            border-radius: 50px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--border-color);
-            color: var(--text-muted);
-            font-weight: 600;
-            font-size: 0.85rem;
-            width: fit-content;
-        }
-        .product-status svg { width: 14px; height: 14px; fill: var(--accent-yellow); }
+/* FOOTER */
+footer{
+  padding:3.5rem clamp(1rem,5vw,4rem) 2rem;background:rgba(8,5,18,.95);
+  border-top:1px solid var(--border);text-align:center;position:relative;z-index:2;
+}
+.footer-logo{font-size:1.5rem;font-weight:900;letter-spacing:2px;margin-bottom:.8rem;color:#fff}
+.footer-logo span{color:var(--accent)}
+.footer-text{color:var(--muted);font-size:.9rem;margin-bottom:1.5rem;max-width:500px;margin-left:auto;margin-right:auto}
+.footer-links{display:flex;justify-content:center;gap:2rem;margin-bottom:1.5rem;flex-wrap:wrap}
+.footer-links a{color:var(--muted);font-size:.9rem;transition:color var(--t-fast)}
+.footer-links a:hover{color:var(--accent)}
+.copyright{color:var(--dim);font-size:.8rem;border-top:1px solid var(--border);padding-top:1.5rem;margin-top:1.5rem}
 
-        /* МИССИЯ */
-        .mission-section {
-            background: linear-gradient(180deg, transparent, rgba(128, 90, 213, 0.06), transparent);
-            border-top: 1px solid var(--border-color);
-            border-bottom: 1px solid var(--border-color);
-            position: relative;
-            z-index: 2;
-        }
-        .mission-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 2rem;
-        }
-        .mission-card {
-            padding: 2.5rem 2rem;
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 20px;
-            text-align: center;
-            transition: var(--transition);
-            backdrop-filter: blur(10px);
-        }
-        .mission-card:hover {
-            transform: translateY(-8px);
-            border-color: var(--accent);
-            box-shadow: 0 20px 50px rgba(128, 90, 213, 0.25);
-        }
-        .mission-icon {
-            width: 70px; height: 70px;
-            margin: 0 auto 1.5rem;
-            border-radius: 50%;
-            background: rgba(183, 148, 246, 0.15);
-            border: 2px solid rgba(183, 148, 246, 0.3);
-            display: flex; align-items: center; justify-content: center;
-            font-size: 2rem;
-            transition: var(--transition);
-        }
-        .mission-card:hover .mission-icon {
-            background: rgba(183, 148, 246, 0.25);
-            box-shadow: 0 0 30px rgba(183, 148, 246, 0.4);
-        }
-        .mission-card h3 {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: #fff;
-            margin-bottom: 0.8rem;
-        }
-        .mission-card p { color: var(--text-muted); font-size: 0.95rem; }
+/* ============ ИИ-ВИДЖЕТ ============ */
+.ai-widget{position:fixed;bottom:20px;right:20px;z-index:2500}
+.ai-toggle{
+  width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent-dark));
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 8px 25px rgba(128,90,213,.5),0 0 30px rgba(183,148,246,.3);
+  transition:transform .3s var(--ease),box-shadow .3s var(--ease);position:relative;
+}
+.ai-toggle:hover{transform:scale(1.08);box-shadow:0 10px 30px rgba(128,90,213,.7),0 0 40px rgba(183,148,246,.4)}
+.ai-toggle svg{width:26px;height:26px;fill:#fff;position:absolute;transition:opacity .3s var(--ease),transform .3s var(--ease)}
+.ai-icon-close{opacity:0;transform:rotate(-90deg)}
+.ai-widget.open .ai-icon-chat{opacity:0;transform:rotate(90deg)}
+.ai-widget.open .ai-icon-close{opacity:1;transform:rotate(0)}
+.ai-toggle::before{content:'';position:absolute;inset:-5px;border-radius:50%;border:2px solid var(--accent);opacity:0;animation:aiPulse 2.5s infinite}
+.ai-panel{
+  position:absolute;bottom:75px;right:0;width:400px;height:560px;
+  background:linear-gradient(145deg,rgba(30,22,55,.98) 0%,rgba(18,12,35,.98) 100%);
+  border:1px solid var(--border);border-radius:var(--r-lg);
+  box-shadow:0 20px 60px rgba(0,0,0,.6),0 0 40px rgba(183,148,246,.15);
+  display:flex;flex-direction:column;overflow:hidden;
+  opacity:0;transform:translateY(20px) scale(.95);transform-origin:bottom right;
+  pointer-events:none;transition:opacity .3s var(--ease),transform .3s var(--ease);backdrop-filter:blur(20px);
+}
+.ai-widget.open .ai-panel{opacity:1;transform:translateY(0) scale(1);pointer-events:all}
+.ai-header{padding:1rem 1.2rem;background:rgba(183,148,246,.1);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px}
+.ai-avatar{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent-dark));display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ai-avatar svg{width:22px;height:22px;fill:#fff}
+.ai-header-info{flex:1;min-width:0}
+.ai-header-info h4{color:#fff;font-size:.95rem;font-weight:700;margin-bottom:1px}
+.ai-header-info p{color:var(--muted);font-size:.75rem;display:flex;align-items:center;gap:6px}
+.ai-status-dot{width:8px;height:8px;background:var(--green);border-radius:50%;box-shadow:0 0 8px var(--green);animation:aiBlink 2s infinite}
+.ai-header-actions{display:flex;gap:4px}
+.ai-icon-btn{background:transparent;padding:6px;border-radius:8px;display:flex;align-items:center;justify-content:center;transition:background var(--t-fast)}
+.ai-icon-btn:hover{background:rgba(255,255,255,.08)}
+.ai-icon-btn svg{width:16px;height:16px;fill:var(--muted)}
+.ai-messages{flex:1;overflow-y:auto;padding:1rem;display:flex;flex-direction:column;gap:10px;scrollbar-width:thin;scrollbar-color:rgba(183,148,246,.3) transparent}
+.ai-messages::-webkit-scrollbar{width:6px}
+.ai-messages::-webkit-scrollbar-thumb{background:rgba(183,148,246,.3);border-radius:3px}
+.ai-message{max-width:88%;padding:.7rem 1rem;border-radius:14px;font-size:.9rem;line-height:1.5;animation:aiMessageIn .3s var(--ease);word-wrap:break-word}
+.ai-message.bot{align-self:flex-start;background:rgba(183,148,246,.12);border:1px solid rgba(183,148,246,.25);color:var(--text);border-bottom-left-radius:4px}
+.ai-message.user{align-self:flex-end;background:linear-gradient(135deg,var(--accent),var(--accent-dark));color:#fff;border-bottom-right-radius:4px;font-weight:500}
+.ai-message.typing{display:flex;gap:4px;padding:.9rem 1rem}
+.ai-message.typing span{width:7px;height:7px;background:var(--accent);border-radius:50%;animation:aiTyping 1.4s infinite}
+.ai-message.typing span:nth-child(2){animation-delay:.2s}
+.ai-message.typing span:nth-child(3){animation-delay:.4s}
+.ai-suggestions{padding:0 1rem .5rem;display:flex;flex-wrap:wrap;gap:6px}
+.ai-suggestion{
+  padding:.35rem .75rem;background:rgba(255,255,255,.05);border:1px solid var(--border);
+  color:var(--accent);border-radius:var(--r-pill);font-size:.72rem;
+  transition:background var(--t-fast),border-color var(--t-fast);white-space:nowrap;
+}
+.ai-suggestion:hover{background:rgba(183,148,246,.15);border-color:var(--accent)}
+.ai-input-form{display:flex;gap:8px;padding:.8rem 1rem;border-top:1px solid var(--border);background:rgba(0,0,0,.2)}
+.ai-input{
+  flex:1;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:var(--r-pill);
+  padding:.6rem 1rem;color:#fff;font-family:inherit;font-size:.9rem;outline:none;
+  transition:border-color var(--t-fast),box-shadow var(--t-fast);min-width:0;
+}
+.ai-input::placeholder{color:var(--muted)}
+.ai-input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(183,148,246,.15)}
+.ai-send{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent-dark));display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform var(--t-fast),box-shadow var(--t-fast)}
+.ai-send:hover{transform:scale(1.08);box-shadow:0 0 15px rgba(183,148,246,.6)}
+.ai-send svg{width:18px;height:18px;fill:#fff;margin-left:2px}
 
-        /* ОБНОВЛЕНИЯ */
-        .updates-section { position: relative; z-index: 2; }
-        .updates-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-            gap: 2rem;
-            max-width: 1100px;
-            margin: 0 auto;
-        }
-        .update-card {
-            display: flex;
-            gap: 1.5rem;
-            padding: 2rem;
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 20px;
-            transition: var(--transition);
-            backdrop-filter: blur(10px);
-        }
-        .update-card:hover {
-            border-color: var(--accent);
-            transform: translateX(5px);
-            box-shadow: 0 15px 40px rgba(128, 90, 213, 0.2);
-        }
-        .update-date {
-            flex-shrink: 0;
-            width: 70px; height: 70px;
-            border-radius: 16px;
-            background: rgba(183, 148, 246, 0.12);
-            border: 1px solid rgba(183, 148, 246, 0.3);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            color: var(--accent);
-        }
-        .update-date .day { font-size: 1.5rem; font-weight: 900; line-height: 1; }
-        .update-date .month {
-            font-size: 0.7rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-top: 4px;
-        }
-        .update-content h4 {
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: #fff;
-            margin-bottom: 0.4rem;
-        }
-        .update-content p { color: var(--text-muted); font-size: 0.9rem; }
-        .update-tag {
-            display: inline-block;
-            padding: 0.2rem 0.7rem;
-            border-radius: 50px;
-            background: rgba(183, 148, 246, 0.15);
-            color: var(--accent);
-            font-size: 0.7rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 0.6rem;
-        }
+/* ============ АДАПТИВ ============ */
+@media(max-width:992px){
+  .about-grid{grid-template-columns:1fr;gap:3rem}
+  .hero-buttons{flex-direction:column;align-items:center}
+  .btn-primary,.btn-secondary{width:100%;max-width:320px}
+}
+@media(max-width:576px){
+  .section{padding:5rem clamp(1rem,5vw,4rem)}
+  .section-header{margin-bottom:3rem}
+  .hero{padding:7rem clamp(1rem,5vw,4rem) 3rem}
+  .about-stats{grid-template-columns:1fr}
+  .product-card{padding:2rem}
+  .update-card{flex-direction:column;gap:1rem}
+  .update-date{width:60px;height:60px}
+  .ai-widget{bottom:15px;right:15px}
+  .ai-toggle{width:55px;height:55px}
+  .ai-panel{width:calc(100vw - 30px);height:calc(100vh - 120px);max-height:520px;right:-10px}
+  .logo{font-size:1rem;letter-spacing:1px}
+}
 
-        /* О НАС */
-        .team-section {
-            background: linear-gradient(180deg, transparent, rgba(128, 90, 213, 0.04), transparent);
-            border-top: 1px solid var(--border-color);
-            border-bottom: 1px solid var(--border-color);
-            position: relative;
-            z-index: 2;
-        }
-        .team-content {
-            max-width: 900px;
-            margin: 0 auto;
-            text-align: center;
-        }
-        .team-content p {
-            color: var(--text-muted);
-            font-size: 1.1rem;
-            margin-bottom: 1.5rem;
-            line-height: 1.8;
-        }
-        .team-values {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
-            margin-top: 3rem;
-        }
-        .value-item {
-            padding: 1.5rem;
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            transition: var(--transition);
-        }
-        .value-item:hover {
-            border-color: var(--accent);
-            transform: translateY(-5px);
-        }
-        .value-item .value-icon { font-size: 1.8rem; margin-bottom: 0.6rem; }
-        .value-item h5 {
-            color: #fff;
-            font-size: 1rem;
-            font-weight: 700;
-            margin-bottom: 0.3rem;
-        }
-        .value-item p { color: var(--text-muted); font-size: 0.85rem; margin-bottom: 0; }
-
-        /* ФУТЕР */
-        footer {
-            padding: 4rem 5% 2rem;
-            background: rgba(8, 5, 18, 0.95);
-            border-top: 1px solid var(--border-color);
-            text-align: center;
-            position: relative;
-            z-index: 2;
-        }
-        .footer-logo {
-            font-size: 1.5rem;
-            font-weight: 900;
-            letter-spacing: 2px;
-            margin-bottom: 1rem;
-            color: #fff;
-        }
-        .footer-logo span { color: var(--accent); }
-        .footer-text {
-            color: var(--text-muted);
-            font-size: 0.9rem;
-            margin-bottom: 2rem;
-            max-width: 500px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        .footer-links {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            margin-bottom: 2rem;
-            flex-wrap: wrap;
-        }
-        .footer-links a {
-            color: var(--text-muted);
-            text-decoration: none;
-            font-size: 0.9rem;
-            transition: var(--transition);
-        }
-        .footer-links a:hover { color: var(--accent); }
-        .copyright {
-            color: #6b5b8a;
-            font-size: 0.8rem;
-            border-top: 1px solid var(--border-color);
-            padding-top: 2rem;
-        }
-
-        /* ИИ-ПОМОЩНИК */
-        .ai-widget {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 2500;
-            font-family: 'Inter', sans-serif;
-        }
-
-        .ai-toggle {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--accent), var(--accent-dark));
-            border: none;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 8px 25px rgba(128, 90, 213, 0.5), 0 0 30px rgba(183, 148, 246, 0.3);
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            position: relative;
-        }
-
-        .ai-toggle:hover {
-            transform: scale(1.08);
-            box-shadow: 0 10px 30px rgba(128, 90, 213, 0.7), 0 0 40px rgba(183, 148, 246, 0.4);
-        }
-
-        .ai-toggle svg {
-            width: 26px; height: 26px;
-            fill: #fff;
-            position: absolute;
-            transition: all 0.3s ease;
-        }
-
-        .ai-icon-close { opacity: 0; transform: rotate(-90deg); }
-        .ai-widget.open .ai-icon-chat { opacity: 0; transform: rotate(90deg); }
-        .ai-widget.open .ai-icon-close { opacity: 1; transform: rotate(0); }
-
-        .ai-toggle::before {
-            content: '';
-            position: absolute;
-            inset: -5px;
-            border-radius: 50%;
-            border: 2px solid var(--accent);
-            opacity: 0;
-            animation: aiPulse 2.5s infinite;
-        }
-
-        @keyframes aiPulse {
-            0% { opacity: 0.6; transform: scale(1); }
-            100% { opacity: 0; transform: scale(1.3); }
-        }
-
-        .ai-panel {
-            position: absolute;
-            bottom: 75px;
-            right: 0;
-            width: 400px;
-            height: 560px;
-            background: linear-gradient(145deg, rgba(30, 22, 55, 0.98) 0%, rgba(18, 12, 35, 0.98) 100%);
-            border: 1px solid var(--border-color);
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), 0 0 40px rgba(183, 148, 246, 0.15);
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            opacity: 0;
-            transform: translateY(20px) scale(0.95);
-            transform-origin: bottom right;
-            pointer-events: none;
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            backdrop-filter: blur(20px);
-        }
-
-        .ai-widget.open .ai-panel {
-            opacity: 1;
-            transform: translateY(0) scale(1);
-            pointer-events: all;
-        }
-
-        .ai-header {
-            padding: 1rem 1.2rem;
-            background: rgba(183, 148, 246, 0.1);
-            border-bottom: 1px solid var(--border-color);
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .ai-avatar {
-            width: 40px; height: 40px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--accent), var(--accent-dark));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-        }
-
-        .ai-avatar svg { width: 22px; height: 22px; fill: #fff; }
-
-        .ai-header-info { flex: 1; }
-        .ai-header-info h4 { color: #fff; font-size: 0.95rem; font-weight: 700; margin-bottom: 2px; }
-        .ai-header-info p {
-            color: var(--text-muted);
-            font-size: 0.75rem;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .ai-status-dot {
-            width: 8px; height: 8px;
-            background: var(--accent-green);
-            border-radius: 50%;
-            box-shadow: 0 0 8px var(--accent-green);
-            animation: aiBlink 2s infinite;
-        }
-
-        @keyframes aiBlink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.4; }
-        }
-
-        .ai-close-btn {
-            background: transparent;
-            border: none;
-            cursor: pointer;
-            padding: 6px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 8px;
-            transition: all 0.2s ease;
-        }
-        .ai-close-btn:hover { background: rgba(255, 255, 255, 0.08); }
-        .ai-close-btn svg { width: 18px; height: 18px; fill: var(--text-muted); }
-
-        .ai-messages {
-            flex: 1;
-            overflow-y: auto;
-            padding: 1rem;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            scrollbar-width: thin;
-            scrollbar-color: rgba(183, 148, 246, 0.3) transparent;
-        }
-        .ai-messages::-webkit-scrollbar { width: 6px; }
-        .ai-messages::-webkit-scrollbar-track { background: transparent; }
-        .ai-messages::-webkit-scrollbar-thumb {
-            background: rgba(183, 148, 246, 0.3);
-            border-radius: 3px;
-        }
-
-        .ai-message {
-            max-width: 85%;
-            padding: 0.7rem 1rem;
-            border-radius: 14px;
-            font-size: 0.9rem;
-            line-height: 1.5;
-            animation: aiMessageIn 0.3s ease;
-            word-wrap: break-word;
-        }
-
-        @keyframes aiMessageIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .ai-message.bot {
-            align-self: flex-start;
-            background: rgba(183, 148, 246, 0.12);
-            border: 1px solid rgba(183, 148, 246, 0.25);
-            color: var(--text-main);
-            border-bottom-left-radius: 4px;
-        }
-
-        .ai-message.user {
-            align-self: flex-end;
-            background: linear-gradient(135deg, var(--accent), var(--accent-dark));
-            color: #fff;
-            border-bottom-right-radius: 4px;
-            font-weight: 500;
-        }
-
-        .ai-message.typing {
-            display: flex;
-            gap: 4px;
-            padding: 0.9rem 1rem;
-        }
-
-        .ai-message.typing span {
-            width: 7px; height: 7px;
-            background: var(--accent);
-            border-radius: 50%;
-            animation: aiTyping 1.4s infinite;
-        }
-        .ai-message.typing span:nth-child(2) { animation-delay: 0.2s; }
-        .ai-message.typing span:nth-child(3) { animation-delay: 0.4s; }
-
-        @keyframes aiTyping {
-            0%, 60%, 100% { opacity: 0.3; transform: translateY(0); }
-            30% { opacity: 1; transform: translateY(-5px); }
-        }
-
-        .ai-suggestions {
-            padding: 0 1rem 0.5rem;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-        }
-
-        .ai-suggestion {
-            padding: 0.4rem 0.8rem;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--border-color);
-            color: var(--accent);
-            border-radius: 50px;
-            font-size: 0.75rem;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            font-family: inherit;
-            white-space: nowrap;
-        }
-        .ai-suggestion:hover {
-            background: rgba(183, 148, 246, 0.15);
-            border-color: var(--accent);
-        }
-
-        .ai-input-form {
-            display: flex;
-            gap: 8px;
-            padding: 0.8rem 1rem;
-            border-top: 1px solid var(--border-color);
-            background: rgba(0, 0, 0, 0.2);
-        }
-
-        .ai-input {
-            flex: 1;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--border-color);
-            border-radius: 50px;
-            padding: 0.6rem 1rem;
-            color: #fff;
-            font-family: inherit;
-            font-size: 0.9rem;
-            outline: none;
-            transition: all 0.2s ease;
-        }
-        .ai-input::placeholder { color: var(--text-muted); }
-        .ai-input:focus {
-            border-color: var(--accent);
-            box-shadow: 0 0 0 3px rgba(183, 148, 246, 0.15);
-        }
-
-        .ai-send {
-            width: 40px; height: 40px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--accent), var(--accent-dark));
-            border: none;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-            transition: all 0.2s ease;
-        }
-        .ai-send:hover {
-            transform: scale(1.08);
-            box-shadow: 0 0 15px rgba(183, 148, 246, 0.6);
-        }
-        .ai-send svg { width: 18px; height: 18px; fill: #fff; margin-left: 2px; }
-
-        /* АДАПТИВНОСТЬ */
-        @media (max-width: 992px) {
-            .nav-links { display: none; }
-            .about-grid { grid-template-columns: 1fr; gap: 3rem; }
-            .hero-buttons { flex-direction: column; align-items: center; }
-            .btn-primary, .btn-secondary { width: 100%; max-width: 320px; justify-content: center; }
-        }
-
-        @media (max-width: 576px) {
-            .section { padding: 5rem 5%; }
-            .section-header { margin-bottom: 3rem; }
-            .hero { padding: 7rem 5% 3rem; }
-            .about-stats { grid-template-columns: 1fr; }
-            .product-card { padding: 2rem; }
-            .update-card { flex-direction: column; gap: 1rem; }
-            .update-date { width: 60px; height: 60px; }
-
-            .ai-widget { bottom: 15px; right: 15px; }
-            .ai-toggle { width: 55px; height: 55px; }
-            .ai-panel {
-                width: calc(100vw - 30px);
-                height: calc(100vh - 120px);
-                max-height: 520px;
-                right: -15px;
-            }
-        }
-
-        @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(183, 148, 246, 0.7); }
-            70% { box-shadow: 0 0 0 12px rgba(183, 148, 246, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(183, 148, 246, 0); }
-        }
-    </style>
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(183,148,246,.7)}70%{box-shadow:0 0 0 12px rgba(183,148,246,0)}100%{box-shadow:0 0 0 0 rgba(183,148,246,0)}}
+@keyframes aiPulse{0%{opacity:.6;transform:scale(1)}100%{opacity:0;transform:scale(1.3)}}
+@keyframes aiBlink{0%,100%{opacity:1}50%{opacity:.4}}
+@keyframes aiMessageIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+@keyframes aiTyping{0%,60%,100%{opacity:.3;transform:translateY(0)}30%{opacity:1;transform:translateY(-5px)}}
+</style>
 </head>
 <body>
 
-    <!-- ФОНОВАЯ СЕТЬ -->
-    <div class="city-bg">
-        <svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice">
-            <g stroke="#b794f6" stroke-width="0.5" fill="none" opacity="0.7">
-                <line class="line" x1="100" y1="150" x2="350" y2="250"/>
-                <line class="line" x1="350" y1="250" x2="600" y2="180"/>
-                <line class="line" x1="600" y1="180" x2="850" y2="300"/>
-                <line class="line" x1="850" y1="300" x2="1100" y2="200"/>
-                <line class="line" x1="150" y1="500" x2="400" y2="450"/>
-                <line class="line" x1="400" y1="450" x2="650" y2="550"/>
-                <line class="line" x1="650" y1="550" x2="900" y2="480"/>
-                <line class="line" x1="900" y1="480" x2="1150" y2="580"/>
-                <line class="line" x1="200" y1="700" x2="500" y2="650"/>
-                <line class="line" x1="500" y1="650" x2="800" y2="720"/>
-                <line class="line" x1="350" y1="250" x2="400" y2="450"/>
-                <line class="line" x1="600" y1="180" x2="650" y2="550"/>
-                <line class="line" x1="850" y1="300" x2="900" y2="480"/>
-            </g>
-            <g fill="#b794f6">
-                <circle class="dot" cx="100" cy="150" r="4"/>
-                <circle class="dot" cx="350" cy="250" r="5" style="animation-delay: 0.5s"/>
-                <circle class="dot" cx="600" cy="180" r="4" style="animation-delay: 1s"/>
-                <circle class="dot" cx="850" cy="300" r="5" style="animation-delay: 1.5s"/>
-                <circle class="dot" cx="1100" cy="200" r="4" style="animation-delay: 2s"/>
-                <circle class="dot" cx="150" cy="500" r="4" style="animation-delay: 0.8s"/>
-                <circle class="dot" cx="400" cy="450" r="5" style="animation-delay: 1.3s"/>
-                <circle class="dot" cx="650" cy="550" r="4" style="animation-delay: 0.3s"/>
-                <circle class="dot" cx="900" cy="480" r="5" style="animation-delay: 1.7s"/>
-                <circle class="dot" cx="1150" cy="580" r="4" style="animation-delay: 0.6s"/>
-                <circle class="dot" cx="200" cy="700" r="4" style="animation-delay: 2.2s"/>
-                <circle class="dot" cx="500" cy="650" r="5" style="animation-delay: 1.1s"/>
-                <circle class="dot" cx="800" cy="720" r="4" style="animation-delay: 0.9s"/>
-            </g>
-        </svg>
+<a href="#hero" class="sr-only">К основному содержимому</a>
+
+<!-- ФОНОВАЯ СЕТЬ -->
+<div class="city-bg" aria-hidden="true">
+  <svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice">
+    <g stroke="#b794f6" stroke-width=".5" fill="none" opacity=".7">
+      <line class="line" x1="100" y1="150" x2="350" y2="250"/>
+      <line class="line" x1="350" y1="250" x2="600" y2="180"/>
+      <line class="line" x1="600" y1="180" x2="850" y2="300"/>
+      <line class="line" x1="850" y1="300" x2="1100" y2="200"/>
+      <line class="line" x1="150" y1="500" x2="400" y2="450"/>
+      <line class="line" x1="400" y1="450" x2="650" y2="550"/>
+      <line class="line" x1="650" y1="550" x2="900" y2="480"/>
+      <line class="line" x1="900" y1="480" x2="1150" y2="580"/>
+      <line class="line" x1="200" y1="700" x2="500" y2="650"/>
+      <line class="line" x1="500" y1="650" x2="800" y2="720"/>
+      <line class="line" x1="350" y1="250" x2="400" y2="450"/>
+      <line class="line" x1="600" y1="180" x2="650" y2="550"/>
+      <line class="line" x1="850" y1="300" x2="900" y2="480"/>
+    </g>
+    <g fill="#b794f6">
+      <circle class="dot" cx="100" cy="150" r="4"/>
+      <circle class="dot" cx="350" cy="250" r="5" style="animation-delay:.5s"/>
+      <circle class="dot" cx="600" cy="180" r="4" style="animation-delay:1s"/>
+      <circle class="dot" cx="850" cy="300" r="5" style="animation-delay:1.5s"/>
+      <circle class="dot" cx="1100" cy="200" r="4" style="animation-delay:2s"/>
+      <circle class="dot" cx="150" cy="500" r="4" style="animation-delay:.8s"/>
+      <circle class="dot" cx="400" cy="450" r="5" style="animation-delay:1.3s"/>
+      <circle class="dot" cx="650" cy="550" r="4" style="animation-delay:.3s"/>
+      <circle class="dot" cx="900" cy="480" r="5" style="animation-delay:1.7s"/>
+      <circle class="dot" cx="1150" cy="580" r="4" style="animation-delay:.6s"/>
+      <circle class="dot" cx="200" cy="700" r="4" style="animation-delay:2.2s"/>
+      <circle class="dot" cx="500" cy="650" r="5" style="animation-delay:1.1s"/>
+      <circle class="dot" cx="800" cy="720" r="4" style="animation-delay:.9s"/>
+    </g>
+  </svg>
+</div>
+
+<!-- НАВИГАЦИЯ -->
+<nav id="navbar" aria-label="Основная навигация">
+  <a href="#hero" class="logo" aria-label="Мой умный город — на главную">
+    <span class="logo-dot" aria-hidden="true"></span>
+    МОЙ <span>УМНЫЙ</span> ГОРОД
+  </a>
+  <div class="nav-links" id="navLinks">
+    <a href="#about">О компании</a>
+    <a href="#products">Технологии</a>
+    <a href="#mission">Миссия</a>
+    <a href="#updates">Обновления</a>
+    <a href="#team">О нас</a>
+  </div>
+  <button class="nav-toggle" id="navToggle" type="button" aria-label="Открыть меню" aria-expanded="false" aria-controls="navLinks">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v2H3V6zm0 5h18v2H3v-2zm0 5h18v2H3v-2z"/></svg>
+  </button>
+</nav>
+
+<!-- HERO -->
+<header class="hero" id="hero">
+  <div class="hero-content reveal">
+    <div class="hero-tagline">Технологии для комфортной жизни</div>
+    <h1>Мой <span>умный город</span></h1>
+    <p class="hero-description">
+      Мы создаём технологии, которые делают город безопаснее, экологичнее
+      и удобнее для жителей. Каждое решение — шаг к городу будущего.
+    </p>
+    <div class="hero-buttons">
+      <a href="#products" class="btn-primary">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        Наши технологии
+      </a>
+      <a href="#about" class="btn-secondary">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11 7h2v2h-2zm0 4h2v6h-2zm1-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/></svg>
+        О компании
+      </a>
     </div>
+  </div>
+</header>
 
-    <!-- НАВИГАЦИЯ -->
-    <nav id="navbar">
-        <a href="#hero" class="logo">
-            <div class="logo-dot"></div>
-            МОЙ <span>УМНЫЙ</span> ГОРОД
-        </a>
-        <div class="nav-links">
-            <a href="#about">О компании</a>
-            <a href="#products">Технологии</a>
-            <a href="#mission">Миссия</a>
-            <a href="#updates">Обновления</a>
-            <a href="#team">О нас</a>
-        </div>
-    </nav>
+<!-- ABOUT -->
+<section id="about" class="section about-section">
+  <div class="about-grid">
+    <div class="about-text reveal">
+      <div class="section-tagline">О компании</div>
+      <h2>Кто мы такие</h2>
+      <p>Мы — команда инженеров и разработчиков, объединённых идеей сделать городскую среду удобнее и безопаснее с помощью технологий.</p>
+      <p>Наш подход — создавать автономные, экологичные и недорогие в обслуживании решения. Мы верим, что «умный город» — это не про сложные системы, а про комфорт каждого жителя.</p>
+      <blockquote class="about-quote">
+        «Технологии должны служить людям, а не наоборот. Мы делаем город, который думает о тебе.»
+      </blockquote>
+    </div>
+    <div class="about-stats reveal">
+      <div class="stat-block"><div class="icon" aria-hidden="true">💡</div><h4>1+</h4><p>Готовых продукта</p></div>
+      <div class="stat-block"><div class="icon" aria-hidden="true">🚀</div><h4>3+</h4><p>В разработке</p></div>
+      <div class="stat-block"><div class="icon" aria-hidden="true">🌱</div><h4>100%</h4><p>Экологично</p></div>
+      <div class="stat-block"><div class="icon" aria-hidden="true">♻️</div><h4>−70%</h4><p>Экономия энергии</p></div>
+    </div>
+  </div>
+</section>
 
-    <!-- ГЛАВНЫЙ ЭКРАН -->
-    <header class="hero" id="hero">
-        <div class="hero-content reveal">
-            <div class="hero-tagline">Технологии для комфортной жизни</div>
-            <h1>Мой <span>умный город</span></h1>
-            <p class="hero-description">
-                Мы создаём технологии, которые делают город безопаснее, экологичнее 
-                и удобнее для жителей. Каждое решение — шаг к городу будущего.
-            </p>
-            <div class="hero-buttons">
-                <a href="#products" class="btn-primary">
-                    <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                    Наши технологии
-                </a>
-                <a href="#about" class="btn-secondary">
-                    <svg viewBox="0 0 24 24"><path d="M11 7h2v2h-2zm0 4h2v6h-2zm1-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/></svg>
-                    О компании
-                </a>
-            </div>
-        </div>
-    </header>
+<!-- PRODUCTS -->
+<section id="products" class="section products-section">
+  <div class="section-header reveal">
+    <div class="section-tagline">Наши технологии</div>
+    <h2>Продукты и решения</h2>
+    <p>Каждое решение создаётся с заботой о жителях, экологии и городском бюджете</p>
+  </div>
+  <div class="products-grid">
+    <div class="product-card active reveal">
+      <div class="product-badge badge-active">● Доступно</div>
+      <div class="product-icon" aria-hidden="true">💡</div>
+      <h3>Умный свет</h3>
+      <p class="product-desc">Адаптивная система освещения для городских парков. Свет реагирует на движение, экономит до 70% энергии и создаёт эффект «бегущей волны» перед пешеходом.</p>
+      <a href="https://filatov-g.github.io/smart-light/" class="product-link" target="_blank" rel="noopener">
+        Подробнее
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
+      </a>
+    </div>
+    <div class="product-card soon reveal" style="transition-delay:.1s">
+      <div class="product-badge badge-soon">● В разработке</div>
+      <div class="product-icon" aria-hidden="true">🚏</div>
+      <h3>Умные остановки</h3>
+      <p class="product-desc">Остановки с солнечными панелями, зарядкой для телефонов, Wi-Fi и табло прибытия транспорта в реальном времени.</p>
+      <div class="product-status">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
+        Скоро
+      </div>
+    </div>
+    <div class="product-card soon reveal" style="transition-delay:.2s">
+      <div class="product-badge badge-soon">● В разработке</div>
+      <div class="product-icon" aria-hidden="true">🌬️</div>
+      <h3>Датчики воздуха</h3>
+      <p class="product-desc">Сеть датчиков, отслеживающих качество воздуха в реальном времени. Данные — на карте города в приложении.</p>
+      <div class="product-status">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
+        Скоро
+      </div>
+    </div>
+    <div class="product-card soon reveal" style="transition-delay:.3s">
+      <div class="product-badge badge-soon">● В разработке</div>
+      <div class="product-icon" aria-hidden="true">🅿️</div>
+      <h3>Умные парковки</h3>
+      <p class="product-desc">Система мониторинга свободных мест. Водитель видит, где припарковаться, ещё до въезда на стоянку.</p>
+      <div class="product-status">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
+        Скоро
+      </div>
+    </div>
+  </div>
+</section>
 
-    <!-- О КОМПАНИИ -->
-    <section id="about" class="section about-section">
-        <div class="about-grid">
-            <div class="about-text reveal">
-                <div class="section-tagline">О компании</div>
-                <h2>Кто мы такие</h2>
-                <p>Мы — команда инженеров и разработчиков, объединённых идеей сделать городскую среду удобнее и безопаснее с помощью технологий.</p>
-                <p>Наш подход — создавать автономные, экологичные и недорогие в обслуживании решения. Мы верим, что «умный город» — это не про сложные системы, а про комфорт каждого жителя.</p>
-                <div class="about-quote">
-                    «Технологии должны служить людям, а не наоборот. Мы делаем город, который думает о тебе.»
-                </div>
-            </div>
-            <div class="about-stats reveal">
-                <div class="stat-block">
-                    <div class="icon">💡</div>
-                    <h4>1+</h4>
-                    <p>Готовых продукта</p>
-                </div>
-                <div class="stat-block">
-                    <div class="icon">🚀</div>
-                    <h4>3+</h4>
-                    <p>В разработке</p>
-                </div>
-                <div class="stat-block">
-                    <div class="icon">🌱</div>
-                    <h4>100%</h4>
-                    <p>Экологично</p>
-                </div>
-                <div class="stat-block">
-                    <div class="icon">♻️</div>
-                    <h4>−70%</h4>
-                    <p>Экономия энергии</p>
-                </div>
-            </div>
-        </div>
-    </section>
+<!-- MISSION -->
+<section id="mission" class="section mission-section">
+  <div class="section-header reveal">
+    <div class="section-tagline">Наша миссия</div>
+    <h2>Город, который думает о тебе</h2>
+    <p>Мы работаем по трём ключевым направлениям, чтобы город стал по-настоящему удобным</p>
+  </div>
+  <div class="mission-grid">
+    <div class="mission-card reveal">
+      <div class="mission-icon" aria-hidden="true">🛡️</div>
+      <h3>Безопасность</h3>
+      <p>Освещение, видеонаблюдение и датчики помогают жителям чувствовать себя в безопасности в любое время суток.</p>
+    </div>
+    <div class="mission-card reveal" style="transition-delay:.1s">
+      <div class="mission-icon" aria-hidden="true">🌱</div>
+      <h3>Экология</h3>
+      <p>Солнечная энергия, экономия ресурсов и минимальное воздействие на природу — базовые принципы каждого нашего продукта.</p>
+    </div>
+    <div class="mission-card reveal" style="transition-delay:.2s">
+      <div class="mission-icon" aria-hidden="true">😊</div>
+      <h3>Комфорт</h3>
+      <p>Технологии должны быть незаметны, но ощутимы. Мы делаем город удобнее без сложных интерфейсов и лишних усилий.</p>
+    </div>
+  </div>
+</section>
 
-    <!-- НАШИ ТЕХНОЛОГИИ -->
-    <section id="products" class="section products-section">
-        <div class="section-header reveal">
-            <div class="section-tagline">Наши технологии</div>
-            <h2>Продукты и решения</h2>
-            <p>Каждое решение создаётся с заботой о жителях, экологии и городском бюджете</p>
-        </div>
+<!-- UPDATES -->
+<section id="updates" class="section updates-section">
+  <div class="section-header reveal">
+    <div class="section-tagline">Обновления</div>
+    <h2>Что нового</h2>
+    <p>Мы регулярно выпускаем улучшения и новые функции для наших продуктов</p>
+  </div>
+  <div class="updates-grid">
+    <div class="update-card reveal">
+      <div class="update-date"><span class="day">12</span><span class="month">Янв</span></div>
+      <div class="update-content">
+        <span class="update-tag">Сайт</span>
+        <h4>Запуск «Мой умный город»</h4>
+        <p>Открыт единый портал, где будут собраны все наши технологии. Начало пути к городу будущего.</p>
+      </div>
+    </div>
+    <div class="update-card reveal" style="transition-delay:.1s">
+      <div class="update-date"><span class="day">16</span><span class="month">Янв</span></div>
+      <div class="update-content">
+        <span class="update-tag">Умный свет</span>
+        <h4>Запуск продукта «Умный свет»</h4>
+        <p>Опубликован сайт с интерактивными демонстрациями работы системы освещения: симуляция датчика движения и эффект «бегущей волны».</p>
+      </div>
+    </div>
+    <div class="update-card reveal" style="transition-delay:.2s">
+      <div class="update-date"><span class="day">27</span><span class="month">Янв</span></div>
+      <div class="update-content">
+        <span class="update-tag">Умный свет</span>
+        <h4>Обновление сайта «Умный свет»</h4>
+        <p>Улучшена логика «бегущей волны» — фонари включаются заранее, чтобы человек всегда шёл в освещённой зоне. Добавлен ИИ-помощник.</p>
+      </div>
+    </div>
+    <div class="update-card reveal" style="transition-delay:.3s">
+      <div class="update-date"><span class="day">28</span><span class="month">Янв</span></div>
+      <div class="update-content">
+        <span class="update-tag">Планы</span>
+        <h4>Развитие и новые продукты</h4>
+        <p>Мы продолжаем работу над умными остановками, датчиками воздуха и системой умных парковок. Следите за обновлениями!</p>
+      </div>
+    </div>
+    <div class="update-card reveal" style="transition-delay:.4s">
+      <div class="update-date"><span class="day">11</span><span class="month">Окт 25</span></div>
+      <div class="update-content">
+        <span class="update-tag">Умный свет</span>
+        <h4>Масштабное обновление «Умного света»</h4>
+        <p>Обновлены тарифы на оборудование, настроена автоматическая отправка заявок на почту компании, улучшен ИИ-помощник.</p>
+      </div>
+    </div>
+  </div>
+</section>
 
-        <div class="products-grid">
-            
-            <div class="product-card active reveal">
-                <div class="product-badge badge-active">● Доступно</div>
-                <div class="product-icon">💡</div>
-                <h3>Умный свет</h3>
-                <p class="product-desc">
-                    Адаптивная система освещения для городских парков. Свет реагирует на движение, 
-                    экономит до 70% энергии и создаёт эффект «бегущей волны» перед пешеходом.
-                </p>
-                <a href="https://filatov-g.github.io/smart-light/" class="product-link" target="_blank" rel="noopener">
-                    Подробнее
-                    <svg viewBox="0 0 24 24"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
-                </a>
-            </div>
+<!-- TEAM -->
+<section id="team" class="section team-section">
+  <div class="section-header reveal">
+    <div class="section-tagline">О нас</div>
+    <h2>Команда и ценности</h2>
+    <p>Мы — команда, которая верит, что технологии меняют город к лучшему</p>
+  </div>
+  <div class="team-content reveal">
+    <p>Мы объединились, чтобы создавать технологии, которые действительно нужны людям. Наша цель — превратить обычные городские объекты в умные и полезные системы, доступные каждому городу.</p>
+    <p>Мы открыты к сотрудничеству с муниципалитетами, бизнесом и всеми, кто хочет сделать свой город умнее.</p>
+    <div class="team-values">
+      <div class="value-item"><div class="value-icon" aria-hidden="true">💡</div><h5>Инновации</h5><p>Ищем нестандартные решения</p></div>
+      <div class="value-item"><div class="value-icon" aria-hidden="true">🤝</div><h5>Открытость</h5><p>Готовы к диалогу и партнёрству</p></div>
+      <div class="value-item"><div class="value-icon" aria-hidden="true">🎯</div><h5>Результат</h5><p>Фокус на реальной пользе</p></div>
+      <div class="value-item"><div class="value-icon" aria-hidden="true">🌍</div><h5>Ответственность</h5><p>Заботимся об экологии и людях</p></div>
+    </div>
+  </div>
+</section>
 
-            <div class="product-card soon reveal" style="transition-delay: 0.1s;">
-                <div class="product-badge badge-soon">● В разработке</div>
-                <div class="product-icon">🚏</div>
-                <h3>Умные остановки</h3>
-                <p class="product-desc">
-                    Остановки с солнечными панелями, зарядкой для телефонов, Wi-Fi и табло 
-                    прибытия транспорта в реальном времени.
-                </p>
-                <div class="product-status">
-                    <svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
-                    Скоро
-                </div>
-            </div>
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">МОЙ <span>УМНЫЙ</span> ГОРОД</div>
+  <p class="footer-text">Технологии для комфортной, безопасной и экологичной городской жизни</p>
+  <div class="footer-links">
+    <a href="#about">О компании</a>
+    <a href="#products">Технологии</a>
+    <a href="#mission">Миссия</a>
+    <a href="#updates">Обновления</a>
+    <a href="#team">О нас</a>
+  </div>
+  <div class="copyright">&copy; 2026 Мой умный город. Все права защищены.</div>
+</footer>
 
-            <div class="product-card soon reveal" style="transition-delay: 0.2s;">
-                <div class="product-badge badge-soon">● В разработке</div>
-                <div class="product-icon">🌬️</div>
-                <h3>Датчики воздуха</h3>
-                <p class="product-desc">
-                    Сеть датчиков, отслеживающих качество воздуха в реальном времени. 
-                    Данные — на карте города в приложении.
-                </p>
-                <div class="product-status">
-                    <svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
-                    Скоро
-                </div>
-            </div>
-
-            <div class="product-card soon reveal" style="transition-delay: 0.3s;">
-                <div class="product-badge badge-soon">● В разработке</div>
-                <div class="product-icon">🅿️</div>
-                <h3>Умные парковки</h3>
-                <p class="product-desc">
-                    Система мониторинга свободных мест. Водитель видит, где припарковаться, 
-                    ещё до въезда на стоянку.
-                </p>
-                <div class="product-status">
-                    <svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
-                    Скоро
-                </div>
-            </div>
-
-        </div>
-    </section>
-
-    <!-- МИССИЯ -->
-    <section id="mission" class="section mission-section">
-        <div class="section-header reveal">
-            <div class="section-tagline">Наша миссия</div>
-            <h2>Город, который думает о тебе</h2>
-            <p>Мы работаем по трём ключевым направлениям, чтобы город стал по-настоящему удобным</p>
-        </div>
-
-        <div class="mission-grid">
-            <div class="mission-card reveal">
-                <div class="mission-icon">🛡️</div>
-                <h3>Безопасность</h3>
-                <p>Освещение, видеонаблюдение и датчики помогают жителям чувствовать себя в безопасности в любое время суток.</p>
-            </div>
-            <div class="mission-card reveal" style="transition-delay: 0.1s;">
-                <div class="mission-icon">🌱</div>
-                <h3>Экология</h3>
-                <p>Солнечная энергия, экономия ресурсов и минимальное воздействие на природу — базовые принципы каждого нашего продукта.</p>
-            </div>
-            <div class="mission-card reveal" style="transition-delay: 0.2s;">
-                <div class="mission-icon">😊</div>
-                <h3>Комфорт</h3>
-                <p>Технологии должны быть незаметны, но ощутимы. Мы делаем город удобнее без сложных интерфейсов и лишних усилий.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- ОБНОВЛЕНИЯ -->
-    <section id="updates" class="section updates-section">
-        <div class="section-header reveal">
-            <div class="section-tagline">Обновления</div>
-            <h2>Что нового</h2>
-            <p>Мы регулярно выпускаем улучшения и новые функции для наших продуктов</p>
-        </div>
-
-        <div class="updates-grid">
-            
-            <div class="update-card reveal">
-                <div class="update-date">
-                    <span class="day">12</span>
-                    <span class="month">Янв</span>
-                </div>
-                <div class="update-content">
-                    <span class="update-tag">Сайт</span>
-                    <h4>Запуск «Мой умный город»</h4>
-                    <p>Открыт единый портал, где будут собраны все наши технологии. Начало пути к городу будущего.</p>
-                </div>
-            </div>
-
-            <div class="update-card reveal" style="transition-delay: 0.1s;">
-                <div class="update-date">
-                    <span class="day">16</span>
-                    <span class="month">Янв</span>
-                </div>
-                <div class="update-content">
-                    <span class="update-tag">Умный свет</span>
-                    <h4>Запуск продукта «Умный свет»</h4>
-                    <p>Опубликован сайт с интерактивными демонстрациями работы системы освещения: симуляция датчика движения и эффект «бегущей волны».</p>
-                </div>
-            </div>
-
-            <div class="update-card reveal" style="transition-delay: 0.2s;">
-                <div class="update-date">
-                    <span class="day">27</span>
-                    <span class="month">Янв</span>
-                </div>
-                <div class="update-content">
-                    <span class="update-tag">Умный свет</span>
-                    <h4>Обновление сайта «Умный свет»</h4>
-                    <p>Улучшена логика «бегущей волны» — фонари включаются заранее, чтобы человек всегда шёл в освещённой зоне. Добавлен ИИ-помощник.</p>
-                </div>
-            </div>
-
-            <div class="update-card reveal" style="transition-delay: 0.3s;">
-                <div class="update-date">
-                    <span class="day">28</span>
-                    <span class="month">Янв</span>
-                </div>
-                <div class="update-content">
-                    <span class="update-tag">Планы</span>
-                    <h4>Развитие и новые продукты</h4>
-                    <p>Мы продолжаем работу над умными остановками, датчиками воздуха и системой умных парковок. Следите за обновлениями!</p>
-                </div>
-            </div>
-
-            <div class="update-card reveal" style="transition-delay: 0.4s;">
-                <div class="update-date">
-                    <span class="day">11</span>
-                    <span class="month">Окт</span>
-                </div>
-                <div class="update-content">
-                    <span class="update-tag">Умный свет</span>
-                    <h4>Масштабное обновление «Умного света»</h4>
-                    <p>Добавлена бета-оплата с ускоренной обработкой заявок, обновлены тарифы на оборудование, настроена автоматическая отправка заявок на почту компании.</p>
-                </div>
-            </div>
-
-        </div>
-    </section>
-
-    <!-- О НАС -->
-    <section id="team" class="section team-section">
-        <div class="section-header reveal">
-            <div class="section-tagline">О нас</div>
-            <h2>Команда и ценности</h2>
-            <p>Мы — команда, которая верит, что технологии меняют город к лучшему</p>
-        </div>
-
-        <div class="team-content reveal">
-            <p>Мы объединились, чтобы создавать технологии, которые действительно нужны людям. Наша цель — превратить обычные городские объекты в умные и полезные системы, доступные каждому городу.</p>
-            <p>Мы открыты к сотрудничеству с муниципалитетами, бизнесом и всеми, кто хочет сделать свой город умнее.</p>
-
-            <div class="team-values">
-                <div class="value-item">
-                    <div class="value-icon">💡</div>
-                    <h5>Инновации</h5>
-                    <p>Ищем нестандартные решения</p>
-                </div>
-                <div class="value-item">
-                    <div class="value-icon">🤝</div>
-                    <h5>Открытость</h5>
-                    <p>Готовы к диалогу и партнёрству</p>
-                </div>
-                <div class="value-item">
-                    <div class="value-icon">🎯</div>
-                    <h5>Результат</h5>
-                    <p>Фокус на реальной пользе</p>
-                </div>
-                <div class="value-item">
-                    <div class="value-icon">🌍</div>
-                    <h5>Ответственность</h5>
-                    <p>Заботимся об экологии и людях</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ФУТЕР -->
-    <footer>
-        <div class="footer-logo">МОЙ <span>УМНЫЙ</span> ГОРОД</div>
-        <p class="footer-text">Технологии для комфортной, безопасной и экологичной городской жизни</p>
-        <div class="footer-links">
-            <a href="#about">О компании</a>
-            <a href="#products">Технологии</a>
-            <a href="#mission">Миссия</a>
-            <a href="#updates">Обновления</a>
-            <a href="#team">О нас</a>
-        </div>
-        <div class="copyright">
-            &copy; 2026 Мой умный город. Все права защищены.
-        </div>
-    </footer>
-
-    <!-- ИИ-ПОМОЩНИК -->
-    <div class="ai-widget" id="aiWidget">
-        <button class="ai-toggle" id="aiToggle" aria-label="Открыть помощника" type="button">
-            <svg class="ai-icon-chat" viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 9h12v2H6V9zm8 5H6v-2h8v2zm4-6H6V6h12v2z"/></svg>
-            <svg class="ai-icon-close" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+<!-- ИИ-ПОМОЩНИК -->
+<div class="ai-widget" id="aiWidget">
+  <button class="ai-toggle" id="aiToggle" type="button" aria-label="Открыть ИИ-помощника" aria-expanded="false" aria-controls="aiPanel">
+    <svg class="ai-icon-chat" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 9h12v2H6V9zm8 5H6v-2h8v2zm4-6H6V6h12v2z"/></svg>
+    <svg class="ai-icon-close" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+  </button>
+  <div class="ai-panel" id="aiPanel" role="dialog" aria-modal="false" aria-label="ИИ-помощник">
+    <div class="ai-header">
+      <div class="ai-avatar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg></div>
+      <div class="ai-header-info">
+        <h4>ИИ-помощник</h4>
+        <p><span class="ai-status-dot"></span>Онлайн</p>
+      </div>
+      <div class="ai-header-actions">
+        <button class="ai-icon-btn" id="aiClearBtn" type="button" aria-label="Очистить чат" title="Очистить чат">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
         </button>
-        
-        <div class="ai-panel" id="aiPanel">
-            <div class="ai-header">
-                <div class="ai-avatar">
-                    <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-                </div>
-                <div class="ai-header-info">
-                    <h4>ИИ-помощник</h4>
-                    <p><span class="ai-status-dot"></span>Онлайн</p>
-                </div>
-                <button class="ai-close-btn" id="aiCloseBtn" aria-label="Закрыть" type="button">
-                    <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
-                </button>
-            </div>
-            
-            <div class="ai-messages" id="aiMessages"></div>
-            
-            <div class="ai-suggestions" id="aiSuggestions"></div>
-            
-            <form class="ai-input-form" id="aiForm">
-                <input type="text" class="ai-input" id="aiInput" placeholder="Спросите что-нибудь..." autocomplete="off">
-                <button type="submit" class="ai-send" aria-label="Отправить">
-                    <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
-                </button>
-            </form>
-        </div>
+        <button class="ai-icon-btn" id="aiCloseBtn" type="button" aria-label="Закрыть чат">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </div>
     </div>
+    <div class="ai-messages" id="aiMessages" aria-live="polite"></div>
+    <div class="ai-suggestions" id="aiSuggestions"></div>
+    <form class="ai-input-form" id="aiForm">
+      <input type="text" class="ai-input" id="aiInput" placeholder="Спросите что-нибудь..." autocomplete="off" aria-label="Сообщение ИИ-помощнику">
+      <button type="submit" class="ai-send" aria-label="Отправить">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+      </button>
+    </form>
+  </div>
+</div>
 
-    <script>
-        // --- 1. СКРОЛЛ НАВИГАЦИИ ---
-        const navbar = document.getElementById('navbar');
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 50) navbar.classList.add('scrolled');
-            else navbar.classList.remove('scrolled');
+<script>
+'use strict';
+const $ = (s, ctx = document) => ctx.querySelector(s);
+const $$ = (s, ctx = document) => [...ctx.querySelectorAll(s)];
+
+/* ---------- NAV ---------- */
+const navbar = $('#navbar');
+const navToggle = $('#navToggle');
+window.addEventListener('scroll', () => {
+  navbar.classList.toggle('scrolled', window.scrollY > 50);
+}, { passive: true });
+
+navToggle?.addEventListener('click', () => {
+  const open = navbar.classList.toggle('mobile-open');
+  navToggle.setAttribute('aria-expanded', String(open));
+});
+$$('#navLinks a').forEach(a => a.addEventListener('click', () => {
+  navbar.classList.remove('mobile-open');
+  navToggle?.setAttribute('aria-expanded', 'false');
+}));
+
+/* ---------- REVEAL ---------- */
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('active');
+      revealObserver.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.12, rootMargin: '0px 0px -50px 0px' });
+$$('.reveal').forEach(el => revealObserver.observe(el));
+
+/* ---------- CARD HOVER ---------- */
+$$('.product-card').forEach(card => {
+  card.addEventListener('mousemove', e => {
+    const r = card.getBoundingClientRect();
+    card.style.setProperty('--mx', `${e.clientX - r.left}px`);
+    card.style.setProperty('--my', `${e.clientY - r.top}px`);
+  });
+});
+
+/* ---------- ПАУЗА ФОНОВОЙ СЕТИ ---------- */
+document.addEventListener('visibilitychange', () => {
+  const city = $('.city-bg svg');
+  if (!city) return;
+  city.style.animationPlayState = document.hidden ? 'paused' : 'running';
+  $$('.city-bg .line, .city-bg .dot').forEach(el => {
+    el.style.animationPlayState = document.hidden ? 'paused' : 'running';
+  });
+});
+
+/* ---------- ИИ-ПОМОЩНИК ---------- */
+(function initAI() {
+  const widget = $('#aiWidget');
+  const toggle = $('#aiToggle');
+  const closeBtn = $('#aiCloseBtn');
+  const clearBtn = $('#aiClearBtn');
+  const messages = $('#aiMessages');
+  const suggestions = $('#aiSuggestions');
+  const form = $('#aiForm');
+  const input = $('#aiInput');
+  let isOpen = false;
+  let lastTopic = null;
+
+  const STOP = ['ну','вот','короче','слушай','а','и','но','же','бы','ли','это','то','мне','я','ты','вы','мы','он','она','они','быть','есть','хочу','хотел','можно','дай','скажи','расскажи','покажи','объясни','подскажи','плиз','пожалуйста'];
+
+  const norm = t => t.toLowerCase().replace(/ё/g,'е').replace(/[^\wа-яё\s%?]/gi,' ').replace(/\s+/g,' ').trim();
+  const clean = arr => arr.filter(w => !STOP.includes(w) && w.length > 1);
+
+  function stem(w) {
+    const ends = ['ами','ями','ого','ему','ому','ыми','ими','ая','яя','ое','ее','ые','ие','ой','ей','ий','ый','ов','ев','ах','ях','ам','ям','ом','ем','ую','юю','ать','ять','еть','ить','ыть','ся','сь','а','я','о','е','у','ю','ы','и','й','ь'];
+    for (const e of ends) {
+      if (w.endsWith(e) && w.length > e.length + 2) return w.slice(0, -e.length);
+    }
+    return w;
+  }
+
+  function lev(a, b) {
+    if (!a.length) return b.length;
+    if (!b.length) return a.length;
+    const m = [];
+    for (let i = 0; i <= b.length; i++) m[i] = [i];
+    for (let j = 0; j <= a.length; j++) m[0][j] = j;
+    for (let i = 1; i <= b.length; i++) {
+      for (let j = 1; j <= a.length; j++) {
+        m[i][j] = b[i-1] === a[j-1]
+          ? m[i-1][j-1]
+          : Math.min(m[i-1][j-1]+1, m[i][j-1]+1, m[i-1][j]+1);
+      }
+    }
+    return m[b.length][a.length];
+  }
+
+  function fuzzy(w, t) {
+    const a = stem(w), b = stem(t);
+    if (a === b) return 1;
+    if (a.length < 3 || b.length < 3) return 0;
+    const d = lev(a, b);
+    const s = 1 - d / Math.max(a.length, b.length);
+    return s > 0.75 ? s : 0;
+  }
+
+  const KB = [
+    { topic:'greeting', k:['привет','здравствуй','хай','добрый','hello','hi','прив','ку','йо','салют','доброе','утро','вечер','здрасьте'],
+      a:() => `Здравствуйте! 👋 Рад вас видеть.<br><br>Я <strong>ИИ-помощник «Мой умный город»</strong>. Могу рассказать о:<br><br>🏢 <strong>Компании</strong> — кто мы и чем занимаемся<br>💡 <strong>Продуктах</strong> — что готово и что в разработке<br>🌱 <strong>Миссии</strong> — наши ценности<br>📅 <strong>Обновлениях</strong> — что нового<br>👥 <strong>Команде</strong> — кто за этим стоит<br>🤝 <strong>Сотрудничестве</strong> — как с нами связаться<br><br>О чём хотите узнать?` },
+    { topic:'about', k:['о компании','кто вы','что за компания','о вас','чем занимаетесь','что делаете','ваша деятельность','расскажите о себе','компания','организац','фирм'],
+      a:() => `🏢 <strong>О нас:</strong><br><br>Мы — команда инженеров и разработчиков, объединённых идеей сделать городскую среду удобнее и безопаснее с помощью технологий.<br><br>Наш подход:<br>• <strong>Автономные</strong> решения<br>• <strong>Экологичные</strong> технологии<br>• <strong>Недорогие</strong> в обслуживании<br><br>Мы верим, что «умный город» — это не про сложные системы, а про <strong>комфорт каждого жителя</strong>.<br><br>Подробнее в разделе <a href="#about" style="color:#b794f6;text-decoration:underline">«О компании»</a>.` },
+    { topic:'products', k:['продукт','технолог','решен','что у вас есть','список','каталог','предлагаете','разработк','устройств','систем'],
+      a:() => `💡 <strong>Наши продукты:</strong><br><br>✅ <strong>Умный свет</strong> — адаптивное освещение для парков<br>🚧 <strong>Умные остановки</strong> — с зарядкой, Wi-Fi, табло<br>🚧 <strong>Датчики воздуха</strong> — карта загрязнения<br>🚧 <strong>Умные парковки</strong> — поиск свободных мест<br><br>Подробнее в разделе <a href="#products" style="color:#b794f6;text-decoration:underline">«Технологии»</a>.<br><br>Какой продукт интересует?` },
+    { topic:'smartlight', k:['умный свет','светильник','освещени','фонар','led','датчик движени','бегущ','волн','парков'],
+      a:() => `💡 <strong>Умный свет</strong> — наш главный продукт.<br><br>Адаптивная система освещения для городских парков:<br>• 🌊 Свет реагирует на движение<br>• 💰 Экономит до <strong>70% энергии</strong><br>• ☀️ Работает на солнечной энергии<br>• 🔋 Автономность до 3 дней<br>• 📡 Датчик PIR на 10-15 м<br><br>🔗 <a href="https://filatov-g.github.io/smart-light/" target="_blank" rel="noopener" style="color:#b794f6;text-decoration:underline;font-weight:700">Открыть сайт продукта →</a><br><br>Что именно интересует? Характеристики, применение, экономия?` },
+    { topic:'stops', k:['остановк','автобус','транспорт','табло','расписани','wi-fi','зарядк'],
+      a:() => `🚏 <strong>Умные остановки</strong> — в разработке.<br><br>Что планируется:<br>• ☀️ Солнечные панели<br>• 🔌 Зарядка для телефонов<br>• 📶 Бесплатный Wi-Fi<br>• 📺 Табло прибытия в реальном времени<br>• 🛡️ Антивандальный корпус<br>• 🌡️ Датчик температуры воздуха<br><br>Следите за <a href="#updates" style="color:#b794f6;text-decoration:underline">обновлениями</a>!` },
+    { topic:'air', k:['воздух','датчик','загрязнени','смог','качество','атмосфер','co2','пыль'],
+      a:() => `🌬️ <strong>Датчики воздуха</strong> — в разработке.<br><br>Что планируется:<br>• 📡 Сеть датчиков по городу<br>• 📊 Мониторинг в реальном времени<br>• 🗺️ Отображение на карте в приложении<br>• 🚨 Оповещения при превышении норм<br>• 📈 Данные для городских служб<br><br>Следите за <a href="#updates" style="color:#b794f6;text-decoration:underline">обновлениями</a>!` },
+    { topic:'parking', k:['парковк','стоянк','паркинг','автомобил','машин','водител'],
+      a:() => `🅿️ <strong>Умные парковки</strong> — в разработке.<br><br>Что планируется:<br>• 📡 Датчики занятости мест<br>• 📱 Приложение для водителей<br>• 🗺️ Свободные места видны до въезда<br>• ⏱️ Экономия времени и топлива<br>• 📊 Статистика для города<br><br>Следите за <a href="#updates" style="color:#b794f6;text-decoration:underline">обновлениями</a>!` },
+    { topic:'mission', k:['мисси','цель','ценност','принцип','зачем','философи','идея','во имя'],
+      a:() => `🌍 <strong>Наша миссия:</strong><br><br>Сделать город <strong>безопаснее</strong>, <strong>экологичнее</strong> и <strong>удобнее</strong> для жителей.<br><br>Три направления:<br>🛡️ <strong>Безопасность</strong> — освещение, датчики<br>🌱 <strong>Экология</strong> — солнечная энергия<br>😊 <strong>Комфорт</strong> — удобство без усилий<br><br>Подробнее в разделе <a href="#mission" style="color:#b794f6;text-decoration:underline">«Миссия»</a>.` },
+    { topic:'updates', k:['обновлени','новост','что нового','последн','свеж','изменени','хроник','истори','когда'],
+      a:() => `📅 <strong>Наши обновления:</strong><br><br>• <strong>12 января</strong> — запуск «Мой умный город»<br>• <strong>16 января</strong> — запуск «Умный свет»<br>• <strong>27 января</strong> — обновление сайта «Умный свет»<br>• <strong>28 января</strong> — планы развития<br>• <strong>11 октября 2025</strong> — масштабное обновление «Умного света»<br><br>Полная лента в разделе <a href="#updates" style="color:#b794f6;text-decoration:underline">«Обновления»</a>.` },
+    { topic:'team', k:['команд','разработчик','кто делает','сотрудник','люди','инженер','создател','работник','персонал'],
+      a:() => `👥 <strong>Наша команда:</strong><br><br>Мы — инженеры и разработчики, объединённые идеей умного города.<br><br>Наши ценности:<br>💡 <strong>Инновации</strong><br>🤝 <strong>Открытость</strong><br>🎯 <strong>Результат</strong><br>🌍 <strong>Ответственность</strong><br><br>Подробнее в разделе <a href="#team" style="color:#b794f6;text-decoration:underline">«О нас»</a>.` },
+    { topic:'cooperation', k:['сотруднич','партнер','партнёр','связаться','контакт','заказ','куп','приобрест','внедрить','поставить','заявк'],
+      a:() => `🤝 <strong>Сотрудничество:</strong><br><br>Мы открыты к диалогу с:<br>• 🏛️ Муниципалитетами<br>• 🏢 Бизнесом<br>• 🤝 Партнёрами<br>• 🌱 Эко-организациями<br><br>Хотите внедрить технологии в своём городе? Свяжитесь через контакты в футере сайта. Обсудим условия и сроки. 📞` },
+    { topic:'price', k:['цен','стоим','сколько','деньг','бюджет','дорого','дешев','рубл','оплат'],
+      a:() => `💰 <strong>Стоимость:</strong><br><br>Зависит от:<br>• 📐 Масштаба проекта<br>• 🏙️ Площади территории<br>• 🔧 Типа оборудования<br>• 📊 Объёма внедрения<br><br>Для точного расчёта свяжитесь с нами через контакты в футере. Подготовим <strong>индивидуальное предложение</strong>. 📞` },
+    { topic:'install', k:['установк','монтаж','подключени','настройк','устанавлива','инсталляц'],
+      a:() => `🔧 <strong>Установка и монтаж:</strong><br><br>Наши решения проектируются для <strong>быстрого монтажа</strong>:<br>• 🔋 Автономная работа — не нужны кабели<br>• ☀️ Питание от солнца<br>• 📡 Беспроводная mesh-сеть<br>• 🛠️ Простое обслуживание<br><br>Минимум затрат на установку и эксплуатацию.` },
+    { topic:'lifespan', k:['срок служб','долго','надежн','гаранти','работ','лет','прочност'],
+      a:() => `⏳ <strong>Срок службы и надёжность:</strong><br><br>• 💡 LED-элементы: до <strong>50 000 часов</strong><br>• 🔋 Аккумуляторы: 3–5 лет<br>• 🛠️ Работа на пониженной мощности продлевает срок службы<br>• 🌡️ Устойчивость к погоде<br>• 📞 Гарантийная поддержка<br><br>Свяжитесь с нами для деталей.` },
+    { topic:'eco', k:['эколог','природ','зелен','углерод','возобновля','солнечн','энергосбереж','чист'],
+      a:() => `🌱 <strong>Экология — в основе наших технологий:</strong><br><br>• ☀️ Солнечная энергия<br>• ♻️ Экономия ресурсов до 70%<br>• 🌍 Минимальное воздействие на природу<br>• 💡 Увеличенный срок службы<br>• 🔋 Автономная работа<br><br>Узнайте больше в разделе <a href="#mission" style="color:#b794f6;text-decoration:underline">«Миссия»</a>.` },
+    { topic:'safety', k:['безопас','защит','охран','преступ','травм','опасн','защищен'],
+      a:() => `🛡️ <strong>Безопасность:</strong><br><br>• 💡 Адаптивное освещение — ярко там, где человек<br>• 📡 Датчики движения<br>• 🔦 Световой шлейф создаёт дорожку<br>• 🚨 Автономная работа при отключении сети<br><br>Всё для комфорта и безопасности жителей.` },
+    { topic:'aboutbot', k:['ты кто','кто ты','что ты','бот','помощник','ии','ai','искусственн','робот','умееш','можеш'],
+      a:() => `🤖 Я <strong>ИИ-помощник</strong> компании «Мой умный город».<br><br>Моя задача — быстро отвечать на вопросы о:<br>• 🏢 Компании<br>• 💡 Продуктах и технологиях<br>• 🌱 Миссии<br>• 📅 Обновлениях<br>• 👥 Команде<br>• 🤝 Сотрудничестве<br><br>Просто спросите — я здесь 24/7! 💬` },
+    { topic:'thanks', k:['спасибо','благодар','круто','класс','супер','отличн','молодц','крутяк','топ','здоров','респект','нрав'],
+      a:() => `Рад помочь! 😊 Обращайтесь ещё. Удачи с изучением «Мой умный город»!` },
+    { topic:'bye', k:['пока','до свид','прощай','бай','bye','увидимся','до встреч'],
+      a:() => `До встречи! 👋 Если понадоблюсь — я всегда здесь. Хорошего дня!` },
+    { topic:'howareyou', k:['как дела','как ты','как жизн','как настроени','что делаеш'],
+      a:() => `У меня всё отлично! 🤖 Работаю 24/7, всегда готов помочь. А у вас как? Может, расскажу о чём-нибудь интересном?` },
+    { topic:'capabilities', k:['что умееш','что можеш','чем поможеш','функци','возможност','как работаеш'],
+      a:() => `🧠 <strong>Что я умею:</strong><br><br>• 💬 Отвечать на вопросы о компании и продуктах<br>• 🔍 Находить нужную информацию на сайте<br>• 🎯 Подсказывать разделы и ссылки<br>• 📖 Рассказывать о технологиях<br>• 🤝 Помогать со связью<br><br>Спросите что угодно — попробую помочь!` },
+    { topic:'location', k:['где наход','адрес','офис','локац','географ','местоположени','город'],
+      a:() => `📍 Мы работаем как распределённая команда.<br><br>Контакты — в футере сайта. Если хотите обсудить внедрение в вашем городе — напишите нам!` },
+    { topic:'compare', k:['сравн','лучше','хуже','отлича','разниц','выбрать','vs'],
+      a:() => `📊 <strong>Что выбрать?</strong><br><br>Каждый продукт решает свою задачу:<br>💡 <strong>Умный свет</strong> — безопасность в парках<br>🚏 <strong>Умные остановки</strong> — комфорт на транспорте<br>🌬️ <strong>Датчики воздуха</strong> — экология<br>🅿️ <strong>Умные парковки</strong> — экономия времени<br><br>Расскажите, какая задача у вас — подскажу решение!` },
+    { topic:'interesting', k:['интересн','любопытн','забавн','прикольн','вау'],
+      a:() => `😊 Рад, что интересно! А что именно зацепило? Могу рассказать подробнее о любом из наших решений или о компании в целом.` }
+  ];
+
+  const QUICK = ['О компании','Ваши продукты','Умный свет','Что нового?','О команде','Хочу сотрудничать'];
+
+  function answer(text) {
+    const raw = norm(text);
+    if (!raw || raw.length < 2) return '🤔 Попробуйте сформулировать вопрос подробнее. Например: <em>«Расскажи о компании»</em> или <em>«Что за Умный свет?»</em>';
+    const words = clean(raw.split(' '));
+
+    if (raw.includes('подробн') || raw.includes('детал') || raw.includes('уточни')) {
+      if (lastTopic) {
+        const t = KB.find(x => x.topic === lastTopic);
+        if (t) return `📖 <strong>Подробнее:</strong><br><br>${t.a()}<br><br>Что ещё интересует?`;
+      }
+      return '🤔 Уточните, о чём именно рассказать подробнее?';
+    }
+    if (raw.includes('почему') || raw.includes('зачем')) {
+      return `🤔 Хороший вопрос! Наша цель — сделать город удобнее и безопаснее через технологии.<br><br>Если хотите копнуть глубже — спросите про <a href="#mission" style="color:#b794f6;text-decoration:underline">миссию</a> или <a href="#about" style="color:#b794f6;text-decoration:underline">о компании</a>.`;
+    }
+    if (raw.startsWith('как ') || raw.includes('как работает')) {
+      if (raw.includes('свет') || raw.includes('фонар')) {
+        return `💡 <strong>Как работает Умный свет:</strong><br><br>1. Фонарь в дежурном режиме светит на 30%<br>2. Датчик ловит движение на 10–15 м<br>3. Яркость плавно растёт до 100%<br>4. Соседние фонари готовятся к включению — «бегущая волна»<br>5. Через несколько секунд — возврат к 30%<br><br>Смотрите <a href="https://filatov-g.github.io/smart-light/" target="_blank" rel="noopener" style="color:#b794f6;text-decoration:underline">демонстрацию на сайте продукта</a>.`;
+      }
+      return `🔧 Уточните вопрос: «Как работает Умный свет?», «Как установить?», «Как связаться?»`;
+    }
+    if (raw.startsWith('где ') || raw.includes('где можно')) {
+      if (raw.includes('куп') || raw.includes('заказ')) {
+        return `🛒 <strong>Где купить?</strong><br><br>Мы работаем по модели B2B — внедряем решения в городах и парках по договору.<br><br>Свяжитесь через контакты в футере сайта, обсудим условия. 📞`;
+      }
+      if (raw.includes('схем') || raw.includes('чертеж')) {
+        return `📐 <strong>Схемы и чертежи</strong> — на сайте продукта «Умный свет» в разделе «Документация».<br><br>🔗 <a href="https://filatov-g.github.io/smart-light/" target="_blank" rel="noopener" style="color:#b794f6;text-decoration:underline">Открыть сайт продукта →</a>`;
+      }
+      return `📍 Все разделы есть на сайте. Что именно ищете? Могу подсказать.`;
+    }
+
+    const mentioned = [];
+    if (raw.includes('свет') || raw.includes('фонар')) mentioned.push('Умный свет');
+    if (raw.includes('остановк')) mentioned.push('Умные остановки');
+    if (raw.includes('воздух') || raw.includes('датчик')) mentioned.push('Датчики воздуха');
+    if (raw.includes('парковк')) mentioned.push('Умные парковки');
+    if (mentioned.length >= 2) {
+      return `📦 <strong>Вы спросили сразу про несколько продуктов:</strong><br><br>${mentioned.map(p => '• ' + p).join('<br>')}<br><br>Уточните, про какой рассказать подробнее? Или спросите про каждый отдельно.`;
+    }
+
+    let best = null, bestScore = 0;
+    KB.forEach(item => {
+      let score = 0, matched = 0;
+      words.forEach(word => {
+        let bw = 0;
+        item.k.forEach(kw => {
+          const nk = norm(kw);
+          nk.split(' ').forEach(kwWord => {
+            if (word === kwWord) bw = Math.max(bw, 1);
+            else if (word.length > 3 && kwWord.length > 3 && word.includes(kwWord)) bw = Math.max(bw, .9);
+            else {
+              const f = fuzzy(word, kwWord);
+              if (f > 0) bw = Math.max(bw, f * .85);
+            }
+          });
         });
+        if (bw > 0) { score += bw * (word.length + 2); matched++; }
+      });
+      if (matched >= 2) score *= 1.3;
+      item.k.forEach(kw => {
+        const nk = norm(kw);
+        if (raw.includes(nk)) score += nk.length * 3;
+      });
+      if (score > bestScore) { bestScore = score; best = item; }
+    });
 
-        // --- 2. АНИМАЦИЯ REVEAL ---
-        const revealElements = document.querySelectorAll('.reveal');
-        const revealObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('active');
-                    if (entry.target.classList.contains('product-card')) initCardHover(entry.target);
-                }
-            });
-        }, { threshold: 0.15, rootMargin: "0px 0px -50px 0px" });
-        revealElements.forEach(el => revealObserver.observe(el));
+    if (best && bestScore > 5) {
+      lastTopic = best.topic;
+      return best.a();
+    }
 
-        // --- 3. ЭФФЕКТ ПОДСВЕТКИ КАРТОЧЕК ---
-        function initCardHover(card) {
-            card.addEventListener('mousemove', e => {
-                const rect = card.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                card.style.setProperty('--mouse-x', `${x}px`);
-                card.style.setProperty('--mouse-y', `${y}px`);
-            });
-        }
+    return `🤔 Хм, не уверен, что понял.<br><br>Могу рассказать о:<br>• 🏢 <strong>Компании</strong><br>• 💡 <strong>Продуктах</strong> (Умный свет, остановки, датчики, парковки)<br>• 🌱 <strong>Миссии</strong><br>• 📅 <strong>Обновлениях</strong><br>• 👥 <strong>Команде</strong><br>• 🤝 <strong>Сотрудничестве</strong><br><br>Попробуйте переформулировать или выберите готовый вопрос 👇`;
+  }
 
-        // --- 4. ПЛАВНЫЙ СКРОЛЛ ПО ЯКОРЯМ ---
-        document.querySelectorAll('a[href^="#"]').forEach(link => {
-            link.addEventListener('click', (e) => {
-                const href = link.getAttribute('href');
-                if (href === '#' || href.length < 2) return;
-                const target = document.querySelector(href);
-                if (target) {
-                    e.preventDefault();
-                    const offset = 80;
-                    const targetPos = target.getBoundingClientRect().top + window.pageYOffset - offset;
-                    window.scrollTo({ top: targetPos, behavior: 'smooth' });
-                }
-            });
-        });
+  function addMsg(text, sender) {
+    const m = document.createElement('div');
+    m.className = `ai-message ${sender}`;
+    m.innerHTML = text;
+    messages.appendChild(m);
+    while (messages.children.length > 50) messages.removeChild(messages.firstChild);
+    messages.scrollTop = messages.scrollHeight;
+    return m;
+  }
+  function typing() {
+    const t = document.createElement('div');
+    t.className = 'ai-message bot typing';
+    t.innerHTML = '<span></span><span></span><span></span>';
+    messages.appendChild(t);
+    messages.scrollTop = messages.scrollHeight;
+    return t;
+  }
+  function renderSuggestions() {
+    suggestions.innerHTML = '';
+    QUICK.forEach(text => {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'ai-suggestion';
+      b.textContent = text;
+      b.addEventListener('click', () => handle(text));
+      suggestions.appendChild(b);
+    });
+  }
+  function handle(text) {
+    if (!text.trim()) return;
+    addMsg(text, 'user');
+    input.value = '';
+    suggestions.style.display = 'none';
+    const t = typing();
+    setTimeout(() => {
+      t.remove();
+      addMsg(answer(text), 'bot');
+      setTimeout(() => { if (isOpen) { suggestions.style.display = 'flex'; renderSuggestions(); } }, 700);
+    }, 400 + Math.random() * 500);
+  }
 
-        // =========================================================
-        // --- 5. ИИ-ПОМОЩНИК (ПРОДВИНУТАЯ ВЕРСИЯ) ---
-        // =========================================================
-        const aiWidget = document.getElementById('aiWidget');
-        const aiToggle = document.getElementById('aiToggle');
-        const aiCloseBtn = document.getElementById('aiCloseBtn');
-        const aiMessages = document.getElementById('aiMessages');
-        const aiForm = document.getElementById('aiForm');
-        const aiInput = document.getElementById('aiInput');
-        const aiSuggestions = document.getElementById('aiSuggestions');
+  function toggleChat() {
+    isOpen = !isOpen;
+    widget.classList.toggle('open', isOpen);
+    toggle.setAttribute('aria-expanded', String(isOpen));
+    if (isOpen) {
+      if (!messages.children.length) {
+        setTimeout(() => {
+          addMsg('Здравствуйте! 👋 Я <strong>ИИ-помощник «Мой умный город»</strong>.<br><br>Могу рассказать о компании, продуктах, миссии, обновлениях или команде.<br><br>Что вас интересует?', 'bot');
+          renderSuggestions();
+        }, 300);
+      }
+      setTimeout(() => input.focus(), 300);
+    }
+  }
 
-        let isChatOpen = false;
-        let lastQuestion = '';
-        let lastTopic = null;
+  toggle.addEventListener('click', toggleChat);
+  closeBtn.addEventListener('click', toggleChat);
+  clearBtn.addEventListener('click', () => {
+    messages.innerHTML = '';
+    suggestions.innerHTML = '';
+    lastTopic = null;
+    addMsg('Чат очищен. Чем ещё могу помочь? 😊', 'bot');
+    renderSuggestions();
+  });
+  form.addEventListener('submit', (e) => { e.preventDefault(); handle(input.value); });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && isOpen) toggleChat();
+  });
+})();
 
-        // === СТОП-СЛОВА ===
-        const stopWords = ['ну', 'вот', 'короче', 'слушай', 'а', 'и', 'но', 'же', 'бы', 'ли', 'это', 'то', 'мне', 'я', 'ты', 'вы', 'мы', 'он', 'она', 'они', 'быть', 'есть', 'хочу', 'хотел', 'можно', 'дай', 'скажи', 'расскажи', 'покажи', 'объясни', 'подскажи', 'плиз', 'пожалуйста'];
-
-        // === НОРМАЛИЗАЦИЯ ===
-        function normalizeText(text) {
-            return text.toLowerCase()
-                .replace(/ё/g, 'е')
-                .replace(/[^\wа-я\s%?]/gi, ' ')
-                .replace(/\s+/g, ' ')
-                .trim();
-        }
-
-        // === УДАЛЕНИЕ СТОП-СЛОВ ===
-        function removeStopWords(words) {
-            return words.filter(w => !stopWords.includes(w) && w.length > 1);
-        }
-
-        // === СТЕММИНГ ===
-        function stem(word) {
-            const endings = ['ами', 'ями', 'ого', 'ему', 'ому', 'ыми', 'ими', 'ая', 'яя', 'ое', 'ее', 'ые', 'ие', 'ой', 'ей', 'ий', 'ый', 'ов', 'ев', 'ах', 'ях', 'ам', 'ям', 'ом', 'ем', 'ой', 'ей', 'ую', 'юю', 'ать', 'ять', 'еть', 'ить', 'ыть', 'ся', 'сь', 'а', 'я', 'о', 'е', 'у', 'ю', 'ы', 'и', 'й', 'ь'];
-            
-            let stemmed = word;
-            for (const end of endings) {
-                if (word.endsWith(end) && word.length > end.length + 2) {
-                    stemmed = word.slice(0, -end.length);
-                    break;
-                }
-            }
-            return stemmed;
-        }
-
-        // === ЛЕВЕНШТЕЙН (для опечаток) ===
-        function levenshtein(a, b) {
-            if (a.length === 0) return b.length;
-            if (b.length === 0) return a.length;
-            
-            const matrix = [];
-            for (let i = 0; i <= b.length; i++) matrix[i] = [i];
-            for (let j = 0; j <= a.length; j++) matrix[0][j] = j;
-            
-            for (let i = 1; i <= b.length; i++) {
-                for (let j = 1; j <= a.length; j++) {
-                    if (b.charAt(i - 1) === a.charAt(j - 1)) {
-                        matrix[i][j] = matrix[i - 1][j - 1];
-                    } else {
-                        matrix[i][j] = Math.min(
-                            matrix[i - 1][j - 1] + 1,
-                            matrix[i][j - 1] + 1,
-                            matrix[i - 1][j] + 1
-                        );
-                    }
-                }
-            }
-            return matrix[b.length][a.length];
-        }
-
-        // === FUZZY MATCH ===
-        function fuzzyMatch(word, target) {
-            const w = stem(word);
-            const t = stem(target);
-            if (w === t) return 1;
-            if (w.length < 3 || t.length < 3) return 0;
-            
-            const distance = levenshtein(w, t);
-            const maxLength = Math.max(w.length, t.length);
-            const similarity = 1 - (distance / maxLength);
-            
-            return similarity > 0.75 ? similarity : 0;
-        }
-
-        // === БАЗА ЗНАНИЙ ===
-        const knowledgeBase = [
-            {
-                topic: 'greeting',
-                keywords: ['привет', 'здравствуй', 'хай', 'добрый', 'hello', 'hi', 'прив', 'ку', 'йо', 'салют', 'доброе', 'утро', 'вечер', 'здрасьте'],
-                answer: () => `Здравствуйте! 👋 Рад вас видеть.<br><br>Я <strong>ИИ-помощник «Мой умный город»</strong>. Могу рассказать о:<br><br>🏢 <strong>Компании</strong> — кто мы и чем занимаемся<br>💡 <strong>Продуктах</strong> — что готово и что в разработке<br>🌱 <strong>Миссии</strong> — наши ценности<br>📅 <strong>Обновлениях</strong> — что нового<br>👥 <strong>Команде</strong> — кто за этим стоит<br>🤝 <strong>Сотрудничестве</strong> — как с нами связаться<br><br>О чём хотите узнать?`
-            },
-            {
-                topic: 'about',
-                keywords: ['о компании', 'кто вы', 'что за компания', 'о вас', 'чем занимаетесь', 'что делаете', 'ваша деятельность', 'расскажите о себе', 'компания', 'организац', 'фирм'],
-                answer: () => `🏢 <strong>О нас:</strong><br><br>Мы — команда инженеров и разработчиков, объединённых идеей сделать городскую среду удобнее и безопаснее с помощью технологий.<br><br>Наш подход:<br>• <strong>Автономные</strong> решения<br>• <strong>Экологичные</strong> технологии<br>• <strong>Недорогие</strong> в обслуживании<br><br>Мы верим, что «умный город» — это не про сложные системы, а про <strong>комфорт каждого жителя</strong>.<br><br>Подробнее в разделе <a href="#about" style="color:#b794f6;text-decoration:underline;">«О компании»</a>.`
-            },
-            {
-                topic: 'products',
-                keywords: ['продукт', 'технолог', 'решен', 'что у вас есть', 'список', 'каталог', 'предлагаете', 'разработк', 'устройств', 'систем'],
-                answer: () => `💡 <strong>Наши продукты:</strong><br><br>✅ <strong>Умный свет</strong> — адаптивное освещение для парков<br>🚧 <strong>Умные остановки</strong> — с зарядкой, Wi-Fi, табло<br>🚧 <strong>Датчики воздуха</strong> — карта загрязнения<br>🚧 <strong>Умные парковки</strong> — поиск свободных мест<br><br>Подробнее в разделе <a href="#products" style="color:#b794f6;text-decoration:underline;">«Технологии»</a>.<br><br>Какой продукт интересует?`
-            },
-            {
-                topic: 'smartlight',
-                keywords: ['умный свет', 'светильник', 'освещени', 'фонар', 'led', 'датчик движени', 'бегущ', 'волн', 'парков'],
-                answer: () => `💡 <strong>Умный свет</strong> — наш главный продукт.<br><br>Адаптивная система освещения для городских парков:<br>• 🌊 Свет реагирует на движение<br>• 💰 Экономит до <strong>70% энергии</strong><br>• ☀️ Работает на солнечной энергии<br>• 🔋 Автономность до 3 дней<br>• 📡 Датчик PIR на 10-15 м<br><br>🔗 <a href="https://filatov-g.github.io/smart-light/" target="_blank" rel="noopener" style="color:#b794f6;text-decoration:underline;font-weight:700;">Открыть сайт продукта →</a><br><br>Что именно интересует? Характеристики, применение, экономия?`
-            },
-            {
-                topic: 'stops',
-                keywords: ['остановк', 'автобус', 'транспорт', 'табло', 'расписани', 'wi-fi', 'зарядк'],
-                answer: () => `🚏 <strong>Умные остановки</strong> — в разработке.<br><br>Что планируется:<br>• ☀️ Солнечные панели<br>• 🔌 Зарядка для телефонов<br>• 📶 Бесплатный Wi-Fi<br>• 📺 Табло прибытия в реальном времени<br>• 🛡️ Антивандальный корпус<br>• 🌡️ Датчик температуры воздуха<br><br>Мы активно работаем над продуктом. Следите за <a href="#updates" style="color:#b794f6;text-decoration:underline;">обновлениями</a>!`
-            },
-            {
-                topic: 'air',
-                keywords: ['воздух', 'датчик', 'загрязнени', 'смог', 'качество', 'атмосфер', 'co2', 'пыль'],
-                answer: () => `🌬️ <strong>Датчики воздуха</strong> — в разработке.<br><br>Что планируется:<br>• 📡 Сеть датчиков по городу<br>• 📊 Мониторинг в реальном времени<br>• 🗺️ Отображение на карте в приложении<br>• 🚨 Оповещения при превышении норм<br>• 📈 Данные для городских служб<br><br>Следите за <a href="#updates" style="color:#b794f6;text-decoration:underline;">обновлениями</a>!`
-            },
-            {
-                topic: 'parking',
-                keywords: ['парковк', 'стоянк', 'паркинг', 'автомобил', 'машин', 'водител'],
-                answer: () => `🅿️ <strong>Умные парковки</strong> — в разработке.<br><br>Что планируется:<br>• 📡 Датчики занятости мест<br>• 📱 Приложение для водителей<br>• 🗺️ Свободные места видны до въезда<br>• ⏱️ Экономия времени и топлива<br>• 📊 Статистика для города<br><br>Следите за <a href="#updates" style="color:#b794f6;text-decoration:underline;">обновлениями</a>!`
-            },
-            {
-                topic: 'mission',
-                keywords: ['мисси', 'цель', 'ценност', 'принцип', 'зачем', 'философи', 'идея', 'во имя'],
-                answer: () => `🌍 <strong>Наша миссия:</strong><br><br>Сделать город <strong>безопаснее</strong>, <strong>экологичнее</strong> и <strong>удобнее</strong> для жителей.<br><br>Три направления:<br>🛡️ <strong>Безопасность</strong> — освещение, датчики<br>🌱 <strong>Экология</strong> — солнечная энергия<br>😊 <strong>Комфорт</strong> — удобство без усилий<br><br>Подробнее в разделе <a href="#mission" style="color:#b794f6;text-decoration:underline;">«Миссия»</a>.`
-            },
-            {
-                topic: 'updates',
-                keywords: ['обновлени', 'новост', 'что нового', 'последн', 'свеж', 'изменени', 'хроник', 'истори', 'когда'],
-                answer: () => `📅 <strong>Наши обновления:</strong><br><br>• <strong>12 января</strong> — запуск «Мой умный город»<br>• <strong>16 января</strong> — запуск «Умный свет»<br>• <strong>27 января</strong> — обновление сайта «Умный свет»<br>• <strong>28 января</strong> — планы развития<br><br>Полная лента в разделе <a href="#updates" style="color:#b794f6;text-decoration:underline;">«Обновления»</a>.`
-            },
-            {
-                topic: 'team',
-                keywords: ['команд', 'разработчик', 'кто делает', 'сотрудник', 'люди', 'инженер', 'создател', 'работник', 'персонал'],
-                answer: () => `👥 <strong>Наша команда:</strong><br><br>Мы — инженеры и разработчики, объединённые идеей умного города.<br><br>Наши ценности:<br>💡 <strong>Инновации</strong><br>🤝 <strong>Открытость</strong><br>🎯 <strong>Результат</strong><br>🌍 <strong>Ответственность</strong><br><br>Подробнее в разделе <a href="#team" style="color:#b794f6;text-decoration:underline;">«О нас»</a>.`
-            },
-            {
-                topic: 'cooperation',
-                keywords: ['сотруднич', 'партнер', 'партнёр', 'связаться', 'контакт', 'заказ', 'куп', 'приобрест', 'внедрить', 'поставить', 'заявк'],
-                answer: () => `🤝 <strong>Сотрудничество:</strong><br><br>Мы открыты к диалогу с:<br>• 🏛️ Муниципалитетами<br>• 🏢 Бизнесом<br>• 🤝 Партнёрами<br>• 🌱 Эко-организациями<br><br>Хотите внедрить технологии в своём городе? Свяжитесь через контакты в футере сайта. Обсудим условия и сроки. 📞`
-            },
-            {
-                topic: 'price',
-                keywords: ['цен', 'стоим', 'сколько', 'деньг', 'бюджет', 'дорого', 'дешев', 'рубл', 'оплат'],
-                answer: () => `💰 <strong>Стоимость:</strong><br><br>Зависит от:<br>• 📐 Масштаба проекта<br>• 🏙️ Площади территории<br>• 🔧 Типа оборудования<br>• 📊 Объёма внедрения<br><br>Для точного расчёта свяжитесь с нами через контакты в футере. Подготовим <strong>индивидуальное предложение</strong>. 📞`
-            },
-            {
-                topic: 'install',
-                keywords: ['установк', 'монтаж', 'подключени', 'настройк', 'устанавлива', 'инсталляц'],
-                answer: () => `🔧 <strong>Установка и монтаж:</strong><br><br>Наши решения проектируются для <strong>быстрого монтажа</strong>:<br>• 🔋 Автономная работа — не нужны кабели<br>• ☀️ Питание от солнца<br>• 📡 Беспроводная mesh-сеть<br>• 🛠️ Простое обслуживание<br><br>Минимум затрат на установку и эксплуатацию.`
-            },
-            {
-                topic: 'lifespan',
-                keywords: ['срок служб', 'долго', 'надежн', 'гаранти', 'работ', 'лет', 'прочност'],
-                answer: () => `⏳ <strong>Срок службы и надёжность:</strong><br><br>• 💡 LED-элементы: до <strong>50 000 часов</strong><br>• 🔋 Аккумуляторы: 3–5 лет<br>• 🛠️ Работа на пониженной мощности продлевает срок службы<br>• 🌡️ Устойчивость к погоде<br>• 📞 Гарантийная поддержка<br><br>Свяжитесь с нами для деталей.`
-            },
-            {
-                topic: 'eco',
-                keywords: ['эколог', 'природ', 'зелен', 'углерод', 'возобновля', 'солнечн', 'энергосбереж', 'чист'],
-                answer: () => `🌱 <strong>Экология — в основе наших технологий:</strong><br><br>• ☀️ Солнечная энергия<br>• ♻️ Экономия ресурсов до 70%<br>• 🌍 Минимальное воздействие на природу<br>• 💡 Увеличенный срок службы<br>• 🔋 Автономная работа<br><br>Узнайте больше в разделе <a href="#mission" style="color:#b794f6;text-decoration:underline;">«Миссия»</a>.`
-            },
-            {
-                topic: 'safety',
-                keywords: ['безопас', 'защит', 'охран', 'преступ', 'травм', 'опасн', 'защищен'],
-                answer: () => `🛡️ <strong>Безопасность:</strong><br><br>• 💡 Адаптивное освещение — ярко там, где человек<br>• 📡 Датчики движения<br>• 🔦 Световой шлейф создаёт дорожку<br>• 🚨 Автономная работа при отключении сети<br><br>Всё для комфорта и безопасности жителей.`
-            },
-            {
-                topic: 'aboutbot',
-                keywords: ['ты кто', 'кто ты', 'что ты', 'бот', 'помощник', 'ии', 'ai', 'искусственн', 'робот', 'умееш', 'можеш'],
-                answer: () => `🤖 Я <strong>ИИ-помощник</strong> компании «Мой умный город».<br><br>Моя задача — быстро отвечать на вопросы о:<br>• 🏢 Компании<br>• 💡 Продуктах и технологиях<br>• 🌱 Миссии<br>• 📅 Обновлениях<br>• 👥 Команде<br>• 🤝 Сотрудничестве<br><br>Просто спросите — я здесь 24/7! 💬`
-            },
-            {
-                topic: 'thanks',
-                keywords: ['спасибо', 'благодар', 'круто', 'класс', 'супер', 'отличн', 'молодц', 'крутяк', 'топ', 'здоров', 'респект', 'нрав'],
-                answer: () => `Рад помочь! 😊 Обращайтесь ещё. Удачи с изучением «Мой умный город»!`
-            },
-            {
-                topic: 'bye',
-                keywords: ['пока', 'до свид', 'прощай', 'бай', 'bye', 'увидимся', 'до встреч'],
-                answer: () => `До встречи! 👋 Если понадоблюсь — я всегда здесь. Хорошего дня!`
-            },
-            {
-                topic: 'howareyou',
-                keywords: ['как дела', 'как ты', 'как жизн', 'как настроени', 'что делаеш'],
-                answer: () => `У меня всё отлично! 🤖 Работаю 24/7, всегда готов помочь. А у вас как? Может, расскажу о чём-нибудь интересном?`
-            },
-            {
-                topic: 'capabilities',
-                keywords: ['что умееш', 'что можеш', 'чем поможеш', 'функци', 'возможност', 'как работаеш'],
-                answer: () => `🧠 <strong>Что я умею:</strong><br><br>• 💬 Отвечать на вопросы о компании и продуктах<br>• 🔍 Находить нужную информацию на сайте<br>• 🎯 Подсказывать разделы и ссылки<br>• 📖 Рассказывать о технологиях<br>• 🤝 Помогать со связью<br><br>Спросите что угодно — попробую помочь!`
-            },
-            {
-                topic: 'location',
-                keywords: ['где наход', 'адрес', 'офис', 'локац', 'географ', 'местоположени', 'город'],
-                answer: () => `📍 Мы работаем как распределённая команда.<br><br>Контакты — в футере сайта. Если хотите обсудить внедрение в вашем городе — напишите нам!`
-            },
-            {
-                topic: 'compare',
-                keywords: ['сравн', 'лучше', 'хуже', 'отлича', 'разниц', 'выбрать', 'vs'],
-                answer: () => `📊 <strong>Что выбрать?</strong><br><br>Каждый продукт решает свою задачу:<br>💡 <strong>Умный свет</strong> — безопасность в парках<br>🚏 <strong>Умные остановки</strong> — комфорт на транспорте<br>🌬️ <strong>Датчики воздуха</strong> — экология<br>🅿️ <strong>Умные парковки</strong> — экономия времени<br><br>Расскажите, какая задача у вас — подскажу решение!`
-            },
-            {
-                topic: 'interesting',
-                keywords: ['интересн', 'любопытн', 'забавн', 'прикольн', 'вау'],
-                answer: () => `😊 Рад, что интересно! А что именно зацепило? Могу рассказать подробнее о любом из наших решений или о компании в целом.`
-            }
-        ];
-
-        // === БЫСТРЫЕ ПОДСКАЗКИ ===
-        const quickSuggestions = [
-            'О компании',
-            'Ваши продукты',
-            'Умный свет',
-            'Что нового?',
-            'О команде',
-            'Хочу сотрудничать'
-        ];
-
-        // === ОСНОВНАЯ ФУНКЦИЯ ПОИСКА ОТВЕТА ===
-        function getBotAnswer(userText) {
-            const rawText = normalizeText(userText);
-            
-            if (!rawText || rawText.length < 2) {
-                return '🤔 Попробуйте сформулировать вопрос подробнее. Например: <em>«Расскажи о компании»</em> или <em>«Что за Умный свет?»</em>';
-            }
-            
-            const words = removeStopWords(rawText.split(' '));
-            
-            // === СПЕЦИАЛЬНЫЕ СЛУЧАИ ===
-            
-            // Уточнение
-            if (rawText.includes('подробн') || rawText.includes('детал') || rawText.includes('уточни')) {
-                if (lastTopic) {
-                    const topic = knowledgeBase.find(t => t.topic === lastTopic);
-                    if (topic) {
-                        return `📖 <strong>Подробнее:</strong><br><br>${topic.answer()}<br><br>Что ещё интересует?`;
-                    }
-                }
-                return '🤔 Уточните, о чём именно рассказать подробнее?';
-            }
-            
-            // "Почему"
-            if (rawText.includes('почему') || rawText.includes('зачем')) {
-                return `🤔 Хороший вопрос! Наша цель — сделать город удобнее и безопаснее через технологии.<br><br>Если хотите копнуть глубже — спросите про <a href="#mission" style="color:#b794f6;text-decoration:underline;">миссию</a> или <a href="#about" style="color:#b794f6;text-decoration:underline;">о компании</a>.`;
-            }
-            
-            // "Как"
-            if (rawText.startsWith('как ') || rawText.includes('как работает')) {
-                if (rawText.includes('свет') || rawText.includes('фонар')) {
-                    return `💡 <strong>Как работает Умный свет:</strong><br><br>1. Фонарь в дежурном режиме светит на 30%<br>2. Датчик ловит движение на 10–15 м<br>3. Яркость плавно растёт до 100%<br>4. Соседние фонари готовятся к включению — «бегущая волна»<br>5. Через несколько секунд — возврат к 30%<br><br>Смотрите <a href="https://filatov-g.github.io/smart-light/" target="_blank" rel="noopener" style="color:#b794f6;text-decoration:underline;">демонстрацию на сайте продукта</a>.`;
-                }
-                return `🔧 Уточните вопрос: «Как работает Умный свет?», «Как установить?», «Как связаться?»`;
-            }
-            
-            // "Где"
-            if (rawText.startsWith('где ') || rawText.includes('где можно')) {
-                if (rawText.includes('куп') || rawText.includes('заказ')) {
-                    return `🛒 <strong>Где купить?</strong><br><br>Мы работаем по модели B2B — внедряем решения в городах и парках по договору.<br><br>Свяжитесь через контакты в футере сайта, обсудим условия. 📞`;
-                }
-                if (rawText.includes('схем') || rawText.includes('чертеж')) {
-                    return `📐 <strong>Схемы и чертежи</strong> — на сайте продукта «Умный свет» в разделе «Документация».<br><br>🔗 <a href="https://filatov-g.github.io/smart-light/" target="_blank" rel="noopener" style="color:#b794f6;text-decoration:underline;">Открыть сайт продукта →</a>`;
-                }
-                return `📍 Все разделы есть на сайте. Что именно ищете? Могу подсказать.`;
-            }
-            
-            // Несколько продуктов
-            const mentionedProducts = [];
-            if (rawText.includes('свет') || rawText.includes('фонар')) mentionedProducts.push('Умный свет');
-            if (rawText.includes('остановк')) mentionedProducts.push('Умные остановки');
-            if (rawText.includes('воздух') || rawText.includes('датчик')) mentionedProducts.push('Датчики воздуха');
-            if (rawText.includes('парковк')) mentionedProducts.push('Умные парковки');
-            
-            if (mentionedProducts.length >= 2) {
-                return `📦 <strong>Вы спросили сразу про несколько продуктов:</strong><br><br>${mentionedProducts.map(p => '• ' + p).join('<br>')}<br><br>Уточните, про какой рассказать подробнее? Или спросите про каждый отдельно.`;
-            }
-            
-            // === ОСНОВНОЙ ПОИСК ===
-            let bestMatch = null;
-            let bestScore = 0;
-            
-            knowledgeBase.forEach(item => {
-                let score = 0;
-                let matchedWords = 0;
-                
-                words.forEach(word => {
-                    let bestWordScore = 0;
-                    
-                    item.keywords.forEach(kw => {
-                        const nkw = normalizeText(kw);
-                        const kwWords = nkw.split(' ');
-                        
-                        kwWords.forEach(kwWord => {
-                            if (word === kwWord) {
-                                bestWordScore = Math.max(bestWordScore, 1);
-                            }
-                            else if (word.length > 3 && kwWord.length > 3 && word.includes(kwWord)) {
-                                bestWordScore = Math.max(bestWordScore, 0.9);
-                            }
-                            else {
-                                const fuzzy = fuzzyMatch(word, kwWord);
-                                if (fuzzy > 0) {
-                                    bestWordScore = Math.max(bestWordScore, fuzzy * 0.85);
-                                }
-                            }
-                        });
-                    });
-                    
-                    if (bestWordScore > 0) {
-                        score += bestWordScore * (word.length + 2);
-                        matchedWords++;
-                    }
-                });
-                
-                if (matchedWords >= 2) score *= 1.3;
-                
-                item.keywords.forEach(kw => {
-                    const nkw = normalizeText(kw);
-                    if (rawText.includes(nkw)) {
-                        score += nkw.length * 3;
-                    }
-                });
-                
-                if (score > bestScore) {
-                    bestScore = score;
-                    bestMatch = item;
-                }
-            });
-            
-            if (bestMatch && bestScore > 5) {
-                lastTopic = bestMatch.topic;
-                return bestMatch.answer();
-            }
-            
-            return `🤔 Хм, не уверен, что понял.<br><br>Могу рассказать о:<br>• 🏢 <strong>Компании</strong><br>• 💡 <strong>Продуктах</strong> (Умный свет, остановки, датчики, парковки)<br>• 🌱 <strong>Миссии</strong><br>• 📅 <strong>Обновлениях</strong><br>• 👥 <strong>Команде</strong><br>• 🤝 <strong>Сотрудничестве</strong><br><br>Попробуйте переформулировать или выберите готовый вопрос 👇`;
-        }
-
-        // === ДОБАВЛЕНИЕ СООБЩЕНИЯ ===
-        function addMessage(text, sender) {
-            const msg = document.createElement('div');
-            msg.className = `ai-message ${sender}`;
-            msg.innerHTML = text;
-            aiMessages.appendChild(msg);
-            aiMessages.scrollTop = aiMessages.scrollHeight;
-            return msg;
-        }
-
-        // === ИНДИКАТОР ПЕЧАТИ ===
-        function showTyping() {
-            const typing = document.createElement('div');
-            typing.className = 'ai-message bot typing';
-            typing.innerHTML = '<span></span><span></span><span></span>';
-            aiMessages.appendChild(typing);
-            aiMessages.scrollTop = aiMessages.scrollHeight;
-            return typing;
-        }
-
-        // === БЫСТРЫЕ КНОПКИ ===
-        function renderSuggestions() {
-            aiSuggestions.innerHTML = '';
-            quickSuggestions.forEach(text => {
-                const btn = document.createElement('button');
-                btn.className = 'ai-suggestion';
-                btn.textContent = text;
-                btn.type = 'button';
-                btn.addEventListener('click', () => handleUserInput(text));
-                aiSuggestions.appendChild(btn);
-            });
-        }
-
-        // === ОБРАБОТКА ВВОДА ===
-        function handleUserInput(text) {
-            if (!text.trim()) return;
-            
-            addMessage(text, 'user');
-            lastQuestion = text;
-            aiInput.value = '';
-            aiSuggestions.style.display = 'none';
-            
-            const typing = showTyping();
-            const delay = 500 + Math.random() * 700;
-            
-            setTimeout(() => {
-                typing.remove();
-                const answer = getBotAnswer(text);
-                addMessage(answer, 'bot');
-                
-                setTimeout(() => {
-                    if (isChatOpen) {
-                        aiSuggestions.style.display = 'flex';
-                        renderSuggestions();
-                    }
-                }, 1000);
-            }, delay);
-        }
-
-        // === ОТКРЫТИЕ / ЗАКРЫТИЕ ===
-        function toggleChat() {
-            isChatOpen = !isChatOpen;
-            aiWidget.classList.toggle('open', isChatOpen);
-            
-            if (isChatOpen && aiMessages.children.length === 0) {
-                setTimeout(() => {
-                    addMessage('Здравствуйте! 👋 Я <strong>ИИ-помощник «Мой умный город»</strong>.<br><br>Могу рассказать о компании, продуктах, миссии, обновлениях или команде.<br><br>Что вас интересует?', 'bot');
-                    renderSuggestions();
-                }, 400);
-            }
-            
-            if (isChatOpen) {
-                setTimeout(() => aiInput.focus(), 400);
-            }
-        }
-
-        aiToggle.addEventListener('click', toggleChat);
-        aiCloseBtn.addEventListener('click', toggleChat);
-
-        aiForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            handleUserInput(aiInput.value);
-        });
-
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && isChatOpen) toggleChat();
-        });
-
-        // === ЛОГ ===
-        console.log('✅ Сайт «Мой умный город» загружен');
-        console.log('🧠 ИИ-помощник: тем в базе —', knowledgeBase.length);
-        console.log('🔍 Поддержка опечаток: включена');
-        console.log('📚 Контекст диалога: активен');
-    </script>
+console.log('%c✅ Мой умный город — улучшенная версия загружена', 'color:#b794f6;font-weight:700');
+</script>
 </body>
 </html>
